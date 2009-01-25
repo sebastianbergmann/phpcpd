@@ -145,6 +145,8 @@ class PHPCPD_TextUI_Command
             exit(1);
         }
 
+        self::printVersionString();
+
         $duplicates = PHPCPD_Detector::copyPasteDetection(
           $files, $minLines, $minTokens
         );
