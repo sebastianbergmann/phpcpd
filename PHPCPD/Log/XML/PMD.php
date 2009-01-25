@@ -41,6 +41,8 @@
  * @since     File available since Release 1.0.0
  */
 
+require 'PHPCPD/Log/XML.php';
+
 /**
  *
  *
@@ -51,10 +53,58 @@
  * @link      http://github.com/sebastianbergmann/phpcpd/tree
  * @since     Class available since Release 1.0.0
  */
-class PHPCPD_TextUI_ResultPrinter
+class PHPCPD_Log_XML_PMD extends PHPCPD_Log_XML
 {
-    public function printResult(array $duplicates)
+    public function processDuplicates(array $duplicates)
     {
+        $cpd = $this->document->createElement('pmd-cpd');
+        $cpd->setAttribute('version', 'phpcpd @package_version@');
+        $this->document->appendChild($cpd);
+
+        foreach ($duplicates as $duplicate) {
+            $duplication = $cpd->appendChild(
+              $this->document->createElement('duplication')
+            );
+
+            $duplication->setAttribute('lines', $duplicate['numLines']);
+            $duplication->setAttribute('tokens', $duplicate['numTokens']);
+
+            $file = $duplication->appendChild(
+              $this->document->createElement('file')
+            );
+
+            $file->setAttribute('path', $duplicate['fileA']);
+            $file->setAttribute('line', $duplicate['firstLineA']);
+
+            $file = $duplication->appendChild(
+              $this->document->createElement('file')
+            );
+
+            $file->setAttribute('path', $duplicate['fileB']);
+            $file->setAttribute('line', $duplicate['firstLineB']);
+
+            $duplication->appendChild(
+              $this->document->createElement(
+                'codefragment',
+                htmlspecialchars(
+                  $this->convertToUtf8(
+                    join(
+                      '',
+                      array_slice(
+                        file($duplicate['fileA']),
+                        $duplicate['firstLineA'] - 1,
+                        $duplicate['numLines']
+                      )
+                    )
+                  ),
+                  ENT_COMPAT,
+                  'UTF-8'
+                )
+              )
+            );
+        }
+
+        $this->flush();
     }
 }
 ?>

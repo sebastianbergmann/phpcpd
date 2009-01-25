@@ -45,6 +45,7 @@ require 'PHPCPD/Detector.php';
 require 'PHPCPD/TextUI/Getopt.php';
 require 'PHPCPD/TextUI/ResultPrinter.php';
 require 'PHPCPD/Util/FilterIterator.php';
+require 'PHPCPD/Log/XML/PMD.php';
 
 /**
  *
@@ -66,6 +67,9 @@ class PHPCPD_TextUI_Command
               '',
               array(
                 'help',
+                'log-pmd=',
+                'min-lines=',
+                'min-tokens=',
                 'suffixes=',
                 'version'
               )
@@ -76,10 +80,31 @@ class PHPCPD_TextUI_Command
             self::showError($e->getMessage());
         }
 
-        $suffixes = array('php');
+        $minLines  = 5;
+        $minTokens = 70;
+        $suffixes  = array('php');
 
         foreach ($options[0] as $option) {
             switch ($option[0]) {
+                case '--log-pmd': {
+                    $logPmd = $option[1];
+                }
+                break;
+
+                case '--min-lines': {
+                    if (is_int($option[1])) {
+                        $minLines = (int)$option[1];
+                    }
+                }
+                break;
+
+                case '--min-tokens': {
+                    if (is_int($option[1])) {
+                        $minTokens = (int)$option[1];
+                    }
+                }
+                break;
+
                 case '--suffixes': {
                     $suffixes = explode(',', $option[1]);
                     array_map('trim', $suffixes);
@@ -115,10 +140,23 @@ class PHPCPD_TextUI_Command
             }
         }
 
-        if (isset($files)) {
-            // ...
-        } else {
+        if (!isset($files)) {
             self::showHelp();
+            exit(1);
+        }
+
+        $duplicates = PHPCPD_Detector::copyPasteDetection(
+          $files, $minLines, $minTokens
+        );
+
+        $printer = new PHPCPD_TextUI_ResultPrinter;
+        $printer->printResult($duplicates);
+        unset($printer);
+
+        if (isset($logPmd)) {
+            $pmd = new PHPCPD_Log_XML_PMD($logPmd);
+            $pmd->processDuplicates($duplicates);
+            unset($pmd);
         }
     }
 
@@ -144,6 +182,11 @@ class PHPCPD_TextUI_Command
         print <<<EOT
 Usage: phpcpd [switches] <directory>
        phpcpd [switches] <file>
+
+  --log-pmd <file>         Write report in PMD-CPD XML format to file.
+
+  --min-lines <N>          Minimum number of lines for a duplicate code block.
+  --min-tokens <N>         Minimum number of tokens for a duplicate code block.
 
   --suffixes <suffix,...>  A comma-separated list of file suffixes to check.
 
