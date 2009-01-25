@@ -13,10 +13,17 @@ Requirements
 Usage Example
 -------------
 
-    sb@ubuntu phpcpd % ./phpcpd.php /path/to/project
+    sb@ubuntu phpcpd % ./phpcpd.php /usr/local/src/phpunit/trunk
     phpcpd 1.0.0 by Sebastian Bergmann.
 
-    .
-    .
-    .
+      PHPUnit/Extensions/Database/DataSet/AbstractTable.php:156-190
+      PHPUnit/Extensions/Database/DataSet/ReplacementTable.php:172-206
+
+      PHPUnit/Samples/BankAccountDB/BankAccountDBTest.php:84-128
+      PHPUnit/Samples/BankAccountDB/BankAccountDBTestMySQL.php:84-128
+
+      PHPUnit/Tests/Extensions/Database/DataSet/XmlDataSetsTest.php:71-97
+      PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:70-96
+
+    Found 104 duplicate lines of code in 6 files.
 

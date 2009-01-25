@@ -133,10 +133,13 @@ class PHPCPD_TextUI_Command
                   ),
                   $suffixes
                 );
+
+                $commonPath = $options[1][0];
             }
 
             else if (is_file($options[1][0])) {
-                $files = array(new SPLFileInfo($options[1][0]));
+                $files      = array(new SPLFileInfo($options[1][0]));
+                $commonPath = basename($options[1][0]);
             }
         }
 
@@ -152,7 +155,7 @@ class PHPCPD_TextUI_Command
         );
 
         $printer = new PHPCPD_TextUI_ResultPrinter;
-        $printer->printResult($duplicates);
+        $printer->printResult($duplicates, $commonPath . DIRECTORY_SEPARATOR);
         unset($printer);
 
         if (isset($logPmd)) {
