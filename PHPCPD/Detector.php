@@ -81,7 +81,6 @@ class PHPCPD_Detector
             $file                  = $file->getPathName();
             $currentTokenPositions = array();
             $currentSignature      = '';
-            $lines                 = file($file);
             $tokens                = token_get_all(file_get_contents($file));
             $tokenNr               = 0;
             $line                  = 1;
