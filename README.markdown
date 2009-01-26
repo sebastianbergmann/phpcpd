@@ -10,10 +10,19 @@ Requirements
 
 * The [tokenizer](http://www.php.net/tokenizer) extension is required.
 
+Installation
+------------
+
+    sb@ubuntu ~ % pear install phpunit/phpcpd 
+    downloading phpcpd-1.0.0.tgz ...
+    Starting to download phpcpd-1.0.0.tgz (7,151 bytes)
+    .....done: 7,151 bytes
+    install ok: channel://pear.phpunit.de/phpcpd-1.0.0
+
 Usage Example
 -------------
 
-    sb@ubuntu phpcpd % ./phpcpd.php /usr/local/src/phpunit/trunk
+    sb@ubuntu ~ % phpcpd /usr/local/src/phpunit/trunk 
     phpcpd 1.0.0 by Sebastian Bergmann.
 
     Found 3 exact clones with 104 duplicated lines in 6 files:
