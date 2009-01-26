@@ -74,8 +74,8 @@ class PHPCPD_Detector
      */
     public static function copyPasteDetection($files, $minLines, $minTokens)
     {
-        $cpdDuplicates = array();
-        $cpdHashes     = array();
+        $clones = array();
+        $hashes = array();
 
         foreach ($files as $file) {
             $file                  = $file->getPathName();
@@ -121,7 +121,7 @@ class PHPCPD_Detector
                       8
                     );
 
-                    if (isset($cpdHashes[$hash])) {
+                    if (isset($hashes[$hash])) {
                         $found = TRUE;
 
                         if ($firstLine === 0) {
@@ -131,12 +131,12 @@ class PHPCPD_Detector
                         }
                     } else {
                         if ($found) {
-                            $fileA      = $cpdHashes[$firstHash][0];
-                            $firstLineA = $cpdHashes[$firstHash][1];
+                            $fileA      = $hashes[$firstHash][0];
+                            $firstLineA = $hashes[$firstHash][1];
 
                             if ($line + 1 - $firstLine > $minLines &&
                                 ($fileA != $file || $firstLineA != $firstLine)) {
-                                $cpdDuplicates[] = array(
+                                $clones[] = array(
                                   'fileA'      => $fileA,
                                   'firstLineA' => $firstLineA,
                                   'fileB'      => $file,
@@ -150,7 +150,7 @@ class PHPCPD_Detector
                             $firstLine = 0;
                         }
 
-                        $cpdHashes[$hash] = array($file, $line);
+                        $hashes[$hash] = array($file, $line);
                     }
 
                     $tokenNr++;
@@ -158,12 +158,12 @@ class PHPCPD_Detector
             }
 
             if ($found) {
-                $fileA      = $cpdHashes[$firstHash][0];
-                $firstLineA = $cpdHashes[$firstHash][1];
+                $fileA      = $hashes[$firstHash][0];
+                $firstLineA = $hashes[$firstHash][1];
 
                 if ($line + 1 - $firstLine > $minLines &&
                     ($fileA != $file || $firstLineA != $firstLine)) {
-                    $cpdDuplicates[] = array(
+                    $clones[] = array(
                       'fileA'      => $fileA,
                       'firstLineA' => $firstLineA,
                       'fileB'      => $file,
@@ -177,7 +177,7 @@ class PHPCPD_Detector
             }
         }
 
-        return $cpdDuplicates;
+        return $clones;
     }
 }
 ?>

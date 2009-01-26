@@ -55,33 +55,33 @@ require 'PHPCPD/Log/XML.php';
  */
 class PHPCPD_Log_XML_PMD extends PHPCPD_Log_XML
 {
-    public function processDuplicates(array $duplicates)
+    public function processClones(array $clones)
     {
         $cpd = $this->document->createElement('pmd-cpd');
         $cpd->setAttribute('version', 'phpcpd @package_version@');
         $this->document->appendChild($cpd);
 
-        foreach ($duplicates as $duplicate) {
+        foreach ($clones as $clone) {
             $duplication = $cpd->appendChild(
               $this->document->createElement('duplication')
             );
 
-            $duplication->setAttribute('lines', $duplicate['numLines']);
-            $duplication->setAttribute('tokens', $duplicate['numTokens']);
+            $duplication->setAttribute('lines', $clone['numLines']);
+            $duplication->setAttribute('tokens', $clone['numTokens']);
 
             $file = $duplication->appendChild(
               $this->document->createElement('file')
             );
 
-            $file->setAttribute('path', $duplicate['fileA']);
-            $file->setAttribute('line', $duplicate['firstLineA']);
+            $file->setAttribute('path', $clone['fileA']);
+            $file->setAttribute('line', $clone['firstLineA']);
 
             $file = $duplication->appendChild(
               $this->document->createElement('file')
             );
 
-            $file->setAttribute('path', $duplicate['fileB']);
-            $file->setAttribute('line', $duplicate['firstLineB']);
+            $file->setAttribute('path', $clone['fileB']);
+            $file->setAttribute('line', $clone['firstLineB']);
 
             $duplication->appendChild(
               $this->document->createElement(
@@ -91,9 +91,9 @@ class PHPCPD_Log_XML_PMD extends PHPCPD_Log_XML
                     join(
                       '',
                       array_slice(
-                        file($duplicate['fileA']),
-                        $duplicate['firstLineA'] - 1,
-                        $duplicate['numLines']
+                        file($clone['fileA']),
+                        $clone['firstLineA'] - 1,
+                        $clone['numLines']
                       )
                     )
                   ),

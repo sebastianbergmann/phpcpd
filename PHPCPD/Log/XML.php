@@ -112,6 +112,6 @@ abstract class PHPCPD_Log_XML
         return TRUE;
     }
 
-    abstract public function processDuplicates(array $duplicates);
+    abstract public function processClones(array $clones);
 }
 ?>

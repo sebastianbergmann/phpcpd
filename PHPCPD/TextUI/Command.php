@@ -150,17 +150,17 @@ class PHPCPD_TextUI_Command
 
         self::printVersionString();
 
-        $duplicates = PHPCPD_Detector::copyPasteDetection(
+        $clones = PHPCPD_Detector::copyPasteDetection(
           $files, $minLines, $minTokens
         );
 
         $printer = new PHPCPD_TextUI_ResultPrinter;
-        $printer->printResult($duplicates, $commonPath . DIRECTORY_SEPARATOR);
+        $printer->printResult($clones, $commonPath . DIRECTORY_SEPARATOR);
         unset($printer);
 
         if (isset($logPmd)) {
             $pmd = new PHPCPD_Log_XML_PMD($logPmd);
-            $pmd->processDuplicates($duplicates);
+            $pmd->processClones($clones);
             unset($pmd);
         }
     }
@@ -190,8 +190,8 @@ Usage: phpcpd [switches] <directory>
 
   --log-pmd <file>         Write report in PMD-CPD XML format to file.
 
-  --min-lines <N>          Minimum number of lines for a duplicate code block.
-  --min-tokens <N>         Minimum number of tokens for a duplicate code block.
+  --min-lines <N>          Minimum number of identical lines for a clone.
+  --min-tokens <N>         Minimum number of identical tokens for a clone.
 
   --suffixes <suffix,...>  A comma-separated list of file suffixes to check.
 

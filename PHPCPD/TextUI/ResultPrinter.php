@@ -53,40 +53,40 @@
  */
 class PHPCPD_TextUI_ResultPrinter
 {
-    public function printResult(array $duplicates, $commonPath)
+    public function printResult(array $clones, $commonPath)
     {
-        $numDuplicates = count($duplicates);
+        $numClones = count($clones);
 
-        if ($numDuplicates > 0) {
+        if ($numClones > 0) {
             $buffer = '';
             $files  = array();
             $lines  = 0;
 
-            foreach ($duplicates as $duplicate) {
-                if (!isset($files[$duplicate['fileA']])) {
-                    $files[$duplicate['fileA']] = TRUE;
+            foreach ($clones as $clone) {
+                if (!isset($files[$clone['fileA']])) {
+                    $files[$clone['fileA']] = TRUE;
                 }
 
-                if (!isset($files[$duplicate['fileB']])) {
-                    $files[$duplicate['fileB']] = TRUE;
+                if (!isset($files[$clone['fileB']])) {
+                    $files[$clone['fileB']] = TRUE;
                 }
 
-                $lines += $duplicate['numLines'];
+                $lines += $clone['numLines'];
 
                 $buffer .= sprintf(
                   "\n  - %s:%d-%d\n    %s:%d-%d\n",
-                  str_replace($commonPath, '', $duplicate['fileA']),
-                  $duplicate['firstLineA'],
-                  $duplicate['firstLineA'] + $duplicate['numLines'],
-                  str_replace($commonPath, '', $duplicate['fileB']),
-                  $duplicate['firstLineB'],
-                  $duplicate['firstLineB'] + $duplicate['numLines']
+                  str_replace($commonPath, '', $clone['fileA']),
+                  $clone['firstLineA'],
+                  $clone['firstLineA'] + $clone['numLines'],
+                  str_replace($commonPath, '', $clone['fileB']),
+                  $clone['firstLineB'],
+                  $clone['firstLineB'] + $clone['numLines']
                 );
             }
 
             printf(
               "Found %d exact clones with %d duplicated lines in %d files:\n%s",
-              $numDuplicates,
+              $numClones,
               $lines,
               count($files),
               $buffer
