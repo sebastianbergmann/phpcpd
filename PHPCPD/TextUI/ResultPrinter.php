@@ -86,7 +86,7 @@ class PHPCPD_TextUI_ResultPrinter
 
             printf(
               "Found %d exact clones with %d duplicated lines in %d files:\n%s",
-              count($duplicates),
+              $numDuplicates,
               $lines,
               count($files),
               $buffer
