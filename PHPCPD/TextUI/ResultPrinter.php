@@ -91,6 +91,8 @@ class PHPCPD_TextUI_ResultPrinter
               count($files),
               $buffer
             );
+        } else {
+            printf("No clones found in %s.\n", $commonPath);
         }
     }
 }
