@@ -42,7 +42,7 @@
  */
 
 /**
- *
+ * Base class for XML loggers.
  *
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009 Sebastian Bergmann <sb@sebastian-bergmann.de>
@@ -55,6 +55,11 @@ abstract class PHPCPD_Log_XML
 {
     protected $document;
 
+    /**
+     * Constructor.
+     *
+     * @param string $filename
+     */
     public function __construct($filename)
     {
         $this->document = new DOMDocument('1.0', 'UTF-8');
@@ -63,6 +68,9 @@ abstract class PHPCPD_Log_XML
         $this->filename = $filename;
     }
 
+    /**
+     * Writes the XML document to the file.
+     */
     protected function flush()
     {
         file_put_contents($this->filename, $this->document->saveXML());
@@ -112,6 +120,11 @@ abstract class PHPCPD_Log_XML
         return TRUE;
     }
 
+    /**
+     * Processes a list of clones.
+     *
+     * @param array $clones
+     */
     abstract public function processClones(array $clones);
 }
 ?>

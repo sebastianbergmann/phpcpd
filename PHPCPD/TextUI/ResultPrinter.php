@@ -42,7 +42,7 @@
  */
 
 /**
- *
+ * A ResultPrinter for the TextUI.
  *
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009 Sebastian Bergmann <sb@sebastian-bergmann.de>
@@ -53,6 +53,12 @@
  */
 class PHPCPD_TextUI_ResultPrinter
 {
+    /**
+     * Prints a result set from PHPCPD_Detector::copyPasteDetection().
+     *
+     * @param array  $clones
+     * @param string $commonPath
+     */
     public function printResult(array $clones, $commonPath)
     {
         $numClones = count($clones);

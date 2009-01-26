@@ -42,7 +42,7 @@
  */
 
 /**
- *
+ * PHPCPD code analyser.
  *
  * @author    Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>

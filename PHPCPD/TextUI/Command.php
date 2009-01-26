@@ -48,7 +48,7 @@ require 'PHPCPD/Util/FilterIterator.php';
 require 'PHPCPD/Log/XML/PMD.php';
 
 /**
- *
+ * TextUI frontend for PHPCPD.
  *
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009 Sebastian Bergmann <sb@sebastian-bergmann.de>
@@ -59,6 +59,9 @@ require 'PHPCPD/Log/XML/PMD.php';
  */
 class PHPCPD_TextUI_Command
 {
+    /**
+     * Main method.
+     */
     public static function main()
     {
         try {
@@ -167,6 +170,8 @@ class PHPCPD_TextUI_Command
 
     /**
      * Shows an error.
+     *
+     * @param string $message
      */
     protected static function showError($message)
     {

@@ -44,7 +44,7 @@
 require 'PHPCPD/Log/XML.php';
 
 /**
- *
+ * Implementation of PHPCPD_Log_XML that writes in PMD-CPD format.
  *
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009 Sebastian Bergmann <sb@sebastian-bergmann.de>
@@ -55,6 +55,11 @@ require 'PHPCPD/Log/XML.php';
  */
 class PHPCPD_Log_XML_PMD extends PHPCPD_Log_XML
 {
+    /**
+     * Processes a list of clones.
+     *
+     * @param array $clones
+     */
     public function processClones(array $clones)
     {
         $cpd = $this->document->createElement('pmd-cpd');
