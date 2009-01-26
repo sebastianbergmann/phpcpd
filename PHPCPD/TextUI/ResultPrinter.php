@@ -55,38 +55,43 @@ class PHPCPD_TextUI_ResultPrinter
 {
     public function printResult(array $duplicates, $commonPath)
     {
-        $files = array();
-        $lines = 0;
+        $numDuplicates = count($duplicates);
 
-        foreach ($duplicates as $duplicate) {
-            if (!isset($files[$duplicate['fileA']])) {
-                $files[$duplicate['fileA']] = TRUE;
+        if ($numDuplicates > 0) {
+            $buffer = '';
+            $files  = array();
+            $lines  = 0;
+
+            foreach ($duplicates as $duplicate) {
+                if (!isset($files[$duplicate['fileA']])) {
+                    $files[$duplicate['fileA']] = TRUE;
+                }
+
+                if (!isset($files[$duplicate['fileB']])) {
+                    $files[$duplicate['fileB']] = TRUE;
+                }
+
+                $lines += $duplicate['numLines'];
+
+                $buffer .= sprintf(
+                  "\n  - %s:%d-%d\n    %s:%d-%d\n",
+                  str_replace($commonPath, '', $duplicate['fileA']),
+                  $duplicate['firstLineA'],
+                  $duplicate['firstLineA'] + $duplicate['numLines'],
+                  str_replace($commonPath, '', $duplicate['fileB']),
+                  $duplicate['firstLineB'],
+                  $duplicate['firstLineB'] + $duplicate['numLines']
+                );
             }
-
-            if (!isset($files[$duplicate['fileB']])) {
-                $files[$duplicate['fileB']] = TRUE;
-            }
-
-            $lines += $duplicate['numLines'];
 
             printf(
-              "  %s:%d-%d\n  %s:%d-%d\n\n",
-              str_replace($commonPath, '', $duplicate['fileA']),
-              $duplicate['firstLineA'],
-              $duplicate['firstLineA'] + $duplicate['numLines'],
-              str_replace($commonPath, '', $duplicate['fileB']),
-              $duplicate['firstLineB'],
-              $duplicate['firstLineB'] + $duplicate['numLines']
+              "Found %d exact clones with %d duplicated lines in %d files:\n%s",
+              count($duplicates),
+              $lines,
+              count($files),
+              $buffer
             );
         }
-
-        $files = count($files);
-
-        printf(
-          "Found %d duplicate lines of code in %d files.\n",
-          $lines,
-          $files
-        );
     }
 }
 ?>
