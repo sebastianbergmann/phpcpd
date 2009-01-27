@@ -69,24 +69,24 @@ class PHPCPD_TextUI_ResultPrinter
             $lines  = 0;
 
             foreach ($clones as $clone) {
-                if (!isset($files[$clone['fileA']])) {
-                    $files[$clone['fileA']] = TRUE;
+                if (!isset($files[$clone->aFile])) {
+                    $files[$clone->aFile] = TRUE;
                 }
 
-                if (!isset($files[$clone['fileB']])) {
-                    $files[$clone['fileB']] = TRUE;
+                if (!isset($files[$clone->bFile])) {
+                    $files[$clone->bFile] = TRUE;
                 }
 
-                $lines += $clone['numLines'];
+                $lines += $clone->size;
 
                 $buffer .= sprintf(
                   "\n  - %s:%d-%d\n    %s:%d-%d\n",
-                  str_replace($commonPath, '', $clone['fileA']),
-                  $clone['firstLineA'],
-                  $clone['firstLineA'] + $clone['numLines'],
-                  str_replace($commonPath, '', $clone['fileB']),
-                  $clone['firstLineB'],
-                  $clone['firstLineB'] + $clone['numLines']
+                  str_replace($commonPath, '', $clone->aFile),
+                  $clone->aStartLine,
+                  $clone->aStartLine + $clone->size,
+                  str_replace($commonPath, '', $clone->bFile),
+                  $clone->bStartLine,
+                  $clone->bStartLine + $clone->size
                 );
             }
 

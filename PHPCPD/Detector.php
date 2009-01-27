@@ -41,6 +41,8 @@
  * @since     File available since Release 1.0.0
  */
 
+require 'PHPCPD/Clone.php';
+
 /**
  * PHPCPD code analyser.
  *
@@ -135,13 +137,13 @@ class PHPCPD_Detector
 
                             if ($line + 1 - $firstLine > $minLines &&
                                 ($fileA != $file || $firstLineA != $firstLine)) {
-                                $clones[] = array(
-                                  'fileA'      => $fileA,
-                                  'firstLineA' => $firstLineA,
-                                  'fileB'      => $file,
-                                  'firstLineB' => $firstLine,
-                                  'numLines'   => $line    + 1 - $firstLine,
-                                  'numTokens'  => $tokenNr + 1 - $firstToken
+                                $clones[] = new PHPCPD_Clone(
+                                  $fileA,
+                                  $firstLineA,
+                                  $file,
+                                  $firstLine,
+                                  $line + 1 - $firstLine,
+                                  $tokenNr + 1 - $firstToken
                                 );
                             }
 
@@ -162,13 +164,13 @@ class PHPCPD_Detector
 
                 if ($line + 1 - $firstLine > $minLines &&
                     ($fileA != $file || $firstLineA != $firstLine)) {
-                    $clones[] = array(
-                      'fileA'      => $fileA,
-                      'firstLineA' => $firstLineA,
-                      'fileB'      => $file,
-                      'firstLineB' => $firstLine,
-                      'numLines'   => $line    + 1 - $firstLine,
-                      'numTokens'  => $tokenNr + 1 - $firstToken
+                    $clones[] = new PHPCPD_Clone(
+                      $fileA,
+                      $firstLineA,
+                      $file,
+                      $firstLine,
+                      $line + 1 - $firstLine,
+                      $tokenNr + 1 - $firstToken
                     );
                 }
 

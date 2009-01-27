@@ -38,69 +38,58 @@
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @since     File available since Release 1.0.0
+ * @since     File available since Release 1.1.0
  */
 
-require 'PHPCPD/Log/XML.php';
-
 /**
- * Implementation of PHPCPD_Log_XML that writes in PMD-CPD format.
+ * Represents an exact code clone.
  *
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version   Release: @package_version@
  * @link      http://github.com/sebastianbergmann/phpcpd/tree
- * @since     Class available since Release 1.0.0
+ * @since     Class available since Release 1.1.0
  */
-class PHPCPD_Log_XML_PMD extends PHPCPD_Log_XML
+class PHPCPD_Clone
 {
+    public $aFile;
+    public $aStartLine;
+    public $bFile;
+    public $bStartLine;
+    public $size;
+    public $tokens;
+
     /**
-     * Processes a list of clones.
+     * Constructor.
      *
-     * @param array $clones
+     * @param string  $aFile       Name of the first file
+     * @param integer $aStartLine  Start line in the first file
+     * @param string  $bFile       Name of the second file
+     * @param integer $bStartLine  Start line in the second file
+     * @param integer $size        Size of the clone
      */
-    public function processClones(array $clones)
+    public function __construct($aFile, $aStartLine, $bFile, $bStartLine, $size, $tokens)
     {
-        $cpd = $this->document->createElement('pmd-cpd');
-        $cpd->setAttribute('version', 'phpcpd @package_version@');
-        $this->document->appendChild($cpd);
+        $this->aFile      = $aFile;
+        $this->aStartLine = $aStartLine;
+        $this->bFile      = $bFile;
+        $this->bStartLine = $bStartLine;
+        $this->size       = $size;
+        $this->tokens     = $tokens;
+    }
 
-        foreach ($clones as $clone) {
-            $duplication = $cpd->appendChild(
-              $this->document->createElement('duplication')
-            );
-
-            $duplication->setAttribute('lines', $clone->size);
-            $duplication->setAttribute('tokens', $clone->tokens);
-
-            $file = $duplication->appendChild(
-              $this->document->createElement('file')
-            );
-
-            $file->setAttribute('path', $clone->aFile);
-            $file->setAttribute('line', $clone->aStartLine);
-
-            $file = $duplication->appendChild(
-              $this->document->createElement('file')
-            );
-
-            $file->setAttribute('path', $clone->bFile);
-            $file->setAttribute('line', $clone->bStartLine);
-
-            $duplication->appendChild(
-              $this->document->createElement(
-                'codefragment',
-                htmlspecialchars(
-                  $this->convertToUtf8($clone->getLines()),
-                  ENT_COMPAT,
-                  'UTF-8'
-                )
-              )
-            );
-        }
-
-        $this->flush();
+    /**
+     * Returns the lines of the clone.
+     *
+     * @return string
+     */
+    public function getLines()
+    {
+        return join(
+          '',
+          array_slice(file($this->aFile), $this->aStartLine - 1, $this->size)
+        );
     }
 }
 ?>

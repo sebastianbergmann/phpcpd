@@ -17,10 +17,10 @@
   <email>sb@sebastian-bergmann.de</email>
   <active>yes</active>
  </lead>
- <date>2009-01-26</date>
+ <date>2009-MM-DD</date>
  <version>
-  <release>1.0.0</release>
-  <api>1.0.0</api>
+  <release>1.1.0</release>
+  <api>1.1.0</api>
  </version>
  <stability>
   <release>stable</release>
@@ -57,6 +57,9 @@
       <tasks:replace from="@package_version@" to="version" type="package-info" />
      </file>
     </dir>
+    <file baseinstalldir="/" name="Clone.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
     <file baseinstalldir="/" name="Detector.php" role="php">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
