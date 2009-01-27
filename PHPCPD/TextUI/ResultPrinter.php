@@ -56,10 +56,10 @@ class PHPCPD_TextUI_ResultPrinter
     /**
      * Prints a result set from PHPCPD_Detector::copyPasteDetection().
      *
-     * @param array  $clones
-     * @param string $commonPath
+     * @param PHPCPD_CloneMap $clones
+     * @param string          $commonPath
      */
-    public function printResult(array $clones, $commonPath)
+    public function printResult(PHPCPD_CloneMap $clones, $commonPath)
     {
         $numClones = count($clones);
 

@@ -60,6 +60,9 @@
     <file baseinstalldir="/" name="Clone.php" role="php">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
+    <file baseinstalldir="/" name="CloneMap.php" role="php">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
     <file baseinstalldir="/" name="Detector.php" role="php">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>

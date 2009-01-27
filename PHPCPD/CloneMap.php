@@ -38,93 +38,47 @@
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @since     File available since Release 1.0.0
+ * @since     File available since Release 1.1.0
  */
 
 /**
- * Base class for XML loggers.
+ * A map of exact clones.
  *
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version   Release: @package_version@
  * @link      http://github.com/sebastianbergmann/phpcpd/tree
- * @since     Class available since Release 1.0.0
+ * @since     Class available since Release 1.1.0
  */
-abstract class PHPCPD_Log_XML
+class PHPCPD_CloneMap implements Iterator
 {
-    protected $document;
+    protected $clones = array();
+    protected $position = 0;
 
-    /**
-     * Constructor.
-     *
-     * @param string $filename
-     */
-    public function __construct($filename)
+    public function addClone(PHPCPD_Clone $clone)
     {
-        $this->document = new DOMDocument('1.0', 'UTF-8');
-        $this->document->formatOutput = TRUE;
-
-        $this->filename = $filename;
+        $this->clones[] = $clone;
     }
 
-    /**
-     * Writes the XML document to the file.
-     */
-    protected function flush()
-    {
-        file_put_contents($this->filename, $this->document->saveXML());
+    public function rewind() {
+        $this->position = 0;
     }
 
-    /**
-     * Converts a string to UTF-8 encoding.
-     *
-     * @param  string $string
-     * @return string
-     */
-    protected function convertToUtf8($string)
-    {
-        if (!$this->isUtf8($string)) {
-            if (function_exists('mb_convert_encoding')) {
-                $string = mb_convert_encoding($string, 'UTF-8');
-            } else {
-                $string = utf8_encode($string);
-            }
-        }
-
-        return $string;
+    public function valid() {
+        return $this->position < count($this->clones);
     }
 
-    /**
-     * Checks a string for UTF-8 encoding.
-     *
-     * @param  string $string
-     * @return boolean
-     */
-    protected function isUtf8($string)
-    {
-        $length = strlen($string);
-
-        for ($i = 0; $i < $length; $i++) {
-            if      (ord($string[$i]) < 0x80)          $n = 0;
-            elseif ((ord($string[$i]) & 0xE0) == 0xC0) $n = 1;
-            elseif ((ord($string[$i]) & 0xF0) == 0xE0) $n = 2;
-            elseif ((ord($string[$i]) & 0xF0) == 0xF0) $n = 3;
-            else   return FALSE;
-
-            for ($j = 0; $j < $n; $j++) {
-                if ((++$i == $length) || ((ord($string[$i]) & 0xC0) != 0x80)) return FALSE;
-            }
-        }
-
-        return TRUE;
+    public function key() {
+        return $this->position;
     }
 
-    /**
-     * Processes a list of clones.
-     *
-     * @param PHPCPD_CloneMap $clones
-     */
-    abstract public function processClones(PHPCPD_CloneMap $clones);
+    public function current() {
+        return $this->clones[$this->position];
+    }
+
+    public function next() {
+        $this->position++;
+    }
 }
 ?>

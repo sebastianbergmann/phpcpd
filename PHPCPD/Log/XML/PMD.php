@@ -58,9 +58,9 @@ class PHPCPD_Log_XML_PMD extends PHPCPD_Log_XML
     /**
      * Processes a list of clones.
      *
-     * @param array $clones
+     * @param PHPCPD_CloneMap $clones
      */
-    public function processClones(array $clones)
+    public function processClones(PHPCPD_CloneMap $clones)
     {
         $cpd = $this->document->createElement('pmd-cpd');
         $cpd->setAttribute('version', 'phpcpd @package_version@');

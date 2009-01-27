@@ -42,6 +42,7 @@
  */
 
 require 'PHPCPD/Clone.php';
+require 'PHPCPD/CloneMap.php';
 
 /**
  * PHPCPD code analyser.
@@ -72,11 +73,12 @@ class PHPCPD_Detector
      * @param  array   $files
      * @param  integer $minLines
      * @param  integer $minTokens
+     * @return PHPCPD_CloneMap
      * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
      */
     public static function copyPasteDetection($files, $minLines, $minTokens)
     {
-        $clones = array();
+        $result = new PHPCPD_CloneMap;
         $hashes = array();
 
         foreach ($files as $file) {
@@ -137,13 +139,15 @@ class PHPCPD_Detector
 
                             if ($line + 1 - $firstLine > $minLines &&
                                 ($fileA != $file || $firstLineA != $firstLine)) {
-                                $clones[] = new PHPCPD_Clone(
-                                  $fileA,
-                                  $firstLineA,
-                                  $file,
-                                  $firstLine,
-                                  $line + 1 - $firstLine,
-                                  $tokenNr + 1 - $firstToken
+                                $result->addClone(
+                                  new PHPCPD_Clone(
+                                    $fileA,
+                                    $firstLineA,
+                                    $file,
+                                    $firstLine,
+                                    $line + 1 - $firstLine,
+                                    $tokenNr + 1 - $firstToken
+                                  )
                                 );
                             }
 
@@ -164,13 +168,15 @@ class PHPCPD_Detector
 
                 if ($line + 1 - $firstLine > $minLines &&
                     ($fileA != $file || $firstLineA != $firstLine)) {
-                    $clones[] = new PHPCPD_Clone(
-                      $fileA,
-                      $firstLineA,
-                      $file,
-                      $firstLine,
-                      $line + 1 - $firstLine,
-                      $tokenNr + 1 - $firstToken
+                    $result->addClone(
+                      new PHPCPD_Clone(
+                        $fileA,
+                        $firstLineA,
+                        $file,
+                        $firstLine,
+                        $line + 1 - $firstLine,
+                        $tokenNr + 1 - $firstToken
+                      )
                     );
                 }
 
@@ -178,7 +184,7 @@ class PHPCPD_Detector
             }
         }
 
-        return $clones;
+        return $result;
     }
 }
 ?>
