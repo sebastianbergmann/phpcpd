@@ -57,13 +57,13 @@ require 'PHPCPD/Clone.php';
 class PHPCPD_Detector
 {
     protected static $CPD_IGNORE_LIST = array(
-      T_INLINE_HTML,
-      T_COMMENT,
-      T_DOC_COMMENT,
-      T_OPEN_TAG,
-      T_OPEN_TAG_WITH_ECHO,
-      T_CLOSE_TAG,
-      T_WHITESPACE
+      T_INLINE_HTML => TRUE,
+      T_COMMENT => TRUE,
+      T_DOC_COMMENT => TRUE,
+      T_OPEN_TAG => TRUE,
+      T_OPEN_TAG_WITH_ECHO => TRUE,
+      T_CLOSE_TAG => TRUE,
+      T_WHITESPACE => TRUE
     );
 
     /**
@@ -93,7 +93,7 @@ class PHPCPD_Detector
                 if (is_string($token)) {
                     $line += substr_count($token, "\n");
                 } else {
-                    if (!in_array($token[0], self::$CPD_IGNORE_LIST)) {
+                    if (!isset(self::$CPD_IGNORE_LIST[$token[0]])) {
                         $currentTokenPositions[$tokenNr++] = $line;
                         $currentSignature .= chr($token[0] & 255) . pack('N*', crc32($token[1]));
                     }
