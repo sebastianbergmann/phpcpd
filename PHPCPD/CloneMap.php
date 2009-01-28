@@ -51,7 +51,7 @@
  * @link      http://github.com/sebastianbergmann/phpcpd/tree
  * @since     Class available since Release 1.1.0
  */
-class PHPCPD_CloneMap implements Iterator
+class PHPCPD_CloneMap implements Countable, Iterator
 {
     protected $clones = array();
     protected $clonesByFile = array();
@@ -97,6 +97,13 @@ class PHPCPD_CloneMap implements Iterator
     public function getFilesWithClones()
     {
         return array_keys($this->clonesByFile);
+    }
+
+    /**
+     * Returns the number of clones stored in this map.
+     */
+    public function count() {
+        return count($this->clones);
     }
 
     /**
