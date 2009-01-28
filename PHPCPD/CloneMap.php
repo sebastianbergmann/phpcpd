@@ -69,13 +69,13 @@ class PHPCPD_CloneMap implements Countable, Iterator
         if (isset($this->clonesByFile[$clone->aFile])) {
             $this->clonesByFile[$clone->aFile][] = $clone;
         } else {
-            $this->clonesByFile[$clone->aFile][] = array($clone);
+            $this->clonesByFile[$clone->aFile] = array($clone);
         }
 
         if (isset($this->clonesByFile[$clone->bFile])) {
             $this->clonesByFile[$clone->bFile][] = $clone;
         } else {
-            $this->clonesByFile[$clone->bFile][] = array($clone);
+            $this->clonesByFile[$clone->bFile] = array($clone);
         }
     }
 
