@@ -54,29 +54,88 @@
 class PHPCPD_CloneMap implements Iterator
 {
     protected $clones = array();
+    protected $clonesByFile = array();
     protected $position = 0;
 
+    /**
+     * Adds a clone to the map.
+     *
+     * @param PHPCPD_Clone $clone
+     */
     public function addClone(PHPCPD_Clone $clone)
     {
         $this->clones[] = $clone;
+
+        if (isset($this->clonesByFile[$clone->aFile])) {
+            $this->clonesByFile[$clone->aFile][] = $clone;
+        } else {
+            $this->clonesByFile[$clone->aFile][] = array($clone);
+        }
+
+        if (isset($this->clonesByFile[$clone->bFile])) {
+            $this->clonesByFile[$clone->bFile][] = $clone;
+        } else {
+            $this->clonesByFile[$clone->bFile][] = array($clone);
+        }
     }
 
+    /**
+     * Returns the clones stored in this map.
+     *
+     * @return array
+     */
+    public function getClones()
+    {
+        return $this->clones;
+    }
+
+    /**
+     * Returns the files the clones stored in this map occur in.
+     *
+     * @return array
+     */
+    public function getFilesWithClones()
+    {
+        return array_keys($this->clonesByFile);
+    }
+
+    /**
+     * Rewinds the Iterator to the first element.
+     */
     public function rewind() {
         $this->position = 0;
     }
 
+    /**
+     * Checks if there is a current element after calls to rewind() or next().
+     *
+     * @return boolean
+     */
     public function valid() {
         return $this->position < count($this->clones);
     }
 
+    /**
+     * Returns the key of the current element.
+     *
+     * @return integer
+     */
     public function key() {
         return $this->position;
     }
 
+    /**
+     * Returns the current element.
+     *
+     * @return PHPCPD_Clone
+     */
     public function current() {
         return $this->clones[$this->position];
     }
 
+    /**
+     * Moves forward to next element.
+     */
     public function next() {
         $this->position++;
     }
