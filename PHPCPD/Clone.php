@@ -67,7 +67,8 @@ class PHPCPD_Clone
      * @param integer $aStartLine  Start line in the first file
      * @param string  $bFile       Name of the second file
      * @param integer $bStartLine  Start line in the second file
-     * @param integer $size        Size of the clone
+     * @param integer $size        Size of the clone (lines)
+     * @param integer $tokens      Size of the clone (tokens)
      */
     public function __construct($aFile, $aStartLine, $bFile, $bStartLine, $size, $tokens)
     {
