@@ -115,7 +115,7 @@ class PHPCPD_CloneMap implements Countable, Iterator
             $percent = 100;
         }
 
-        return sprintf('%01.2F', $percent);
+        return sprintf('%01.2F%%', $percent);
     }
 
     /**
