@@ -78,16 +78,22 @@ class PHPCPD_Detector
      */
     public static function copyPasteDetection($files, $minLines, $minTokens)
     {
-        $result = new PHPCPD_CloneMap;
-        $hashes = array();
+        $result   = new PHPCPD_CloneMap;
+        $hashes   = array();
+        $numLines = 0;
 
         foreach ($files as $file) {
+            $buffer    = file_get_contents($file);
+            $numLines += substr_count($buffer, "\n");
+
             $file                  = $file->getPathName();
             $currentTokenPositions = array();
             $currentSignature      = '';
-            $tokens                = token_get_all(file_get_contents($file));
+            $tokens                = token_get_all($buffer);
             $tokenNr               = 0;
             $line                  = 1;
+
+            unset($buffer);
 
             foreach (array_keys($tokens) as $key) {
                 $token = $tokens[$key];
@@ -183,6 +189,8 @@ class PHPCPD_Detector
                 $found = FALSE;
             }
         }
+
+        $result->setNumLines($numLines);
 
         return $result;
     }
