@@ -119,6 +119,16 @@ class PHPCPD_CloneMap implements Countable, Iterator
     }
 
     /**
+     * Returns the number of physical source code lines in the project.
+     *
+     * @return integer
+     */
+    public function getNumLines()
+    {
+        return $this->numLines;
+    }
+
+    /**
      * Sets the number of physical source code lines in the project.
      *
      * @param integer $numLines
