@@ -37,22 +37,22 @@ Usage Example
     sb@ubuntu ~ % phpcpd /usr/local/src/phpunit/trunk 
     phpcpd 1.1.0 by Sebastian Bergmann.
 
-Found 5 exact clones with 133 duplicated lines in 8 files:
+    Found 5 exact clones with 133 duplicated lines in 8 files:
 
-  - PHPUnit/Samples/BankAccountDB/BankAccountDBTestMySQL.php:84-128
-    PHPUnit/Samples/BankAccountDB/BankAccountDBTest.php:84-128
+      - PHPUnit/Samples/BankAccountDB/BankAccountDBTestMySQL.php:84-128
+        PHPUnit/Samples/BankAccountDB/BankAccountDBTest.php:84-128
 
-  - PHPUnit/Extensions/Database/DataSet/AbstractTable.php:156-190
-    PHPUnit/Extensions/Database/DataSet/ReplacementTable.php:172-206
+      - PHPUnit/Extensions/Database/DataSet/AbstractTable.php:156-190
+        PHPUnit/Extensions/Database/DataSet/ReplacementTable.php:172-206
 
-  - PHPUnit/Tests/Extensions/Database/DataSet/CompositeDataSetTest.php:87-103
-    PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:80-96
+      - PHPUnit/Tests/Extensions/Database/DataSet/CompositeDataSetTest.php:87-103
+        PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:80-96
 
-  - PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:70-82
-    PHPUnit/Tests/Extensions/Database/DataSet/XmlDataSetsTest.php:71-83
+      - PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:70-82
+        PHPUnit/Tests/Extensions/Database/DataSet/XmlDataSetsTest.php:71-83
 
-  - PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:70-97
-    PHPUnit/Tests/Extensions/Database/DataSet/YamlDataSetTest.php:70-97
+      - PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:70-97
+        PHPUnit/Tests/Extensions/Database/DataSet/YamlDataSetTest.php:70-97
 
-0.22% duplicated lines out of 61556 total lines of code.
+    0.22% duplicated lines out of 61556 total lines of code.
 
