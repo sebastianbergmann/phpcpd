@@ -56,6 +56,7 @@ class PHPCPD_CloneMap implements Countable, Iterator
     protected $clones = array();
     protected $clonesByFile = array();
     protected $position = 0;
+    protected $numDuplicateLines = 0;
     protected $numLines = 0;
 
     /**
@@ -65,7 +66,8 @@ class PHPCPD_CloneMap implements Countable, Iterator
      */
     public function addClone(PHPCPD_Clone $clone)
     {
-        $this->clones[] = $clone;
+        $this->clones[]           = $clone;
+        $this->numDuplicateLines += $clone->size;
 
         if (isset($this->clonesByFile[$clone->aFile])) {
             $this->clonesByFile[$clone->aFile][] = $clone;
@@ -107,14 +109,8 @@ class PHPCPD_CloneMap implements Countable, Iterator
      */
     public function getPercentage()
     {
-        $numCloneLines = 0;
-
-        foreach ($this->clones as $clone) {
-            $numCloneLines += $clone->size;
-        }
-
         if ($this->numLines > 0) {
-            $percent = ($numCloneLines / $this->numLines) * 100;
+            $percent = ($this->numDuplicateLines / $this->numLines) * 100;
         } else {
             $percent = 100;
         }
