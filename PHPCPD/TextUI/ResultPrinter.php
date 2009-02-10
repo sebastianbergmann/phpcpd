@@ -91,11 +91,13 @@ class PHPCPD_TextUI_ResultPrinter
             }
 
             printf(
-              "Found %d exact clones with %d duplicated lines in %d files:\n%s",
+              "Found %d exact clones with %d duplicated lines in %d files:\n%s\n%s duplicated lines out of %d total lines of code.\n",
               $numClones,
               $lines,
               count($files),
-              $buffer
+              $buffer,
+              $clones->getPercentage(),
+              $clones->getNumLines()
             );
         } else {
             printf("No clones found in %s.\n", $commonPath);

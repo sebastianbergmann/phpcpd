@@ -56,6 +56,8 @@ class PHPCPD_CloneMap implements Countable, Iterator
     protected $clones = array();
     protected $clonesByFile = array();
     protected $position = 0;
+    protected $numDuplicateLines = 0;
+    protected $numLines = 0;
 
     /**
      * Adds a clone to the map.
@@ -64,7 +66,8 @@ class PHPCPD_CloneMap implements Countable, Iterator
      */
     public function addClone(PHPCPD_Clone $clone)
     {
-        $this->clones[] = $clone;
+        $this->clones[]           = $clone;
+        $this->numDuplicateLines += $clone->size;
 
         if (isset($this->clonesByFile[$clone->aFile])) {
             $this->clonesByFile[$clone->aFile][] = $clone;
@@ -97,6 +100,42 @@ class PHPCPD_CloneMap implements Countable, Iterator
     public function getFilesWithClones()
     {
         return array_keys($this->clonesByFile);
+    }
+
+    /**
+     * Returns the percentage of duplicated code lines in the project.
+     *
+     * @return string
+     */
+    public function getPercentage()
+    {
+        if ($this->numLines > 0) {
+            $percent = ($this->numDuplicateLines / $this->numLines) * 100;
+        } else {
+            $percent = 100;
+        }
+
+        return sprintf('%01.2F%%', $percent);
+    }
+
+    /**
+     * Returns the number of physical source code lines in the project.
+     *
+     * @return integer
+     */
+    public function getNumLines()
+    {
+        return $this->numLines;
+    }
+
+    /**
+     * Sets the number of physical source code lines in the project.
+     *
+     * @param integer $numLines
+     */
+    public function setNumLines($numLines)
+    {
+        $this->numLines = $numLines;
     }
 
     /**
