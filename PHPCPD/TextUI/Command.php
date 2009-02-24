@@ -195,8 +195,8 @@ Usage: phpcpd [switches] <directory>
 
   --log-pmd <file>         Write report in PMD-CPD XML format to file.
 
-  --min-lines <N>          Minimum number of identical lines for a clone.
-  --min-tokens <N>         Minimum number of identical tokens for a clone.
+  --min-lines <N>          Minimum number of identical lines (default: 5).
+  --min-tokens <N>         Minimum number of identical tokens (default: 70).
 
   --suffixes <suffix,...>  A comma-separated list of file suffixes to check.
 
