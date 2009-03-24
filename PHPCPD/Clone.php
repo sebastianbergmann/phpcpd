@@ -59,6 +59,7 @@ class PHPCPD_Clone
     public $bStartLine;
     public $size;
     public $tokens;
+    protected $lines = '';
 
     /**
      * Constructor.
@@ -87,10 +88,14 @@ class PHPCPD_Clone
      */
     public function getLines()
     {
-        return join(
-          '',
-          array_slice(file($this->aFile), $this->aStartLine - 1, $this->size)
-        );
+        if (empty($this->lines)) {
+            $this->lines = join(
+              '',
+              array_slice(file($this->aFile), $this->aStartLine - 1, $this->size)
+            );
+        }
+
+        return $this->lines;
     }
 }
 ?>
