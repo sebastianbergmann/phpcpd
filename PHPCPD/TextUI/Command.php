@@ -95,14 +95,14 @@ class PHPCPD_TextUI_Command
                 break;
 
                 case '--min-lines': {
-                    if (is_int($option[1])) {
+                    if (is_numeric($option[1])) {
                         $minLines = (int)$option[1];
                     }
                 }
                 break;
 
                 case '--min-tokens': {
-                    if (is_int($option[1])) {
+                    if (is_numeric($option[1])) {
                         $minTokens = (int)$option[1];
                     }
                 }
