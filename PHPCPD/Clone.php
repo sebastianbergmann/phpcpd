@@ -53,12 +53,39 @@
  */
 class PHPCPD_Clone
 {
+    /**
+     * @var string Name of the first file
+     */
     public $aFile;
+
+    /**
+     * @var integer Start line in the first file
+     */
     public $aStartLine;
+
+    /**
+     * @var string Name of the second file
+     */
     public $bFile;
+
+    /**
+     * @var integer Start line in the second file
+     */
     public $bStartLine;
+
+    /**
+     * @var integer Size of the clone (lines)
+     */
     public $size;
+
+    /**
+     * @var integer Size of the clone (tokens)
+     */
     public $tokens;
+
+    /**
+     * @var Lines of the clone
+     */
     protected $lines = '';
 
     /**
@@ -84,7 +111,7 @@ class PHPCPD_Clone
     /**
      * Returns the lines of the clone.
      *
-     * @return string
+     * @return string The lines of the clone
      */
     public function getLines()
     {

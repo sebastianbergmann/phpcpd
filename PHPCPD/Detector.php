@@ -57,7 +57,10 @@ require 'PHPCPD/CloneMap.php';
  */
 class PHPCPD_Detector
 {
-    protected static $CPD_IGNORE_LIST = array(
+    /**
+     * @var integer[] List of tokens to ignore
+     */
+    protected static $TOKENS_IGNORE_LIST = array(
       T_INLINE_HTML => TRUE,
       T_COMMENT => TRUE,
       T_DOC_COMMENT => TRUE,
@@ -70,10 +73,10 @@ class PHPCPD_Detector
     /**
      * Copy & Paste Detection (CPD).
      *
-     * @param  array   $files
-     * @param  integer $minLines
-     * @param  integer $minTokens
-     * @return PHPCPD_CloneMap
+     * @param  Iterator|array   $files     List of files to process
+     * @param  integer          $minLines  Minimum number of identical lines
+     * @param  integer          $minTokens Minimum number of identical tokens
+     * @return PHPCPD_CloneMap  Map of exact clones found in the list of files
      * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
      */
     public static function copyPasteDetection($files, $minLines, $minTokens)
@@ -101,7 +104,7 @@ class PHPCPD_Detector
                 if (is_string($token)) {
                     $line += substr_count($token, "\n");
                 } else {
-                    if (!isset(self::$CPD_IGNORE_LIST[$token[0]])) {
+                    if (!isset(self::$TOKENS_IGNORE_LIST[$token[0]])) {
                         $currentTokenPositions[$tokenNr++] = $line;
                         $currentSignature .= chr($token[0] & 255) . pack('N*', crc32($token[1]));
                     }

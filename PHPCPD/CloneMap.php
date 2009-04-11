@@ -53,10 +53,29 @@
  */
 class PHPCPD_CloneMap implements Countable, Iterator
 {
+    /**
+     * @var PHPCPD_Clone[] The clones in the clone map
+     */
     protected $clones = array();
+
+    /**
+     * @var PHPCPD_Clone[] The clones in the clone map, stored by file
+     */
     protected $clonesByFile = array();
+
+    /**
+     * @var integer Current position while iterating the clone map
+     */
     protected $position = 0;
+
+    /**
+     * @var integer Number of duplicate lines in the clone map
+     */
     protected $numDuplicateLines = 0;
+
+    /**
+     * @var integer Number of lines analyzed
+     */
     protected $numLines = 0;
 
     /**
@@ -85,7 +104,7 @@ class PHPCPD_CloneMap implements Countable, Iterator
     /**
      * Returns the clones stored in this map.
      *
-     * @return array
+     * @return PHPCPD_Clone[]
      */
     public function getClones()
     {
@@ -95,7 +114,7 @@ class PHPCPD_CloneMap implements Countable, Iterator
     /**
      * Returns the files the clones stored in this map occur in.
      *
-     * @return array
+     * @return string[]
      */
     public function getFilesWithClones()
     {
@@ -119,7 +138,7 @@ class PHPCPD_CloneMap implements Countable, Iterator
     }
 
     /**
-     * Returns the number of physical source code lines in the project.
+     * Returns the number of lines analyzed.
      *
      * @return integer
      */
@@ -141,14 +160,16 @@ class PHPCPD_CloneMap implements Countable, Iterator
     /**
      * Returns the number of clones stored in this map.
      */
-    public function count() {
+    public function count()
+    {
         return count($this->clones);
     }
 
     /**
      * Rewinds the Iterator to the first element.
      */
-    public function rewind() {
+    public function rewind()
+    {
         $this->position = 0;
     }
 
@@ -157,7 +178,8 @@ class PHPCPD_CloneMap implements Countable, Iterator
      *
      * @return boolean
      */
-    public function valid() {
+    public function valid()
+    {
         return $this->position < count($this->clones);
     }
 
@@ -166,7 +188,8 @@ class PHPCPD_CloneMap implements Countable, Iterator
      *
      * @return integer
      */
-    public function key() {
+    public function key()
+    {
         return $this->position;
     }
 
@@ -175,14 +198,16 @@ class PHPCPD_CloneMap implements Countable, Iterator
      *
      * @return PHPCPD_Clone
      */
-    public function current() {
+    public function current()
+    {
         return $this->clones[$this->position];
     }
 
     /**
      * Moves forward to next element.
      */
-    public function next() {
+    public function next()
+    {
         $this->position++;
     }
 }
