@@ -128,25 +128,30 @@ class PHPCPD_TextUI_Command
             }
         }
 
+        $files = array();
+
         if (isset($options[1][0])) {
-            if (is_dir($options[1][0])) {
-                $files = new PHPCPD_Util_FilterIterator(
-                  new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($options[1][0])
-                  ),
-                  $suffixes
-                );
+            foreach ($options[1] as $path) {
+                if (is_dir($path)) {
+                    $iterator = new PHPCPD_Util_FilterIterator(
+                      new RecursiveIteratorIterator(
+                        new RecursiveDirectoryIterator($path)
+                      ),
+                      $suffixes
+                    );
 
-                $commonPath = $options[1][0];
-            }
+                    foreach ($iterator as $item) {
+                        $files[] = $item->getPathName();
+                    }
+                }
 
-            else if (is_file($options[1][0])) {
-                $files      = array(new SPLFileInfo($options[1][0]));
-                $commonPath = basename($options[1][0]);
+                else if (is_file($path)) {
+                    $files[] = $path;
+                }
             }
         }
 
-        if (!isset($files)) {
+        if (empty($files)) {
             self::showHelp();
             exit(1);
         }
@@ -158,7 +163,7 @@ class PHPCPD_TextUI_Command
         );
 
         $printer = new PHPCPD_TextUI_ResultPrinter;
-        $printer->printResult($clones, $commonPath . DIRECTORY_SEPARATOR);
+        $printer->printResult($clones, self::getCommonPath($files));
         unset($printer);
 
         if (isset($logPmd)) {
@@ -166,6 +171,57 @@ class PHPCPD_TextUI_Command
             $pmd->processClones($clones);
             unset($pmd);
         }
+    }
+
+    /**
+     * Returns the common path of a set of files.
+     *
+     * @param  array $files
+     * @return string
+     */
+    protected static function getCommonPath(array $files)
+    {
+        $count = count($files);
+
+        if ($count == 1) {
+            return dirname($files[0]) . DIRECTORY_SEPARATOR;
+        }
+
+        $_files = array();
+
+        for ($i = 0; $i < $count; $i++) {
+            $_files[$i] = explode(DIRECTORY_SEPARATOR, $files[$i]);
+
+            if (empty($_files[$i][0])) {
+                $_files[$i][0] = DIRECTORY_SEPARATOR;
+            }
+        }
+
+        $common = '';
+        $done   = FALSE;
+        $j      = 0;
+        $count--;
+
+        while (!$done) {
+            for ($i = 0; $i < $count; $i++) {
+                if ($_files[$i][$j] != $_files[$i+1][$j]) {
+                    $done = TRUE;
+                    break;
+                }
+            }
+
+            if (!$done) {
+                $common .= $_files[0][$j];
+
+                if ($j > 0) {
+                    $common .= DIRECTORY_SEPARATOR;
+                }
+            }
+
+            $j++;
+        }
+
+        return $common;
     }
 
     /**
@@ -190,8 +246,7 @@ class PHPCPD_TextUI_Command
         self::printVersionString();
 
         print <<<EOT
-Usage: phpcpd [switches] <directory>
-       phpcpd [switches] <file>
+Usage: phpcpd [switches] <directory|file> ...
 
   --log-pmd <file>         Write report in PMD-CPD XML format to file.
 
