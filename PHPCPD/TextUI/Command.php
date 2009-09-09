@@ -70,6 +70,7 @@ class PHPCPD_TextUI_Command
               '',
               array(
                 'help',
+                'exclude=',
                 'log-pmd=',
                 'min-lines=',
                 'min-tokens=',
@@ -83,12 +84,18 @@ class PHPCPD_TextUI_Command
             self::showError($e->getMessage());
         }
 
+        $exclude   = array();
         $minLines  = 5;
         $minTokens = 70;
         $suffixes  = array('php');
 
         foreach ($options[0] as $option) {
             switch ($option[0]) {
+                case '--exclude': {
+                    $exclude[] = $option[1];
+                }
+                break;
+
                 case '--log-pmd': {
                     $logPmd = $option[1];
                 }
@@ -128,30 +135,9 @@ class PHPCPD_TextUI_Command
             }
         }
 
-        $files = array();
-
         if (isset($options[1][0])) {
-            foreach ($options[1] as $path) {
-                if (is_dir($path)) {
-                    $iterator = new PHPCPD_Util_FilterIterator(
-                      new RecursiveIteratorIterator(
-                        new RecursiveDirectoryIterator($path)
-                      ),
-                      $suffixes
-                    );
-
-                    foreach ($iterator as $item) {
-                        $files[] = $item->getPathName();
-                    }
-                }
-
-                else if (is_file($path)) {
-                    $files[] = $path;
-                }
-            }
-        }
-
-        if (empty($files)) {
+            $files = self::getFiles($options[1], $suffixes, $exclude);
+        } else {
             self::showHelp();
             exit(1);
         }
@@ -225,6 +211,48 @@ class PHPCPD_TextUI_Command
     }
 
     /**
+     * Returns a set of files.
+     *
+     * @param  array $paths
+     * @param  array $suffixes
+     * @param  array $exclude
+     * @return array
+     * @since  Method available since Release 1.2.1
+     */
+    protected static function getFiles(array $paths, array $suffixes, array $exclude)
+    {
+        $exclude = array_map('realpath', $exclude);
+        $files   = array();
+
+        foreach ($paths as $path) {
+            if (is_dir($path)) {
+                $iterator = new PHPCPD_Util_FilterIterator(
+                  new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator($path)
+                  ),
+                  $suffixes
+                );
+
+                foreach ($iterator as $item) {
+                    foreach ($exclude as $_exclude) {
+                        if (strpos($item->getRealPath(), $_exclude) === 0) {
+                            continue 2;
+                        }
+                    }
+
+                    $files[] = $item->getPathName();
+                }
+            }
+
+            else if (is_file($path)) {
+                $files[] = $path;
+            }
+        }
+
+        return $files;
+    }
+
+    /**
      * Shows an error.
      *
      * @param string $message
@@ -253,6 +281,7 @@ Usage: phpcpd [switches] <directory|file> ...
   --min-lines <N>          Minimum number of identical lines (default: 5).
   --min-tokens <N>         Minimum number of identical tokens (default: 70).
 
+  --exclude <directory>    Exclude <directory> from code analysis.
   --suffixes <suffix,...>  A comma-separated list of file suffixes to check.
 
   --help                   Prints this usage information.
