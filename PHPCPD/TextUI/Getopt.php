@@ -52,7 +52,8 @@
  * @link      http://github.com/sebastianbergmann/phpcpd/tree
  * @since     Class available since Release 1.0.0
  */
-class PHPCPD_TextUI_Getopt {
+class PHPCPD_TextUI_Getopt
+{
     public static function getopt(array $args, $short_options, $long_options = NULL)
     {
         if (empty($args)) {
