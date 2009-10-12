@@ -24,10 +24,10 @@ The PEAR channel (`pear.phpunit.de`) that is used to distribute phpcpd needs to 
 This has to be done only once. Now the PEAR Installer can be used to install packages from the PHPUnit channel:
 
     sb@ubuntu ~ % pear install phpunit/phpcpd
-    downloading phpcpd-1.1.1.tgz ...
-    Starting to download phpcpd-1.1.1.tgz (8,078 bytes)
-    .....done: 8,078 bytes
-    install ok: channel://pear.phpunit.de/phpcpd-1.1.1
+    downloading phpcpd-1.2.0.tgz ...
+    Starting to download phpcpd-1.2.0.tgz (8,847 bytes)
+    .....done: 8,847 bytes
+    install ok: channel://pear.phpunit.de/phpcpd-1.2.0
 
 After the installation you can find the phpcpd source files inside your local PEAR directory; the path is usually `/usr/lib/php/PHPCPD`.
 
@@ -35,24 +35,20 @@ Usage Example
 -------------
 
     sb@ubuntu ~ % phpcpd /usr/local/src/phpunit/trunk 
-    phpcpd 1.1.1 by Sebastian Bergmann.
+    phpcpd 1.2.0 by Sebastian Bergmann.
 
-    Found 5 exact clones with 133 duplicated lines in 8 files:
+    Found 4 exact clones with 131 duplicated lines in 7 files:
 
       - PHPUnit/Samples/BankAccountDB/BankAccountDBTestMySQL.php:84-128
         PHPUnit/Samples/BankAccountDB/BankAccountDBTest.php:84-128
 
+      - PHPUnit/Tests/Extensions/Database/DataSet/XmlDataSetsTest.php:71-97
+        PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:70-96
+
+      - PHPUnit/Tests/Extensions/Database/DataSet/XmlDataSetsTest.php:71-98
+        PHPUnit/Tests/Extensions/Database/DataSet/YamlDataSetTest.php:70-97
+
       - PHPUnit/Extensions/Database/DataSet/AbstractTable.php:156-190
         PHPUnit/Extensions/Database/DataSet/ReplacementTable.php:172-206
 
-      - PHPUnit/Tests/Extensions/Database/DataSet/CompositeDataSetTest.php:87-103
-        PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:80-96
-
-      - PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:70-82
-        PHPUnit/Tests/Extensions/Database/DataSet/XmlDataSetsTest.php:71-83
-
-      - PHPUnit/Tests/Extensions/Database/DataSet/CsvDataSetTest.php:70-97
-        PHPUnit/Tests/Extensions/Database/DataSet/YamlDataSetTest.php:70-97
-
-    0.22% duplicated lines out of 61556 total lines of code.
-
+    0.20% duplicated lines out of 64826 total lines of code.
