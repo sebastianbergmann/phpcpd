@@ -112,11 +112,12 @@ class PHPCPD_Detector
                 }
             }
 
-            $tokenNr   = 0;
+            $count     = count($currentTokenPositions);
             $firstLine = 0;
             $found     = FALSE;
+            $tokenNr   = 0;
 
-            if (count($currentTokenPositions) > 0) {
+            if ($count > 0) {
                 do {
                     $line = $currentTokenPositions[$tokenNr];
 
@@ -167,7 +168,7 @@ class PHPCPD_Detector
                     }
 
                     $tokenNr++;
-                } while ($tokenNr <= (count($currentTokenPositions) - $minTokens) + 1);
+                } while ($tokenNr <= $count - $minTokens + 1);
             }
 
             if ($found) {
