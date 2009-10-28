@@ -105,7 +105,10 @@ class PHPCPD_Detector
                 } else {
                     if (!isset(self::$TOKENS_IGNORE_LIST[$token[0]])) {
                         $currentTokenPositions[$tokenNr++] = $line;
-                        $currentSignature .= chr($token[0] & 255) . pack('N*', crc32($token[1]));
+
+                        $currentSignature .= chr(
+                          $token[0] & 255) . pack('N*', crc32($token[1])
+                        );
                     }
 
                     $line += substr_count($token[1], "\n");
@@ -147,7 +150,8 @@ class PHPCPD_Detector
                             $firstLineA = $hashes[$firstHash][1];
 
                             if ($line + 1 - $firstLine > $minLines &&
-                                ($fileA != $file || $firstLineA != $firstLine)) {
+                                ($fileA != $file ||
+                                 $firstLineA != $firstLine)) {
                                 $result->addClone(
                                   new PHPCPD_Clone(
                                     $fileA,
