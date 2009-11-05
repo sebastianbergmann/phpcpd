@@ -41,10 +41,10 @@
  * @since     File available since Release 1.0.0
  */
 
+require 'File/Iterator.php';
 require 'PHPCPD/Detector.php';
 require 'PHPCPD/TextUI/Getopt.php';
 require 'PHPCPD/TextUI/ResultPrinter.php';
-require 'PHPCPD/Util/FilterIterator.php';
 require 'PHPCPD/Log/XML/PMD.php';
 
 /**
@@ -226,7 +226,7 @@ class PHPCPD_TextUI_Command
 
         foreach ($paths as $path) {
             if (is_dir($path)) {
-                $iterator = new PHPCPD_Util_FilterIterator(
+                $iterator = new File_Iterator(
                   new RecursiveIteratorIterator(
                     new RecursiveDirectoryIterator($path)
                   ),
