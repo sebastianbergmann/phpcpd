@@ -24,10 +24,14 @@ The PEAR channel (`pear.phpunit.de`) that is used to distribute phpcpd needs to 
 This has to be done only once. Now the PEAR Installer can be used to install packages from the PHPUnit channel:
 
     sb@ubuntu ~ % pear install phpunit/phpcpd
-    downloading phpcpd-1.2.0.tgz ...
-    Starting to download phpcpd-1.2.0.tgz (8,847 bytes)
-    .....done: 8,847 bytes
-    install ok: channel://pear.phpunit.de/phpcpd-1.2.0
+    downloading phpcpd-1.2.1.tgz ...
+    Starting to download phpcpd-1.2.1.tgz (8,636 bytes)
+    .....done: 8,636 bytes
+    downloading File_Iterator-1.0.0.tgz ...
+    Starting to download File_Iterator-1.0.0.tgz (2,353 bytes)
+    ...done: 2,353 bytes
+    install ok: channel://pear.phpunit.de/File_Iterator-1.0.0
+    install ok: channel://pear.phpunit.de/phpcpd-1.2.1
 
 After the installation you can find the phpcpd source files inside your local PEAR directory; the path is usually `/usr/lib/php/PHPCPD`.
 
@@ -35,7 +39,7 @@ Usage Example
 -------------
 
     sb@ubuntu ~ % phpcpd /usr/local/src/phpunit/trunk 
-    phpcpd 1.2.0 by Sebastian Bergmann.
+    phpcpd 1.2.1 by Sebastian Bergmann.
 
     Found 4 exact clones with 131 duplicated lines in 7 files:
 
