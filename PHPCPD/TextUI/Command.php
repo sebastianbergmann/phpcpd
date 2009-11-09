@@ -146,7 +146,8 @@ class PHPCPD_TextUI_Command
 
         self::printVersionString();
 
-        $clones = PHPCPD_Detector::copyPasteDetection(
+        $detector = new PHPCPD_Detector;
+        $clones   = $detector->copyPasteDetection(
           $files, $minLines, $minTokens
         );
 
