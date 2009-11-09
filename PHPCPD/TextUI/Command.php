@@ -41,7 +41,7 @@
  * @since     File available since Release 1.0.0
  */
 
-require 'File/Iterator.php';
+require_once 'File/Iterator/Factory.php';
 require 'PHPCPD/Detector.php';
 require 'PHPCPD/TextUI/Getopt.php';
 require 'PHPCPD/TextUI/ResultPrinter.php';
@@ -136,7 +136,9 @@ class PHPCPD_TextUI_Command
         }
 
         if (isset($options[1][0])) {
-            $files = self::getFiles($options[1], $suffixes, $exclude);
+            $files = File_Iterator_Factory::getFilesAsArray(
+              $options[1], $suffixes, array(), $exclude
+            );
         } else {
             self::showHelp();
             exit(1);
@@ -208,48 +210,6 @@ class PHPCPD_TextUI_Command
         }
 
         return $common;
-    }
-
-    /**
-     * Returns a set of files.
-     *
-     * @param  array $paths
-     * @param  array $suffixes
-     * @param  array $exclude
-     * @return array
-     * @since  Method available since Release 1.2.1
-     */
-    protected static function getFiles(array $paths, array $suffixes, array $exclude)
-    {
-        $exclude = array_map('realpath', $exclude);
-        $files   = array();
-
-        foreach ($paths as $path) {
-            if (is_dir($path)) {
-                $iterator = new File_Iterator(
-                  new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($path)
-                  ),
-                  $suffixes
-                );
-
-                foreach ($iterator as $item) {
-                    foreach ($exclude as $_exclude) {
-                        if (strpos($item->getRealPath(), $_exclude) === 0) {
-                            continue 2;
-                        }
-                    }
-
-                    $files[] = $item->getPathName();
-                }
-            }
-
-            else if (is_file($path)) {
-                $files[] = $path;
-            }
-        }
-
-        return $files;
     }
 
     /**
