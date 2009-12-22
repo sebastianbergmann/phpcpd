@@ -42,10 +42,10 @@
  */
 
 require_once 'File/Iterator/Factory.php';
-require 'PHPCPD/Detector.php';
-require 'PHPCPD/TextUI/Getopt.php';
-require 'PHPCPD/TextUI/ResultPrinter.php';
-require 'PHPCPD/Log/XML/PMD.php';
+require_once 'PHPCPD/Detector.php';
+require_once 'PHPCPD/TextUI/Getopt.php';
+require_once 'PHPCPD/TextUI/ResultPrinter.php';
+require_once 'PHPCPD/Log/XML/PMD.php';
 
 /**
  * TextUI frontend for PHPCPD.

@@ -41,8 +41,8 @@
  * @since     File available since Release 1.0.0
  */
 
-require 'PHPCPD/Clone.php';
-require 'PHPCPD/CloneMap.php';
+require_once 'PHPCPD/Clone.php';
+require_once 'PHPCPD/CloneMap.php';
 
 /**
  * PHPCPD code analyser.

@@ -41,7 +41,7 @@
  * @since     File available since Release 1.0.0
  */
 
-require 'PHPCPD/Log/XML.php';
+require_once 'PHPCPD/Log/XML.php';
 
 /**
  * Implementation of PHPCPD_Log_XML that writes in PMD-CPD format.
