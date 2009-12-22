@@ -79,7 +79,7 @@ class PHPCPD_Detector
      * @return PHPCPD_CloneMap  Map of exact clones found in the list of files
      * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
      */
-    public function copyPasteDetection($files, $minLines, $minTokens)
+    public function copyPasteDetection($files, $minLines = 5, $minTokens = 70)
     {
         $result   = new PHPCPD_CloneMap;
         $hashes   = array();
