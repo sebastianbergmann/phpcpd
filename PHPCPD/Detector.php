@@ -71,6 +71,22 @@ class PHPCPD_Detector
     );
 
     /**
+     * @var ezcConsoleOutput
+     */
+    protected $output;
+
+    /**
+     * Constructor.
+     *
+     * @param ezcConsoleOutput $output
+     * @since Method available since Release 1.3.0
+     */
+    public function __construct(ezcConsoleOutput $output = NULL)
+    {
+        $this->output = $output;
+    }
+
+    /**
      * Copy & Paste Detection (CPD).
      *
      * @param  Iterator|array   $files     List of files to process
@@ -84,6 +100,11 @@ class PHPCPD_Detector
         $result   = new PHPCPD_CloneMap;
         $hashes   = array();
         $numLines = 0;
+
+        if ($this->output !== NULL) {
+            $bar = new ezcConsoleProgressbar($this->output, count($files));
+            print "Processing files\n";
+        }
 
         foreach ($files as $file) {
             $buffer    = file_get_contents($file);
@@ -195,6 +216,14 @@ class PHPCPD_Detector
 
                 $found = FALSE;
             }
+
+            if ($this->output !== NULL) {
+                $bar->advance();
+            }
+        }
+
+        if ($this->output !== NULL) {
+            print "\n\n";
         }
 
         $result->setNumLines($numLines);

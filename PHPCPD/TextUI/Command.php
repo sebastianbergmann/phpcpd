@@ -43,9 +43,15 @@
 
 require_once 'File/Iterator/Factory.php';
 require_once 'PHPCPD/Detector.php';
-require_once 'PHPCPD/TextUI/Getopt.php';
 require_once 'PHPCPD/TextUI/ResultPrinter.php';
 require_once 'PHPCPD/Log/XML/PMD.php';
+
+require_once 'ezc/Base/base.php';
+
+function __autoload($className)
+{
+    ezcBase::autoload($className);
+}
 
 /**
  * TextUI frontend for PHPCPD.
@@ -64,80 +70,134 @@ class PHPCPD_TextUI_Command
      */
     public static function main()
     {
+        $input  = new ezcConsoleInput;
+        $output = new ezcConsoleOutput;
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
+            'exclude',
+            ezcConsoleInput::TYPE_STRING,
+            array(),
+            TRUE
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            'h',
+            'help',
+            ezcConsoleInput::TYPE_NONE,
+            NULL,
+            FALSE,
+            '',
+            '',
+            array(),
+            array(),
+            FALSE,
+            FALSE,
+            TRUE
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
+            'log-pmd',
+            ezcConsoleInput::TYPE_STRING
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
+            'min-lines',
+            ezcConsoleInput::TYPE_INT,
+            5
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
+            'min-tokens',
+            ezcConsoleInput::TYPE_INT,
+            70
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
+            'suffixes',
+            ezcConsoleInput::TYPE_STRING,
+            'php',
+            FALSE
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            'v',
+            'version',
+            ezcConsoleInput::TYPE_NONE,
+            NULL,
+            FALSE,
+            '',
+            '',
+            array(),
+            array(),
+            FALSE,
+            FALSE,
+            TRUE
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
+            'verbose',
+            ezcConsoleInput::TYPE_NONE
+           )
+        );
+
         try {
-            $options = PHPCPD_TextUI_Getopt::getopt(
-              $_SERVER['argv'],
-              '',
-              array(
-                'help',
-                'exclude=',
-                'log-pmd=',
-                'min-lines=',
-                'min-tokens=',
-                'suffixes=',
-                'version'
-              )
-            );
+            $input->process();
         }
 
-        catch (RuntimeException $e) {
-            self::showError($e->getMessage());
+        catch (ezcConsoleOptionException $e) {
+            print $e->getMessage() . "\n";
+            exit(1);
         }
 
-        $exclude   = array();
-        $minLines  = 5;
-        $minTokens = 70;
-        $suffixes  = array('php');
-
-        foreach ($options[0] as $option) {
-            switch ($option[0]) {
-                case '--exclude': {
-                    $exclude[] = $option[1];
-                }
-                break;
-
-                case '--log-pmd': {
-                    $logPmd = $option[1];
-                }
-                break;
-
-                case '--min-lines': {
-                    if (is_numeric($option[1])) {
-                        $minLines = (int)$option[1];
-                    }
-                }
-                break;
-
-                case '--min-tokens': {
-                    if (is_numeric($option[1])) {
-                        $minTokens = (int)$option[1];
-                    }
-                }
-                break;
-
-                case '--suffixes': {
-                    $suffixes = explode(',', $option[1]);
-                    array_map('trim', $suffixes);
-                }
-                break;
-
-                case '--help': {
-                    self::showHelp();
-                    exit(0);
-                }
-                break;
-
-                case '--version': {
-                    self::printVersionString();
-                    exit(0);
-                }
-                break;
-            }
+        if ($input->getOption('help')->value) {
+            self::showHelp();
+            exit(0);
         }
 
-        if (isset($options[1][0])) {
+        else if ($input->getOption('version')->value) {
+            self::printVersionString();
+            exit(0);
+        }
+
+        $arguments  = $input->getArguments();
+        $exclude    = $input->getOption('exclude')->value;
+        $logPmd     = $input->getOption('log-pmd')->value;
+        $minLines   = $input->getOption('min-lines')->value;
+        $minTokens  = $input->getOption('min-tokens')->value;
+
+        $suffixes = explode(',', $input->getOption('suffixes')->value);
+        array_map('trim', $suffixes);
+
+        if ($input->getOption('verbose')->value !== FALSE) {
+            $verbose = $output;
+        } else {
+            $verbose = NULL;
+        }
+
+        if (!empty($arguments)) {
             $files = File_Iterator_Factory::getFilesAsArray(
-              $options[1], $suffixes, array(), $exclude
+              $arguments, $suffixes, array(), $exclude
             );
         } else {
             self::showHelp();
@@ -146,7 +206,7 @@ class PHPCPD_TextUI_Command
 
         self::printVersionString();
 
-        $detector = new PHPCPD_Detector;
+        $detector = new PHPCPD_Detector($verbose);
         $clones   = $detector->copyPasteDetection(
           $files, $minLines, $minTokens
         );
@@ -155,7 +215,7 @@ class PHPCPD_TextUI_Command
         $printer->printResult($clones, self::getCommonPath($files));
         unset($printer);
 
-        if (isset($logPmd)) {
+        if ($logPmd) {
             $pmd = new PHPCPD_Log_XML_PMD($logPmd);
             $pmd->processClones($clones);
             unset($pmd);
@@ -214,20 +274,6 @@ class PHPCPD_TextUI_Command
     }
 
     /**
-     * Shows an error.
-     *
-     * @param string $message
-     */
-    protected static function showError($message)
-    {
-        self::printVersionString();
-
-        print $message;
-
-        exit(1);
-    }
-
-    /**
      * Shows the help.
      */
     protected static function showHelp()
@@ -247,6 +293,8 @@ Usage: phpcpd [switches] <directory|file> ...
 
   --help                   Prints this usage information.
   --version                Prints the version and exits.
+
+  --verbose                Print progress bar.
 
 EOT;
     }
