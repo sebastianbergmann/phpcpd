@@ -3,7 +3,7 @@ phpcpd
 
 **phpcpd** is a Copy/Paste Detector (CPD) for PHP code.
 
-The goal of **phpcpd** is not not to replace more sophisticated tools such as [phpcs](http://pear.php.net/PHP_CodeSniffer), [pdepend](http://pdepend.org/), or [phpmd](http://phpmd.org/), but rather to provide an alternative to them when you just need to get a quick overview of duplicated code in a project.
+The goal of **phpcpd** is not to replace more sophisticated tools such as [phpcs](http://pear.php.net/PHP_CodeSniffer), [pdepend](http://pdepend.org/), or [phpmd](http://phpmd.org/), but rather to provide an alternative to them when you just need to get a quick overview of duplicated code in a project.
 
 Requirements
 ------------
