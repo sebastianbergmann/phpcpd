@@ -204,6 +204,10 @@ class PHPCPD_TextUI_Command
             exit(1);
         }
 
+        if (empty($files)) {
+            self::showError("No files found to scan.\n");
+        }
+
         self::printVersionString();
 
         $detector = new PHPCPD_Detector($verbose);
@@ -271,6 +275,20 @@ class PHPCPD_TextUI_Command
         }
 
         return $common;
+    }
+
+    /**
+     * Shows an error.
+     *
+     * @param string $message
+     */
+    protected static function showError($message)
+    {
+        self::printVersionString();
+
+        print $message;
+
+        exit(1);
     }
 
     /**
