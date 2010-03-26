@@ -225,10 +225,9 @@ class PHPCPD_TextUI_Command
             unset($pmd);
         }
 
-        if (0 < count($clones)) {
+        if (count($clones) > 0) {
             exit(1);
         }
-
     }
 
     /**
