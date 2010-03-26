@@ -224,6 +224,11 @@ class PHPCPD_TextUI_Command
             $pmd->processClones($clones);
             unset($pmd);
         }
+
+        if (0 < count($clones)) {
+            exit(1);
+        }
+
     }
 
     /**
