@@ -76,7 +76,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      * @covers PHPCPD_Detector::copyPasteDetection
      * @covers PHPCPD_Clone::getLines
      */
-    public function testDetectingDeclaredFunctionsAndMethodsWorks()
+    public function testDetectingSimpleClonesWorks()
     {
         $clones = $this->detector->copyPasteDetection(
           array(TEST_FILES_PATH . 'Math.php')
