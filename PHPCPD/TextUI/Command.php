@@ -70,6 +70,7 @@ class PHPCPD_TextUI_Command
      */
     public static function main()
     {
+        $time_start = microtime(true);
         $input  = new ezcConsoleInput;
         $output = new ezcConsoleOutput;
 
@@ -216,7 +217,7 @@ class PHPCPD_TextUI_Command
         );
 
         $printer = new PHPCPD_TextUI_ResultPrinter;
-        $printer->printResult($clones, self::getCommonPath($files));
+        $printer->printResult($clones, self::getCommonPath($files), $time_start);
         unset($printer);
 
         if ($logPmd) {

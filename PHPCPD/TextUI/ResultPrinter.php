@@ -59,7 +59,7 @@ class PHPCPD_TextUI_ResultPrinter
      * @param PHPCPD_CloneMap $clones
      * @param string          $commonPath
      */
-    public function printResult(PHPCPD_CloneMap $clones, $commonPath)
+    public function printResult(PHPCPD_CloneMap $clones, $commonPath, $time_start)
     {
         $numClones = count($clones);
 
@@ -100,10 +100,11 @@ class PHPCPD_TextUI_ResultPrinter
         }
 
         printf(
-          "%s%s duplicated lines out of %d total lines of code.\n",
+          "%s%s duplicated lines out of %d total lines of code, processed in %d seconds\n",
           $numClones > 0 ? "\n" : '',
           $clones->getPercentage(),
-          $clones->getNumLines()
+          $clones->getNumLines(),
+          (microtime(true) - $time_start)
         );
     }
 }
