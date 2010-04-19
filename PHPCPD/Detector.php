@@ -71,9 +71,36 @@ class PHPCPD_Detector
     );
 
     /**
+     * @static hash length in bytes
+     */
+    const BYTES_IN_HASH = 5;
+
+    /**
+     * @static number of decimal positions
+     * used to shift the file number in composed
+     * fileNr...lineNr hash value
+     */
+    const DECIMAL_OFFSET = 100000;
+
+    /**
      * @var ezcConsoleOutput
      */
     protected $output;
+
+    /**
+     * @var string full path incl. file name of the processed code file
+     */
+    private $processedFile;
+
+    /**
+     * @var int minimum number of identical lines considered for match
+     */
+
+    private $minimumLines;
+    /*
+     * @var array list of processed files
+     */
+    private $fileList;
 
     /**
      * Constructor.
@@ -89,7 +116,7 @@ class PHPCPD_Detector
     /**
      * Copy & Paste Detection (CPD).
      *
-     * @param  Iterator|array   $files     List of files to process
+     * @param  array            $files     List of files to process
      * @param  integer          $minLines  Minimum number of identical lines
      * @param  integer          $minTokens Minimum number of identical tokens
      * @return PHPCPD_CloneMap  Map of exact clones found in the list of files
@@ -97,124 +124,73 @@ class PHPCPD_Detector
      */
     public function copyPasteDetection($files, $minLines = 5, $minTokens = 70)
     {
-        $result   = new PHPCPD_CloneMap;
-        $hashes   = array();
-        $numLines = 0;
+        $this->minimumLines = $minLines;
+        $this->fileList     = $files;
+        $clonesFound        = new PHPCPD_CloneMap();
+        $numLines           = 0;
+        $hashes             = array();
+
+        unset($files);
 
         if ($this->output !== NULL) {
             $bar = new ezcConsoleProgressbar($this->output, count($files));
             print "Processing files\n";
         }
 
-        foreach ($files as $file) {
-            $buffer    = file_get_contents($file);
-            $numLines += substr_count($buffer, "\n");
-
-            $currentTokenPositions = array();
+        $numLines = 0;
+        foreach ($this->fileList as $fileNr => $this->processedFile) {
+            // reset file parsing results from previous run
+            $tokenSequence = array();
             $currentSignature      = '';
-            $tokens                = token_get_all($buffer);
             $tokenNr               = 0;
-            $line                  = 1;
+            $tokens                = array();
+            $lineNr                  = 1;
 
-            unset($buffer);
+            // produce syntactical tokens from code file
+            $this->tokenizeFile($numLines, $tokens);
 
-            foreach (array_keys($tokens) as $key) {
-                $token = $tokens[$key];
-
-                if (is_string($token)) {
-                    $line += substr_count($token, "\n");
-                } else {
-                    if (!isset($this->tokensIgnoreList[$token[0]])) {
-                        $currentTokenPositions[$tokenNr++] = $line;
-
-                        $currentSignature .= chr(
-                          $token[0] & 255) . pack('N*', crc32($token[1])
-                        );
-                    }
-
-                    $line += substr_count($token[1], "\n");
-                }
-            }
-
-            $count     = count($currentTokenPositions);
+            // strip ignored tokens, store relevant token positions
+            $count = $this->preprocessTokenList($tokens,
+                                                $lineNr,
+                                                $currentSignature,
+                                                $tokenSequence);
             $firstLine = 0;
             $found     = FALSE;
-            $tokenNr   = 0;
 
             if ($count > 0) {
+                $tokenRange = $count - $minTokens + 2;
                 do {
-                    $line = $currentTokenPositions[$tokenNr];
+                    $lineNr = $tokenSequence[$tokenNr];
 
-                    $hash = substr(
-                      md5(
-                        substr(
-                          $currentSignature, $tokenNr * 5,
-                          $minTokens * 5
-                        ),
-                        TRUE
-                      ),
-                      0,
-                      8
-                    );
-
+                    $hash = $this->calculateHash($currentSignature, $tokenNr, $minTokens);
                     if (isset($hashes[$hash])) {
                         $found = TRUE;
-
                         if ($firstLine === 0) {
-                            $firstLine  = $line;
+                            $firstLine  = $lineNr;
                             $firstHash  = $hash;
                             $firstToken = $tokenNr;
                         }
                     } else {
-                        if ($found) {
-                            $fileA      = $hashes[$firstHash][0];
-                            $firstLineA = $hashes[$firstHash][1];
-
-                            if ($line + 1 - $firstLine > $minLines &&
-                                ($fileA != $file ||
-                                 $firstLineA != $firstLine)) {
-                                $result->addClone(
-                                  new PHPCPD_Clone(
-                                    $fileA,
-                                    $firstLineA,
-                                    $file,
-                                    $firstLine,
-                                    $line + 1 - $firstLine,
-                                    $tokenNr + 1 - $firstToken
-                                  )
-                                );
-                            }
-
-                            $found     = FALSE;
-                            $firstLine = 0;
-                        }
-
-                        $hashes[$hash] = array($file, $line);
+                        $this->addClone($found,
+                                        $firstLine,
+                                        $clonesFound,
+                                        $hashes[$firstHash],
+                                        $lineNr,
+                                        $firstToken,
+                                        $tokenNr);
+                        // store file number
+                        $hashes[$hash] = $this->composeValue($fileNr, $lineNr);
                     }
 
                     $tokenNr++;
-                } while ($tokenNr <= $count - $minTokens + 1);
-            }
-
-            if ($found) {
-                $fileA      = $hashes[$firstHash][0];
-                $firstLineA = $hashes[$firstHash][1];
-
-                if ($line + 1 - $firstLine > $minLines &&
-                    ($fileA != $file || $firstLineA != $firstLine)) {
-                    $result->addClone(
-                      new PHPCPD_Clone(
-                        $fileA,
-                        $firstLineA,
-                        $file,
-                        $firstLine,
-                        $line + 1 - $firstLine,
-                        $tokenNr + 1 - $firstToken
-                      )
-                    );
-                }
-
-                $found = FALSE;
+                } while ($tokenNr < $tokenRange);
+                $this->addClone($found,
+                                $firstLine,
+                                $clonesFound,
+                                $hashes[$firstHash],
+                                $lineNr,
+                                $firstToken,
+                                $tokenNr);
             }
 
             if ($this->output !== NULL) {
@@ -226,9 +202,128 @@ class PHPCPD_Detector
             print "\n\n";
         }
 
-        $result->setNumLines($numLines);
+        $clonesFound->setNumLines($numLines);
+        return $clonesFound;
+    }
 
-        return $result;
+    /**
+     * almost reverse operation to @see composeValue($fileNr, $line). This routine
+     * inverts the packing rule applied by composeValue and returns the file
+     * name (instead of its numeric position) and line number.
+     *
+     * @param  integer $value composed value
+     * @return array   name of the file and line number
+     */
+    private function decomposeValue($value)
+    {
+        $fileNr = floor($value / self::DECIMAL_OFFSET);
+        return array($this->fileList[$fileNr], $value - self::DECIMAL_OFFSET * $fileNr);
+    }
+
+    /**
+     * composes integer value from file number and line number. This routine
+     * shifts the numeric position of the file name in the list by n decimal
+     * positions to the left and fills right most zeros with the line number
+     * numeric value.
+     *
+     * @param  integer $fileNr number of the file in the file list array
+     * @param  integer $line   number of the line to be composed
+     * @return integer "big integer" contaning 2 other integers...
+     */
+    private function composeValue($fileNr, $line)
+    {
+        return self::DECIMAL_OFFSET * $fileNr + $line;
+    }
+
+    /**
+     * unifies the check and insertion logic for discovered clones
+     *
+     * @param boolean         $found         interim processing flag, upon insertion FALSE value is assigned
+     * @param integer         $firstLine     number of the first line matching
+     * @param PHPCPD_CloneMap $clonesFound   result object
+     * @param integer         $composedValue number containing line number and file number
+     * @param integer         $line          current file overall processing line
+     * @param integer         $firstToken    number of the first matching token
+     * @param integer         $tokenNr       currently processed token number
+     */
+    private function addClone(&$found, &$firstLine, PHPCPD_CloneMap $clonesFound, $composedValue, $line, $firstToken, $tokenNr)
+    {
+        if ($found) {
+            list($fileA, $firstLineA) = $this->decomposeValue($composedValue);
+            if ($line + 1 - $firstLine > $this->minimumLines &&
+                ($fileA != $this->processedFile || $firstLineA != $firstLine)) {
+                $clone = new PHPCPD_Clone($fileA,
+                                          $firstLineA,
+                                          $this->processedFile,
+                                          $firstLine,
+                                          $line + 1 - $firstLine,
+                                          $tokenNr + 1 - $firstToken);
+                $clonesFound->addClone($clone);
+            }
+            $found     = FALSE;
+            $firstLine = 0;
+        }
+    }
+
+    /**
+     * calculates distinct hash value for given signature
+     * 
+     * @param bstring $currentSignature
+     * @param integer $tokenNr
+     * @param integer $minTokens
+     * @return bstring first 8 charactes of md5 checksum
+     */
+    private function calculateHash($currentSignature, $tokenNr, $minTokens)
+    {
+        $part = substr($currentSignature,
+                       $tokenNr   * self::BYTES_IN_HASH,
+                       $minTokens * self::BYTES_IN_HASH);
+        return substr(md5($part, TRUE), 0, 8);
+    }
+
+    /**
+     * reads content of the code file, tokenizes the code and returns
+     * number of lines in the file as well as syntax tokens.
+     *
+     * @param string  $fielName full path to the code file
+     * @param integer $lineCount number of lines in the file (it's return value!)
+     * @param mixed   $fileTokens syntax token array (it's return value!)
+     */
+    private function tokenizeFile(&$lineCount, &$fileTokens)
+    {
+        $buffer = file_get_contents($this->processedFile);
+        $lineCount += substr_count($buffer, "\n");
+        $fileTokens = token_get_all($buffer);
+    }
+
+    /**
+     * pre-processes the token list, remove tokens matched by ignore list,
+     * store token sigantures
+     *
+     * @param mixed   $tokens           list of tokens, the list is cleared after this call!
+     * @param integer $linesCount       number of processed lines counter. it's a return value!
+     * @param integer $currentSignature multi-byte token signature with crc32. it's a return value!
+     * @param array   $tokenTable    token position tracker. . it's a return value!
+     * @return int                      count of scored relevant tokens
+     */
+    private function preprocessTokenList(&$tokens, &$linesCount, &$currentSignature, &$tokenTable)
+    {
+        $tokenNr = 0;
+        foreach ($tokens as $token) {
+            if (is_string($token)) {
+                $linesCount += substr_count($token, "\n");
+            } else {
+                if (!isset($this->tokensIgnoreList[$token[0]])) {
+                    $tokenTable[$tokenNr++] = $linesCount;
+                    $currentSignature .= chr($token[0] & 255) . pack('N*', crc32($token[1]));
+                }
+
+                $linesCount += substr_count($token[1], "\n");
+            }
+        }
+        // flush the list, unset doesn't work here with call-by-reference
+        $tokens = '';
+        return count($tokenTable);
     }
 }
 ?>
