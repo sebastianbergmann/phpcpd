@@ -41,6 +41,8 @@
  * @since     File available since Release 1.0.0
  */
 
+require_once 'PHP/Timer.php';
+
 /**
  * A ResultPrinter for the TextUI.
  *
@@ -100,10 +102,11 @@ class PHPCPD_TextUI_ResultPrinter
         }
 
         printf(
-          "%s%s duplicated lines out of %d total lines of code.\n",
+          "%s%s duplicated lines out of %d total lines of code.\n\n%s\n",
           $numClones > 0 ? "\n" : '',
           $clones->getPercentage(),
-          $clones->getNumLines()
+          $clones->getNumLines(),
+          PHP_Timer::resourceUsage()
         );
     }
 }
