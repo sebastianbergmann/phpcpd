@@ -2,7 +2,7 @@
 /**
  * This file is part of phpUnderControl.
  *
- * Copyright (c) 2007-2010, Manuel Pichler <mapi@phpundercontrol.org>.
+ * Copyright (c) 2007-2011, Manuel Pichler <mapi@phpundercontrol.org>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@
  *
  * @package   Example
  * @author    Manuel Pichler <mapi@phpundercontrol.org>
- * @copyright 2007-2010 Manuel Pichler. All rights reserved.
+ * @copyright 2007-2011 Manuel Pichler. All rights reserved.
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version   SVN: $Id$
  * @link      http://www.phpundercontrol.org/
@@ -47,7 +47,7 @@
  *
  * @package   Example
  * @author    Manuel Pichler <mapi@phpundercontrol.org>
- * @copyright 2007-2010 Manuel Pichler. All rights reserved.
+ * @copyright 2007-2011 Manuel Pichler. All rights reserved.
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version   Release: @package_version@
  * @link      http://www.phpundercontrol.org/
