@@ -38,88 +38,41 @@
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @since     File available since Release 1.0.0
+ * @since     File available since Release 1.4.0
  */
 
-if (!defined('TEST_FILES_PATH')) {
-    define(
-      'TEST_FILES_PATH',
-      dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR
-    );
-}
-
 /**
- * Tests for the PHPCPD code analyser.
+ * Abstract base class for strategies to detect code clones.
  *
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @version   Release: @package_version@
  * @link      http://github.com/sebastianbergmann/phpcpd/tree
- * @since     Class available since Release 1.0.0
+ * @since     Class available since Release 1.4.0
  */
-class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
+abstract class PHPCPD_Detector_Strategy
 {
     /**
-     * @covers       PHPCPD_Detector::copyPasteDetection
-     * @covers       PHPCPD_Clone::getLines
-     * @dataProvider strategyProvider
+     * @var integer[] List of tokens to ignore
      */
-    public function testDetectingSimpleClonesWorks($strategy)
-    {
-        $detector = new PHPCPD_Detector(new $strategy);
+    protected $tokensIgnoreList = array(
+      T_INLINE_HTML => TRUE,
+      T_COMMENT => TRUE,
+      T_DOC_COMMENT => TRUE,
+      T_OPEN_TAG => TRUE,
+      T_OPEN_TAG_WITH_ECHO => TRUE,
+      T_CLOSE_TAG => TRUE,
+      T_WHITESPACE => TRUE
+    );
 
-        $clones = $detector->copyPasteDetection(
-          array(TEST_FILES_PATH . 'Math.php')
-        );
-
-        $clones = $clones->getClones();
-
-        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $clones[0]->aFile);
-        $this->assertEquals(86, $clones[0]->aStartLine);
-        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $clones[0]->bFile);
-        $this->assertEquals(150, $clones[0]->bStartLine);
-        $this->assertEquals(28, $clones[0]->size);
-        $this->assertEquals(68, $clones[0]->tokens);
-
-        $this->assertEquals(
-          '    public function div($v1, $v2)
-    {
-        $v3 = $v1 / ($v2 + $v1);
-        if ($v3 > 14)
-        {
-            $v4 = 0;
-            for ($i = 0; $i < $v3; $i++)
-            {
-                $v4 += ($v2 * $i);
-            }
-        }
-        $v5 = ($v4 < $v3 ? ($v3 - $v4) : ($v4 - $v3));
-
-        $v6 = ($v1 * $v2 * $v3 * $v4 * $v5);
-
-        $d = array($v1, $v2, $v3, $v4, $v5, $v6);
-
-        $v7 = 1;
-        for ($i = 0; $i < $v6; $i++)
-        {
-            shuffle( $d );
-            $v7 = $v7 + $i * end($d);
-        }
-
-        $v8 = $v7;
-        foreach ( $d as $x )
-        {
-            $v8 *= $x;
-',
-          $clones[0]->getLines()
-        );
-    }
-
-    public function strategyProvider()
-    {
-        return array(
-          array('PHPCPD_Detector_Strategy_Default')
-        );
-    }
+    /**
+     * Copy & Paste Detection (CPD).
+     *
+     * @param string          $file
+     * @param integer         $minLines
+     * @param integer         $minTokens
+     * @param PHPCPD_CloneMap $result
+     */
+    abstract public function processFile($file, $minLines, $minTokens, PHPCPD_CloneMap $result);
 }
