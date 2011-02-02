@@ -125,4 +125,3 @@ class PHPCPD_Clone
         return $this->lines;
     }
 }
-?>

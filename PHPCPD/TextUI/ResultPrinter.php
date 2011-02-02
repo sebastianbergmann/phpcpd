@@ -41,8 +41,6 @@
  * @since     File available since Release 1.0.0
  */
 
-require_once 'PHP/Timer.php';
-
 /**
  * A ResultPrinter for the TextUI.
  *
@@ -110,4 +108,3 @@ class PHPCPD_TextUI_ResultPrinter
         );
     }
 }
-?>

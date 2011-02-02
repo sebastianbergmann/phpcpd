@@ -41,9 +41,6 @@
  * @since     File available since Release 1.0.0
  */
 
-require_once 'PHPCPD/Clone.php';
-require_once 'PHPCPD/CloneMap.php';
-
 /**
  * PHPCPD code analyser.
  *
@@ -231,4 +228,3 @@ class PHPCPD_Detector
         return $result;
     }
 }
-?>

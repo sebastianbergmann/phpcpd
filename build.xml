@@ -1,0 +1,7 @@
+<project name="phpcpd" default="phpab" basedir=".">
+ <target name="phpab">
+  <exec executable="phpab">
+   <arg line='-o PHPCPD/Autoload.php -c -t PHPCPD/Autoload.php.in --indent "          " PHPCPD' />
+  </exec>
+ </target>
+</project>
