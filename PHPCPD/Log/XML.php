@@ -127,4 +127,3 @@ abstract class PHPCPD_Log_XML
      */
     abstract public function processClones(PHPCPD_CloneMap $clones);
 }
-?>

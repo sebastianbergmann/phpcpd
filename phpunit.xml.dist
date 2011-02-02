@@ -2,7 +2,8 @@
 
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         syntaxCheck="false">
+         syntaxCheck="false"
+         bootstrap="PHPCPD/Autoload.php">
   <testsuites>
     <testsuite name="PHPCPD">
       <directory suffix="Test.php">Tests</directory>

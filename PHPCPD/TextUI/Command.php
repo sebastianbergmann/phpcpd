@@ -41,18 +41,6 @@
  * @since     File available since Release 1.0.0
  */
 
-require_once 'File/Iterator/Factory.php';
-require_once 'PHPCPD/Detector.php';
-require_once 'PHPCPD/TextUI/ResultPrinter.php';
-require_once 'PHPCPD/Log/XML/PMD.php';
-
-require_once 'ezc/Base/base.php';
-
-function __autoload($className)
-{
-    ezcBase::autoload($className);
-}
-
 /**
  * TextUI frontend for PHPCPD.
  *
@@ -333,4 +321,3 @@ EOT;
         print "phpcpd @package_version@ by Sebastian Bergmann.\n\n";
     }
 }
-?>

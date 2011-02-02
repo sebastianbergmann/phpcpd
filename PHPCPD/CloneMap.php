@@ -211,4 +211,3 @@ class PHPCPD_CloneMap implements Countable, Iterator
         $this->position++;
     }
 }
-?>

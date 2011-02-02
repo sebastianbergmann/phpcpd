@@ -48,8 +48,6 @@ if (!defined('TEST_FILES_PATH')) {
     );
 }
 
-require_once 'PHPCPD/Detector.php';
-
 /**
  * Tests for the PHPCPD code analyser.
  *
