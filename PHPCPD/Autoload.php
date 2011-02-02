@@ -54,6 +54,8 @@ function phpcpd_autoload($class) {
           'phpcpd_clone' => '/Clone.php',
           'phpcpd_clonemap' => '/CloneMap.php',
           'phpcpd_detector' => '/Detector.php',
+          'phpcpd_detector_strategy' => '/Detector/Strategy.php',
+          'phpcpd_detector_strategy_default' => '/Detector/Strategy/Default.php',
           'phpcpd_log_xml' => '/Log/XML.php',
           'phpcpd_log_xml_pmd' => '/Log/XML/PMD.php',
           'phpcpd_textui_command' => '/TextUI/Command.php',

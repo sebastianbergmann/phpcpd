@@ -55,17 +55,9 @@
 class PHPCPD_Detector
 {
     /**
-     * @var integer[] List of tokens to ignore
+     * @var PHPCPD_Detector_Strategy
      */
-    protected $tokensIgnoreList = array(
-      T_INLINE_HTML => TRUE,
-      T_COMMENT => TRUE,
-      T_DOC_COMMENT => TRUE,
-      T_OPEN_TAG => TRUE,
-      T_OPEN_TAG_WITH_ECHO => TRUE,
-      T_CLOSE_TAG => TRUE,
-      T_WHITESPACE => TRUE
-    );
+    protected $strategy;
 
     /**
      * @var ezcConsoleOutput
@@ -75,12 +67,14 @@ class PHPCPD_Detector
     /**
      * Constructor.
      *
-     * @param ezcConsoleOutput $output
+     * @param PHPCPD_Detector_Strategy $strategy
+     * @param ezcConsoleOutput         $output
      * @since Method available since Release 1.3.0
      */
-    public function __construct(ezcConsoleOutput $output = NULL)
+    public function __construct(PHPCPD_Detector_Strategy $strategy, ezcConsoleOutput $output = NULL)
     {
-        $this->output = $output;
+        $this->strategy = $strategy;
+        $this->output   = $output;
     }
 
     /**
@@ -90,13 +84,10 @@ class PHPCPD_Detector
      * @param  integer          $minLines  Minimum number of identical lines
      * @param  integer          $minTokens Minimum number of identical tokens
      * @return PHPCPD_CloneMap  Map of exact clones found in the list of files
-     * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
      */
     public function copyPasteDetection($files, $minLines = 5, $minTokens = 70)
     {
-        $result   = new PHPCPD_CloneMap;
-        $hashes   = array();
-        $numLines = 0;
+        $result = new PHPCPD_CloneMap;
 
         if ($this->output !== NULL) {
             $bar = new ezcConsoleProgressbar($this->output, count($files));
@@ -104,115 +95,7 @@ class PHPCPD_Detector
         }
 
         foreach ($files as $file) {
-            $buffer    = file_get_contents($file);
-            $numLines += substr_count($buffer, "\n");
-
-            $currentTokenPositions = array();
-            $currentSignature      = '';
-            $tokens                = token_get_all($buffer);
-            $tokenNr               = 0;
-            $line                  = 1;
-
-            unset($buffer);
-
-            foreach (array_keys($tokens) as $key) {
-                $token = $tokens[$key];
-
-                if (is_string($token)) {
-                    $line += substr_count($token, "\n");
-                } else {
-                    if (!isset($this->tokensIgnoreList[$token[0]])) {
-                        $currentTokenPositions[$tokenNr++] = $line;
-
-                        $currentSignature .= chr(
-                          $token[0] & 255) . pack('N*', crc32($token[1])
-                        );
-                    }
-
-                    $line += substr_count($token[1], "\n");
-                }
-            }
-
-            $count     = count($currentTokenPositions);
-            $firstLine = 0;
-            $found     = FALSE;
-            $tokenNr   = 0;
-
-            if ($count > 0) {
-                do {
-                    $line = $currentTokenPositions[$tokenNr];
-
-                    $hash = substr(
-                      md5(
-                        substr(
-                          $currentSignature, $tokenNr * 5,
-                          $minTokens * 5
-                        ),
-                        TRUE
-                      ),
-                      0,
-                      8
-                    );
-
-                    if (isset($hashes[$hash])) {
-                        $found = TRUE;
-
-                        if ($firstLine === 0) {
-                            $firstLine  = $line;
-                            $firstHash  = $hash;
-                            $firstToken = $tokenNr;
-                        }
-                    } else {
-                        if ($found) {
-                            $fileA      = $hashes[$firstHash][0];
-                            $firstLineA = $hashes[$firstHash][1];
-
-                            if ($line + 1 - $firstLine > $minLines &&
-                                ($fileA != $file ||
-                                 $firstLineA != $firstLine)) {
-                                $result->addClone(
-                                  new PHPCPD_Clone(
-                                    $fileA,
-                                    $firstLineA,
-                                    $file,
-                                    $firstLine,
-                                    $line + 1 - $firstLine,
-                                    $tokenNr + 1 - $firstToken
-                                  )
-                                );
-                            }
-
-                            $found     = FALSE;
-                            $firstLine = 0;
-                        }
-
-                        $hashes[$hash] = array($file, $line);
-                    }
-
-                    $tokenNr++;
-                } while ($tokenNr <= $count - $minTokens + 1);
-            }
-
-            if ($found) {
-                $fileA      = $hashes[$firstHash][0];
-                $firstLineA = $hashes[$firstHash][1];
-
-                if ($line + 1 - $firstLine > $minLines &&
-                    ($fileA != $file || $firstLineA != $firstLine)) {
-                    $result->addClone(
-                      new PHPCPD_Clone(
-                        $fileA,
-                        $firstLineA,
-                        $file,
-                        $firstLine,
-                        $line + 1 - $firstLine,
-                        $tokenNr + 1 - $firstToken
-                      )
-                    );
-                }
-
-                $found = FALSE;
-            }
+            $this->strategy->processFile($file, $minLines, $minTokens, $result);
 
             if ($this->output !== NULL) {
                 $bar->advance();
@@ -222,8 +105,6 @@ class PHPCPD_Detector
         if ($this->output !== NULL) {
             print "\n\n";
         }
-
-        $result->setNumLines($numLines);
 
         return $result;
     }
