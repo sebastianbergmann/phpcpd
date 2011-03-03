@@ -237,11 +237,11 @@ class PHPCPD_TextUI_Command
 
         $_files = array();
 
-        for ($i = 0; $i < $count; $i++) {
-            $_files[$i] = explode(DIRECTORY_SEPARATOR, $files[$i]);
+        foreach ($files as $file) {
+            $_files[] = $_fileParts = explode(DIRECTORY_SEPARATOR, $file);
 
-            if (empty($_files[$i][0])) {
-                $_files[$i][0] = DIRECTORY_SEPARATOR;
+            if (empty($_fileParts[0])) {
+                $_fileParts[0] = DIRECTORY_SEPARATOR;
             }
         }
 
