@@ -184,7 +184,8 @@ class PHPCPD_TextUI_Command
         }
 
         if (!empty($arguments)) {
-            $result = File_Iterator_Factory::getFilesAsArray(
+            $facade = new File_Iterator_Facade;
+            $result = $facade->getFilesAsArray(
               $arguments, $suffixes, array(), $exclude, TRUE
             );
 
