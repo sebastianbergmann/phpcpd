@@ -127,7 +127,7 @@ class PHPCPD_TextUI_Command
         $input->registerOption(
           new ezcConsoleOption(
             '',
-            'quite',
+            'quiet',
             ezcConsoleInput::TYPE_NONE,
             NULL,
             FALSE
@@ -227,7 +227,7 @@ class PHPCPD_TextUI_Command
         );
 
         $printer = new PHPCPD_TextUI_ResultPrinter;
-        $printer->printResult($clones, $commonPath, !$input->getOption('quite')->value);
+        $printer->printResult($clones, $commonPath, !$input->getOption('quiet')->value);
         unset($printer);
 
         if ($logPmd) {
@@ -276,7 +276,7 @@ Usage: phpcpd [switches] <directory|file> ...
   --help                   Prints this usage information.
   --version                Prints the version and exits.
 
-  --quite                  Only print the final summary.
+  --quiet                  Only print the final summary.
   --verbose                Print progress bar.
 
 EOT;
