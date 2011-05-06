@@ -180,6 +180,10 @@ class PHPCPD_TextUI_Command
 
         $arguments  = $input->getArguments();
         $exclude    = $input->getOption('exclude')->value;
+        if (is_array($exclude) && (count($exclude) == 1)) {
+            $exclude = explode(',', array_pop($exclude));
+            array_map('trim', $exclude);
+        }
         $logPmd     = $input->getOption('log-pmd')->value;
         $minLines   = $input->getOption('min-lines')->value;
         $minTokens  = $input->getOption('min-tokens')->value;
