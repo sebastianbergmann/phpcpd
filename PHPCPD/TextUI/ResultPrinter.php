@@ -58,8 +58,9 @@ class PHPCPD_TextUI_ResultPrinter
      *
      * @param PHPCPD_CloneMap $clones
      * @param string          $commonPath
+     * @param bool            $verbose
      */
-    public function printResult(PHPCPD_CloneMap $clones, $commonPath)
+    public function printResult(PHPCPD_CloneMap $clones, $commonPath, $verbose)
     {
         $numClones = count($clones);
 
@@ -79,23 +80,25 @@ class PHPCPD_TextUI_ResultPrinter
 
                 $lines += $clone->size;
 
-                $buffer .= sprintf(
-                  "\n  - %s:%d-%d\n    %s:%d-%d\n",
-                  str_replace($commonPath, '', $clone->aFile),
-                  $clone->aStartLine,
-                  $clone->aStartLine + $clone->size,
-                  str_replace($commonPath, '', $clone->bFile),
-                  $clone->bStartLine,
-                  $clone->bStartLine + $clone->size
-                );
+                if($verbose) {
+                    $buffer .= sprintf(
+                      "\n  - %s:%d-%d\n    %s:%d-%d\n",
+                      str_replace($commonPath, '', $clone->aFile),
+                      $clone->aStartLine,
+                      $clone->aStartLine + $clone->size,
+                      str_replace($commonPath, '', $clone->bFile),
+                      $clone->bStartLine,
+                      $clone->bStartLine + $clone->size
+                    );
+                }
             }
 
             printf(
-              "Found %d exact clones with %d duplicated lines in %d files:\n%s",
+              "Found %d exact clones with %d duplicated lines in %d files%s",
               $numClones,
               $lines,
               count($files),
-              $buffer
+              $verbose ? ":\n".$buffer : ".\n"
             );
         }
 
