@@ -38,40 +38,34 @@
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @since     File available since Release 1.1.0
+ * @since     File available since Release 1.4.0
  */
 
-require_once 'File/Iterator/Autoload.php';
-require_once 'PHP/Timer/Autoload.php';
-require_once 'ezc/Base/base.php';
-
-function phpcpd_autoload($class) {
-    static $classes = NULL;
-    static $path = NULL;
-
-    if ($classes === NULL) {
-        $classes = array(
-          'phpcpd_clone' => '/Clone.php',
-          'phpcpd_clonemap' => '/CloneMap.php',
-          'phpcpd_detector' => '/Detector.php',
-          'phpcpd_detector_strategy' => '/Detector/Strategy.php',
-          'phpcpd_detector_strategy_default' => '/Detector/Strategy/Default.php',
-          'phpcpd_detector_strategy_savememory' => '/Detector/Strategy/SaveMemory.php',
-          'phpcpd_log_xml' => '/Log/XML.php',
-          'phpcpd_log_xml_pmd' => '/Log/XML/PMD.php',
-          'phpcpd_textui_command' => '/TextUI/Command.php',
-          'phpcpd_textui_resultprinter' => '/TextUI/ResultPrinter.php'
-        );
-
-        $path = dirname(__FILE__);
-    }
-
-    $cn = strtolower($class);
-
-    if (isset($classes[$cn])) {
-        require $path . $classes[$cn];
+/**
+ * Default strategy for detecting code clones.
+ *
+ * @author    Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
+ * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @author    Paul Guhl <paul.guhl@mayflower.de>
+ * @copyright 2009-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version   Release: @package_version@
+ * @link      http://github.com/sebastianbergmann/phpcpd/tree
+ * @since     Class available since Release 1.4.0
+ */
+class PHPCPD_Detector_Strategy_SaveMemory extends PHPCPD_Detector_Strategy
+{
+    /**
+     * Copy & Paste Detection (CPD).
+     *
+     * @param  string          $file
+     * @param  integer         $minLines
+     * @param  integer         $minTokens
+     * @param  PHPCPD_CloneMap $result
+     * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
+     * @author Paul Guhl <paul.guhl@mayflower.de>
+     */
+    public function processFile($file, $minLines, $minTokens, PHPCPD_CloneMap $result)
+    {
     }
 }
-
-spl_autoload_register('phpcpd_autoload');
-spl_autoload_register(array('ezcBase', 'autoload'));
