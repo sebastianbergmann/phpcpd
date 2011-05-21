@@ -55,19 +55,6 @@
 class PHPCPD_Detector_Strategy_Default extends PHPCPD_Detector_Strategy
 {
     /**
-     * @var integer[] List of tokens to ignore
-     */
-    protected $tokensIgnoreList = array(
-      T_INLINE_HTML => TRUE,
-      T_COMMENT => TRUE,
-      T_DOC_COMMENT => TRUE,
-      T_OPEN_TAG => TRUE,
-      T_OPEN_TAG_WITH_ECHO => TRUE,
-      T_CLOSE_TAG => TRUE,
-      T_WHITESPACE => TRUE
-    );
-
-    /**
      * Copy & Paste Detection (CPD).
      *
      * @param  string          $file
