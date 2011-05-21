@@ -31,6 +31,19 @@
  <contents>
   <dir name="/">
    <dir name="PHPCPD">
+    <dir name="Detector">
+     <dir name="Strategy">
+      <file baseinstalldir="/" name="Default.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SaveMemory.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir>
+     <file baseinstalldir="/" name="Strategy.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+    </dir>
     <dir name="Log">
      <dir name="XML">
       <file baseinstalldir="/" name="PMD.php" role="php">
