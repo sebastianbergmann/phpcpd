@@ -117,6 +117,16 @@ class PHPCPD_TextUI_Command
         $input->registerOption(
           new ezcConsoleOption(
             '',
+            'save-memory',
+            ezcConsoleInput::TYPE_NONE,
+            NULL,
+            FALSE
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
             'suffixes',
             ezcConsoleInput::TYPE_STRING,
             'php',
@@ -188,6 +198,7 @@ class PHPCPD_TextUI_Command
         $logPmd     = $input->getOption('log-pmd')->value;
         $minLines   = $input->getOption('min-lines')->value;
         $minTokens  = $input->getOption('min-tokens')->value;
+        $saveMemory = $input->getOption('save-memory')->value;
         $suffixes   = array_map(
                         'trim',
                         explode(',', $input->getOption('suffixes')->value)
@@ -221,9 +232,13 @@ class PHPCPD_TextUI_Command
 
         self::printVersionString();
 
-        $detector = new PHPCPD_Detector(
-          new PHPCPD_Detector_Strategy_Default, $verbose
-        );
+        if (!$saveMemory) {
+            $strategy = new PHPCPD_Detector_Strategy_Default;
+        } else {
+            $strategy = new PHPCPD_Detector_Strategy_SaveMemory;
+        }
+
+        $detector = new PHPCPD_Detector($strategy, $verbose);
 
         $clones = $detector->copyPasteDetection(
           $files, $minLines, $minTokens
@@ -275,6 +290,8 @@ Usage: phpcpd [switches] <directory|file> ...
 
   --exclude <directory>    Exclude <directory> from code analysis.
   --suffixes <suffix,...>  A comma-separated list of file suffixes to check.
+
+  --save-memory            Sacrifice 25% execution time for 50% memory saving.
 
   --help                   Prints this usage information.
   --version                Prints the version and exits.
