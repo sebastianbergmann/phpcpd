@@ -83,10 +83,10 @@ class PHPCPD_TextUI_ResultPrinter
 
                 $buffer .= sprintf(
                   "\n  - %s:%d-%d\n    %s:%d-%d\n",
-                  str_replace($commonPath, '', $clone->aFile),
+                  $this->getPathWithoutCommonPart($clone->aFile, $commonPath),
                   $clone->aStartLine,
                   $clone->aStartLine + $clone->size,
-                  str_replace($commonPath, '', $clone->bFile),
+                  $this->getPathWithoutCommonPart($clone->bFile, $commonPath),
                   $clone->bStartLine,
                   $clone->bStartLine + $clone->size
                 );
@@ -108,6 +108,11 @@ class PHPCPD_TextUI_ResultPrinter
           $clones->getNumLines(),
           PHP_Timer::resourceUsage()
         );
+    }
+    
+    protected function getPathWithoutCommonPart($path, $commonPathPart) {
+            $indexOfFirstOccurrence = strpos($path, $commonPathPart);
+            return substr($path, $indexOfFirstOccurrence + strlen($commonPathPart));
     }
 }
 ?>
