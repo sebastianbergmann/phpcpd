@@ -238,6 +238,7 @@ class PHPCPD_TextUI_Command
      */
     protected static function getCommonPath(array $files)
     {
+        $files = array_values($files);
         $count = count($files);
 
         if ($count == 1) {
