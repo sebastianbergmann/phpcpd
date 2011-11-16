@@ -181,8 +181,10 @@ class PHPCPD_TextUI_Command
         $arguments  = $input->getArguments();
         $exclude    = $input->getOption('exclude')->value;
 
-        if (is_array($exclude) && (count($exclude) == 1)) {
-            array_map('trim', explode(',', array_pop($exclude)));
+        if (is_array($exclude) && count($exclude) == 1 &&
+            strpos($exclude[0], ',') !== FALSE) {
+            $exclude = explode(',', $exclude[0]);
+            array_map('trim', $exclude);
         }
 
         $logPmd     = $input->getOption('log-pmd')->value;
