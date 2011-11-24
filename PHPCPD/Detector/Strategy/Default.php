@@ -66,7 +66,6 @@ class PHPCPD_Detector_Strategy_Default extends PHPCPD_Detector_Strategy
     public function processFile($file, $minLines, $minTokens, PHPCPD_CloneMap $result)
     {
         $buffer                = file_get_contents($file);
-        $hashes                = array();
         $currentTokenPositions = array();
         $currentSignature      = '';
         $tokens                = token_get_all($buffer);
@@ -118,7 +117,7 @@ class PHPCPD_Detector_Strategy_Default extends PHPCPD_Detector_Strategy
                   8
                 );
 
-                if (isset($hashes[$hash])) {
+                if (isset($this->hashes[$hash])) {
                     $found = TRUE;
 
                     if ($firstLine === 0) {
@@ -128,8 +127,8 @@ class PHPCPD_Detector_Strategy_Default extends PHPCPD_Detector_Strategy
                     }
                 } else {
                     if ($found) {
-                        $fileA      = $hashes[$firstHash][0];
-                        $firstLineA = $hashes[$firstHash][1];
+                        $fileA      = $this->hashes[$firstHash][0];
+                        $firstLineA = $this->hashes[$firstHash][1];
 
                         if ($line + 1 - $firstLine > $minLines &&
                             ($fileA != $file ||
@@ -150,7 +149,7 @@ class PHPCPD_Detector_Strategy_Default extends PHPCPD_Detector_Strategy
                         $firstLine = 0;
                     }
 
-                    $hashes[$hash] = array($file, $line);
+                    $this->hashes[$hash] = array($file, $line);
                 }
 
                 $tokenNr++;
@@ -158,8 +157,8 @@ class PHPCPD_Detector_Strategy_Default extends PHPCPD_Detector_Strategy
         }
 
         if ($found) {
-            $fileA      = $hashes[$firstHash][0];
-            $firstLineA = $hashes[$firstHash][1];
+            $fileA      = $this->hashes[$firstHash][0];
+            $firstLineA = $this->hashes[$firstHash][1];
 
             if ($line + 1 - $firstLine > $minLines &&
                 ($fileA != $file || $firstLineA != $firstLine)) {

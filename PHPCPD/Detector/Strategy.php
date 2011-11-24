@@ -67,6 +67,11 @@ abstract class PHPCPD_Detector_Strategy
     );
 
     /**
+     * @var string[]
+     */
+    protected $hashes = array();
+
+    /**
      * Copy & Paste Detection (CPD).
      *
      * @param string          $file
