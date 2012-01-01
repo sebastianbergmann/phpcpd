@@ -204,12 +204,21 @@ class PHPCPD_TextUI_Command
 
         if (!empty($arguments)) {
             $facade = new File_Iterator_Facade;
+            // Pre-check before passing buggy $commonPath = true
+            // TODO: revert this back once PEAR #19133 is fixed
+            $files = array();
             $result = $facade->getFilesAsArray(
-              $arguments, $suffixes, array(), $exclude, TRUE
+              $arguments, $suffixes, array(), $exclude, FALSE
             );
 
-            $files      = $result['files'];
-            $commonPath = $result['commonPath'];
+            if ($result) {
+                $result = $facade->getFilesAsArray(
+                  $arguments, $suffixes, array(), $exclude, TRUE
+                );
+
+                $files      = $result['files'];
+                $commonPath = $result['commonPath'];
+            }
 
             unset($result);
         } else {
