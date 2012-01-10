@@ -85,6 +85,9 @@
     <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
     <tasks:replace from="@package_version@" to="version" type="package-info" />
    </file>
+   <file baseinstalldir="/" name="ChangeLog.markdown" role="doc"/>
+   <file baseinstalldir="/" name="LICENSE" role="doc"/>
+   <file baseinstalldir="/" name="README.markdown" role="doc"/>
   </dir>
  </contents>
  <dependencies>
