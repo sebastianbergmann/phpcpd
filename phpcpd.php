@@ -42,6 +42,10 @@
  * @since     File available since Release 1.0.0
  */
 
+// @see https://github.com/sebastianbergmann/phpcpd/issues/18
+ini_set('mbstring.func_overload', 0);
+ini_set('mbstring.internal_encoding', NULL);
+
 if (strpos('@php_bin@', '@php_bin') === 0) {
     set_include_path(dirname(__FILE__) . PATH_SEPARATOR . get_include_path());
 }
