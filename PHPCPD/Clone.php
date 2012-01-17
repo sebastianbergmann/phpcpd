@@ -136,7 +136,9 @@ class PHPCPD_Clone
             $indent = min($indent);
 
             foreach ($lines as &$line) {
-                $line = $prefix . substr($line, $indent);
+                if (strlen($line > 1)) {
+                    $line = $prefix . substr($line, $indent);
+                }
             }
 
             $this->lines = join('', $lines);
