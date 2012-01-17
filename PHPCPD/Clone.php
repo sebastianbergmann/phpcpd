@@ -111,9 +111,10 @@ class PHPCPD_Clone
     /**
      * Returns the lines of the clone.
      *
+     * @param  string $prefix
      * @return string The lines of the clone
      */
-    public function getLines()
+    public function getLines($prefix = '')
     {
         if (empty($this->lines)) {
             $lines = array_slice(
@@ -135,7 +136,7 @@ class PHPCPD_Clone
             $indent = min($indent);
 
             foreach ($lines as &$line) {
-                $line = substr($line, $indent);
+                $line = $prefix . substr($line, $indent);
             }
 
             $this->lines = join('', $lines);
