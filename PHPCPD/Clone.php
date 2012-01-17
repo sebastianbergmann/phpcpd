@@ -122,6 +122,7 @@ class PHPCPD_Clone
 
             foreach ($lines as &$line) {
                 $line = rtrim($line, " \t\0\x0B");
+                $line = str_replace("\t", "    ", $line);
             }
 
             $this->lines = join('', $lines);
