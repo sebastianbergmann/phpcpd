@@ -158,6 +158,14 @@ class PHPCPD_TextUI_Command
            )
         );
 
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
+            'verbose',
+            ezcConsoleInput::TYPE_NONE
+           )
+        );
+
         try {
             $input->process();
         }
@@ -194,6 +202,7 @@ class PHPCPD_TextUI_Command
                         explode(',', $input->getOption('suffixes')->value)
                       );
         $quiet      = $input->getOption('quiet')->value;
+        $verbose    = $input->getOption('verbose')->value;
 
         if ($input->getOption('progress')->value !== FALSE) {
             $output = new ezcConsoleOutput;
@@ -230,7 +239,7 @@ class PHPCPD_TextUI_Command
         );
 
         $printer = new PHPCPD_TextUI_ResultPrinter;
-        $printer->printResult($clones, $commonPath, !$quiet);
+        $printer->printResult($clones, $commonPath, !$quiet, $verbose);
         unset($printer);
 
         if ($logPmd) {
@@ -281,6 +290,7 @@ Usage: phpcpd [switches] <directory|file> ...
 
   --progress               Show progress bar.
   --quiet                  Only print the final summary.
+  --verbose                Print duplicated code.
 
 EOT;
     }

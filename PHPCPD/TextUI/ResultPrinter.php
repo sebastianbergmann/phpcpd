@@ -58,9 +58,10 @@ class PHPCPD_TextUI_ResultPrinter
      *
      * @param PHPCPD_CloneMap $clones
      * @param string          $commonPath
+     * @param bool            $printClones
      * @param bool            $verbose
      */
-    public function printResult(PHPCPD_CloneMap $clones, $commonPath, $verbose)
+    public function printResult(PHPCPD_CloneMap $clones, $commonPath, $printClones, $verbose)
     {
         $numClones = count($clones);
 
@@ -80,7 +81,7 @@ class PHPCPD_TextUI_ResultPrinter
 
                 $lines += $clone->size;
 
-                if($verbose) {
+                if ($printClones) {
                     $buffer .= sprintf(
                       "\n  - %s:%d-%d\n    %s:%d-%d\n",
                       str_replace($commonPath, '', $clone->aFile),
@@ -98,7 +99,7 @@ class PHPCPD_TextUI_ResultPrinter
               $numClones,
               $lines,
               count($files),
-              $verbose ? ":\n".$buffer : ".\n"
+              $printClones ? ":\n".$buffer : ".\n"
             );
         }
 
