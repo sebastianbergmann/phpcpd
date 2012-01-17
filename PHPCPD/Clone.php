@@ -116,10 +116,15 @@ class PHPCPD_Clone
     public function getLines()
     {
         if (empty($this->lines)) {
-            $this->lines = join(
-              '',
-              array_slice(file($this->aFile), $this->aStartLine - 1, $this->size)
+            $lines = array_slice(
+              file($this->aFile), $this->aStartLine - 1, $this->size
             );
+
+            foreach ($lines as &$line) {
+                $line = rtrim($line, " \t\0\x0B");
+            }
+
+            $this->lines = join('', $lines);
         }
 
         return $this->lines;
