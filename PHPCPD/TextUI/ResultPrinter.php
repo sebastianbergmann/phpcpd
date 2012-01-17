@@ -91,6 +91,10 @@ class PHPCPD_TextUI_ResultPrinter
                       $clone->bStartLine,
                       $clone->bStartLine + $clone->size
                     );
+
+                    if ($verbose) {
+                        $buffer .= "\n" . $clone->getLines('      ');
+                    }
                 }
             }
 
