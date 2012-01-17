@@ -120,9 +120,22 @@ class PHPCPD_Clone
               file($this->aFile), $this->aStartLine - 1, $this->size
             );
 
+            $indent = array();
+
             foreach ($lines as &$line) {
-                $line = rtrim($line, " \t\0\x0B");
-                $line = str_replace("\t", "    ", $line);
+                $line    = rtrim($line, " \t\0\x0B");
+                $line    = str_replace("\t", "    ", $line);
+                $_indent = strlen($line) - strlen(ltrim($line));
+
+                if ($_indent > 1) {
+                    $indent[] = $_indent;
+                }
+            }
+
+            $indent = min($indent);
+
+            foreach ($lines as &$line) {
+                $line = substr($line, $indent);
             }
 
             $this->lines = join('', $lines);
