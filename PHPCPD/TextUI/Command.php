@@ -58,8 +58,7 @@ class PHPCPD_TextUI_Command
      */
     public static function main()
     {
-        $input  = new ezcConsoleInput;
-        $output = new ezcConsoleOutput;
+        $input = new ezcConsoleInput;
 
         $input->registerOption(
           new ezcConsoleOption(
@@ -154,7 +153,7 @@ class PHPCPD_TextUI_Command
         $input->registerOption(
           new ezcConsoleOption(
             '',
-            'verbose',
+            'progress',
             ezcConsoleInput::TYPE_NONE
            )
         );
@@ -196,10 +195,10 @@ class PHPCPD_TextUI_Command
                       );
         $quiet      = $input->getOption('quiet')->value;
 
-        if ($input->getOption('verbose')->value !== FALSE) {
-            $verbose = $output;
+        if ($input->getOption('progress')->value !== FALSE) {
+            $output = new ezcConsoleOutput;
         } else {
-            $verbose = NULL;
+            $output = NULL;
         }
 
         if (!empty($arguments)) {
@@ -224,7 +223,7 @@ class PHPCPD_TextUI_Command
         self::printVersionString();
 
         $strategy = new PHPCPD_Detector_Strategy_Default;
-        $detector = new PHPCPD_Detector($strategy, $verbose);
+        $detector = new PHPCPD_Detector($strategy, $output);
 
         $clones = $detector->copyPasteDetection(
           $files, $minLines, $minTokens
@@ -280,8 +279,8 @@ Usage: phpcpd [switches] <directory|file> ...
   --help                   Prints this usage information.
   --version                Prints the version and exits.
 
+  --progress               Show progress bar.
   --quiet                  Only print the final summary.
-  --verbose                Print progress bar.
 
 EOT;
     }
