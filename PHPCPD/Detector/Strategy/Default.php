@@ -153,7 +153,7 @@ class PHPCPD_Detector_Strategy_Default extends PHPCPD_Detector_Strategy
                 }
 
                 $tokenNr++;
-            } while ($tokenNr <= $count - $minTokens + 1);
+            } while ($tokenNr <= count($currentTokenPositions) - 1);
         }
 
         if ($found) {
