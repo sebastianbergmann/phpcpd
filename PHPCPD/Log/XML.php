@@ -106,14 +106,30 @@ abstract class PHPCPD_Log_XML
         $length = strlen($string);
 
         for ($i = 0; $i < $length; $i++) {
-            if      (ord($string[$i]) < 0x80)          $n = 0;
-            elseif ((ord($string[$i]) & 0xE0) == 0xC0) $n = 1;
-            elseif ((ord($string[$i]) & 0xF0) == 0xE0) $n = 2;
-            elseif ((ord($string[$i]) & 0xF0) == 0xF0) $n = 3;
-            else   return FALSE;
+            if (ord($string[$i]) < 0x80) {
+                $n = 0;
+            }
+
+            else if ((ord($string[$i]) & 0xE0) == 0xC0) {
+                $n = 1;
+            }
+
+            else if ((ord($string[$i]) & 0xF0) == 0xE0) {
+                $n = 2;
+            }
+
+            else if ((ord($string[$i]) & 0xF0) == 0xF0) {
+                $n = 3;
+            }
+
+            else {
+                return FALSE;
+            }
 
             for ($j = 0; $j < $n; $j++) {
-                if ((++$i == $length) || ((ord($string[$i]) & 0xC0) != 0x80)) return FALSE;
+                if ((++$i == $length) || ((ord($string[$i]) & 0xC0) != 0x80)) {
+                    return FALSE;
+                }
             }
         }
 

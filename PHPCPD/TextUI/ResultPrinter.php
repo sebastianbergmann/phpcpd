@@ -103,7 +103,7 @@ class PHPCPD_TextUI_ResultPrinter
               $numClones,
               $lines,
               count($files),
-              $printClones ? ":\n".$buffer : ".\n"
+              $printClones ? ":\n" . $buffer : ".\n"
             );
         }
 
