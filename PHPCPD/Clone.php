@@ -135,9 +135,11 @@ class PHPCPD_Clone
 
             $indent = empty($indent) ? 0 : min($indent);
 
-            foreach ($lines as &$line) {
-                if (strlen($line > 1)) {
-                    $line = $prefix . substr($line, $indent);
+            if ($indent > 0) {
+                foreach ($lines as &$line) {
+                    if (strlen($line > 1)) {
+                        $line = $prefix . substr($line, $indent);
+                    }
                 }
             }
 
