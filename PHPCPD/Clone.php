@@ -133,7 +133,7 @@ class PHPCPD_Clone
                 }
             }
 
-            $indent = min($indent);
+            $indent = empty($indent) ? 0 : min($indent);
 
             foreach ($lines as &$line) {
                 if (strlen($line > 1)) {
