@@ -52,4 +52,5 @@ if (strpos('@php_bin@', '@php_bin') === 0) {
 
 require 'PHPCPD/Autoload.php';
 
-PHPCPD_TextUI_Command::main();
+$textui = new PHPCPD_TextUI_Command;
+$textui->main();

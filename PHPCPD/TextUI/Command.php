@@ -56,7 +56,7 @@ class PHPCPD_TextUI_Command
     /**
      * Main method.
      */
-    public static function main()
+    public function main()
     {
         $input = new ezcConsoleInput;
 
@@ -176,33 +176,31 @@ class PHPCPD_TextUI_Command
         }
 
         if ($input->getOption('help')->value) {
-            self::showHelp();
+            $this->showHelp();
             exit(0);
         }
 
         else if ($input->getOption('version')->value) {
-            self::printVersionString();
+            $this->printVersionString();
             exit(0);
         }
 
-        $arguments  = $input->getArguments();
-        $exclude    = $input->getOption('exclude')->value;
+        $arguments = $input->getArguments();
 
-        if (is_array($exclude) && count($exclude) == 1 &&
-            strpos($exclude[0], ',') !== FALSE) {
-            $exclude = explode(',', $exclude[0]);
-            array_map('trim', $exclude);
+        if (empty($arguments)) {
+            $this->showHelp();
+            exit(1);
         }
 
+        $excludes   = $input->getOption('exclude')->value;
         $logPmd     = $input->getOption('log-pmd')->value;
         $minLines   = $input->getOption('min-lines')->value;
         $minTokens  = $input->getOption('min-tokens')->value;
-        $suffixes   = array_map(
-                        'trim',
-                        explode(',', $input->getOption('suffixes')->value)
-                      );
+        $suffixes   = explode(',', $input->getOption('suffixes')->value);
         $quiet      = $input->getOption('quiet')->value;
         $verbose    = $input->getOption('verbose')->value;
+
+        array_map('trim', $suffixes);
 
         if ($input->getOption('progress')->value !== FALSE) {
             $output = new ezcConsoleOutput;
@@ -210,26 +208,13 @@ class PHPCPD_TextUI_Command
             $output = NULL;
         }
 
-        if (!empty($arguments)) {
-            $facade = new File_Iterator_Facade;
-            $result = $facade->getFilesAsArray(
-              $arguments, $suffixes, array(), $exclude, TRUE
-            );
+        $this->printVersionString();
 
-            $files      = $result['files'];
-            $commonPath = $result['commonPath'];
-
-            unset($result);
-        } else {
-            self::showHelp();
-            exit(1);
-        }
+        $files = $this->findFiles($arguments, $excludes, $suffixes);
 
         if (empty($files)) {
-            self::showError("No files found to scan.\n");
+            $this->showError("No files found to scan.\n");
         }
-
-        self::printVersionString();
 
         $strategy = new PHPCPD_Detector_Strategy_Default;
         $detector = new PHPCPD_Detector($strategy, $output);
@@ -258,9 +243,9 @@ class PHPCPD_TextUI_Command
      *
      * @param string $message
      */
-    protected static function showError($message)
+    protected function showError($message)
     {
-        self::printVersionString();
+        $this->printVersionString();
 
         print $message;
 
@@ -270,9 +255,9 @@ class PHPCPD_TextUI_Command
     /**
      * Shows the help.
      */
-    protected static function showHelp()
+    protected function showHelp()
     {
-        self::printVersionString();
+        $this->printVersionString();
 
         print <<<EOT
 Usage: phpcpd [switches] <directory|file> ...
@@ -298,8 +283,46 @@ EOT;
     /**
      * Prints the version string.
      */
-    protected static function printVersionString()
+    protected function printVersionString()
     {
         print "phpcpd @package_version@ by Sebastian Bergmann.\n\n";
+    }
+
+    /**
+     * @param  array $directories
+     * @param  array $excludes
+     * @param  array $suffixes
+     * @return array
+     * @since  Method available since Release 1.4.0
+     */
+    protected function findFiles(array $directories, array $excludes, array $suffixes)
+    {
+        $finder = new Symfony\Component\Finder\Finder;
+
+        try {
+            foreach ($directories as $directory) {
+                $finder->in($directory);
+            }
+
+            foreach ($excludes as $exclude) {
+                $finder->exclude($exclude);
+            }
+
+            foreach ($suffixes as $suffix) {
+                $finder->name('*' . $suffix);
+            }
+        }
+
+        catch (Exception $e) {
+            $this->showError($e->getMessage());
+        }
+
+        $files = array();
+
+        foreach ($finder as $file) {
+            $files[] = $file->getRealpath();
+        }
+
+        return $files;
     }
 }
