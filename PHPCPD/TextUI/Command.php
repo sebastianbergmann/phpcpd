@@ -297,11 +297,18 @@ EOT;
      */
     protected function findFiles(array $directories, array $excludes, array $suffixes)
     {
-        $finder = new Symfony\Component\Finder\Finder;
+        $files   = array();
+        $finder  = new Symfony\Component\Finder\Finder;
+        $iterate = FALSE;
 
         try {
             foreach ($directories as $directory) {
-                $finder->in($directory);
+                if (!is_file($directory)) {
+                    $finder->in($directory);
+                    $iterate = TRUE;
+                } else {
+                    $files[] = realpath($directory);
+                }
             }
 
             foreach ($excludes as $exclude) {
@@ -314,13 +321,14 @@ EOT;
         }
 
         catch (Exception $e) {
-            $this->showError($e->getMessage());
+            $this->showError($e->getMessage() . "\n");
+            exit(1);
         }
 
-        $files = array();
-
-        foreach ($finder as $file) {
-            $files[] = $file->getRealpath();
+        if ($iterate) {
+            foreach ($finder as $file) {
+                $files[] = $file->getRealpath();
+            }
         }
 
         return $files;
