@@ -10,17 +10,17 @@ Installation
 
 Depending on your OS distribution and/or your PHP environment, you may need to install PEAR or update your existing PEAR installation before you can proceed with the following instructions. `sudo pear upgrade PEAR` usually suffices to upgrade an existing PEAR installation. The [PEAR Manual ](http://pear.php.net/manual/en/installation.getting.php) explains how to perform a fresh installation of PEAR.
 
-The following two commands (which you may have to run as `root`) are all that is required to install PHPUnit using the PEAR Installer:
+The following two commands (which you may have to run as `root`) are all that is required to install `phpcpd` using the PEAR Installer:
 
     pear config-set auto_discover 1
-    pear install pear.phpunit.de/hphpa
+    pear install pear.phpunit.de/phpcpd
 
 After the installation you can find the `phpcpd` source files inside your local PEAR directory; the path is usually `/usr/lib/php/PHPCPD`.
 
 Usage Example
 -------------
 
-    ➜  ~  phpcpd /usr/local/src/phpunit/PHPUnit
+    ➜ ~ phpcpd /usr/local/src/phpunit/PHPUnit
     phpcpd 1.4.0 by Sebastian Bergmann.
 
     Found 3 exact clones with 53 duplicated lines in 5 files:
