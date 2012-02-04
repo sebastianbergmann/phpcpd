@@ -224,7 +224,7 @@ class PHPCPD_TextUI_Command
         );
 
         $printer = new PHPCPD_TextUI_ResultPrinter;
-        $printer->printResult($clones, $commonPath, !$quiet, $verbose);
+        $printer->printResult($clones, !$quiet, $verbose);
         unset($printer);
 
         if ($logPmd) {
