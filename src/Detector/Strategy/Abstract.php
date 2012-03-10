@@ -38,32 +38,51 @@
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @since     File available since Release 1.1.0
+ * @since     File available since Release 1.4.0
  */
 
-require_once 'Symfony/Component/Finder/Finder.php';
-require_once 'Symfony/Component/Finder/Glob.php';
-require_once 'Symfony/Component/Finder/Iterator/FileTypeFilterIterator.php';
-require_once 'Symfony/Component/Finder/Iterator/FilenameFilterIterator.php';
-require_once 'Symfony/Component/Finder/Iterator/RecursiveDirectoryIterator.php';
-require_once 'Symfony/Component/Finder/Iterator/ExcludeDirectoryFilterIterator.php';
-require_once 'Symfony/Component/Finder/SplFileInfo.php';
-require_once 'PHP/Timer/Autoload.php';
-require_once 'ezc/Base/base.php';
+namespace SebastianBergmann\PHPCPD\Detector\Strategy
+{
+    use SebastianBergmann\PHPCPD\CodeCloneMap;
 
-spl_autoload_register(
-    function($class) {
-        static $classes = null;
-        if ($classes === null) {
-            $classes = array(
-                ___CLASSLIST___
-            );
-        }
-        $cn = strtolower($class);
-        if (isset($classes[$cn])) {
-            require ___BASEDIR___$classes[$cn];
-        }
+    /**
+     * Abstract base class for strategies to detect code clones.
+     *
+     * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
+     * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
+     * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+     * @version   Release: @package_version@
+     * @link      http://github.com/sebastianbergmann/phpcpd/tree
+     * @since     Class available since Release 1.4.0
+     */
+    abstract class AbstractStrategy
+    {
+        /**
+         * @var integer[] List of tokens to ignore
+         */
+        protected $tokensIgnoreList = array(
+          T_INLINE_HTML => TRUE,
+          T_COMMENT => TRUE,
+          T_DOC_COMMENT => TRUE,
+          T_OPEN_TAG => TRUE,
+          T_OPEN_TAG_WITH_ECHO => TRUE,
+          T_CLOSE_TAG => TRUE,
+          T_WHITESPACE => TRUE
+        );
+
+        /**
+         * @var string[]
+         */
+        protected $hashes = array();
+
+        /**
+         * Copy & Paste Detection (CPD).
+         *
+         * @param string       $file
+         * @param integer      $minLines
+         * @param integer      $minTokens
+         * @param CodeCloneMap $result
+         */
+        abstract public function processFile($file, $minLines, $minTokens, CodeCloneMap $result);
     }
-);
-
-spl_autoload_register(array('ezcBase', 'autoload'));
+}

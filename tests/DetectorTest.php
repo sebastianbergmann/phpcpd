@@ -41,8 +41,15 @@
  * @since     File available since Release 1.0.0
  */
 
+if (!defined('TEST_FILES_PATH')) {
+    define(
+      'TEST_FILES_PATH',
+      dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR
+    );
+}
+
 /**
- * Base class for XML loggers.
+ * Tests for the PHPCPD code analyser.
  *
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
@@ -51,95 +58,68 @@
  * @link      http://github.com/sebastianbergmann/phpcpd/tree
  * @since     Class available since Release 1.0.0
  */
-abstract class PHPCPD_Log_XML
+class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
 {
-    protected $document;
-
     /**
-     * Constructor.
-     *
-     * @param string $filename
+     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
+     * @covers       SebastianBergmann\PHPCPD\CodeClone::getLines
+     * @dataProvider strategyProvider
      */
-    public function __construct($filename)
+    public function testDetectingSimpleClonesWorks($strategy)
     {
-        $this->document = new DOMDocument('1.0', 'UTF-8');
-        $this->document->formatOutput = TRUE;
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
-        $this->filename = $filename;
-    }
+        $clones = $detector->copyPasteDetection(
+          array(TEST_FILES_PATH . 'Math.php')
+        );
 
-    /**
-     * Writes the XML document to the file.
-     */
-    protected function flush()
+        $clones = $clones->getClones();
+
+        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $clones[0]->aFile);
+        $this->assertEquals(86, $clones[0]->aStartLine);
+        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $clones[0]->bFile);
+        $this->assertEquals(150, $clones[0]->bStartLine);
+        $this->assertEquals(28, $clones[0]->size);
+        $this->assertEquals(68, $clones[0]->tokens);
+
+        $this->assertEquals(
+          '    public function div($v1, $v2)
     {
-        file_put_contents($this->filename, $this->document->saveXML());
-    }
-
-    /**
-     * Converts a string to UTF-8 encoding.
-     *
-     * @param  string $string
-     * @return string
-     */
-    protected function convertToUtf8($string)
-    {
-        if (!$this->isUtf8($string)) {
-            if (function_exists('mb_convert_encoding')) {
-                $string = mb_convert_encoding($string, 'UTF-8');
-            } else {
-                $string = utf8_encode($string);
+        $v3 = $v1 / ($v2 + $v1);
+        if ($v3 > 14)
+        {
+            $v4 = 0;
+            for ($i = 0; $i < $v3; $i++)
+            {
+                $v4 += ($v2 * $i);
             }
         }
+        $v5 = ($v4 < $v3 ? ($v3 - $v4) : ($v4 - $v3));
 
-        return $string;
-    }
+        $v6 = ($v1 * $v2 * $v3 * $v4 * $v5);
 
-    /**
-     * Checks a string for UTF-8 encoding.
-     *
-     * @param  string $string
-     * @return boolean
-     */
-    protected function isUtf8($string)
-    {
-        $length = strlen($string);
+        $d = array($v1, $v2, $v3, $v4, $v5, $v6);
 
-        for ($i = 0; $i < $length; $i++) {
-            if (ord($string[$i]) < 0x80) {
-                $n = 0;
-            }
-
-            else if ((ord($string[$i]) & 0xE0) == 0xC0) {
-                $n = 1;
-            }
-
-            else if ((ord($string[$i]) & 0xF0) == 0xE0) {
-                $n = 2;
-            }
-
-            else if ((ord($string[$i]) & 0xF0) == 0xF0) {
-                $n = 3;
-            }
-
-            else {
-                return FALSE;
-            }
-
-            for ($j = 0; $j < $n; $j++) {
-                if ((++$i == $length) || ((ord($string[$i]) & 0xC0) != 0x80)) {
-                    return FALSE;
-                }
-            }
+        $v7 = 1;
+        for ($i = 0; $i < $v6; $i++)
+        {
+            shuffle( $d );
+            $v7 = $v7 + $i * end($d);
         }
 
-        return TRUE;
+        $v8 = $v7;
+        foreach ( $d as $x )
+        {
+            $v8 *= $x;
+',
+          $clones[0]->getLines()
+        );
     }
 
-    /**
-     * Processes a list of clones.
-     *
-     * @param PHPCPD_CloneMap $clones
-     */
-    abstract public function processClones(PHPCPD_CloneMap $clones);
+    public function strategyProvider()
+    {
+        return array(
+          array('SebastianBergmann\\PHPCPD\\Detector\\Strategy\\DefaultStrategy')
+        );
+    }
 }

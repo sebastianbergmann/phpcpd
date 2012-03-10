@@ -3,5 +3,10 @@ build/code-browser
 build/coverage
 build/logs
 build/pdepend
+build/phpdox
+build/SebastianBergmann
+build/phpcpd.bat
+build/phpcpd.php
+build/*.tgz
 cache.properties
 phpunit.xml

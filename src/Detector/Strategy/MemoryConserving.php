@@ -38,41 +38,40 @@
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @since     File available since Release 1.1.0
+ * @since     File available since Release 1.4.0
  */
 
-require_once 'Symfony/Component/Finder/Finder.php';
-require_once 'Symfony/Component/Finder/Glob.php';
-require_once 'Symfony/Component/Finder/Iterator/FileTypeFilterIterator.php';
-require_once 'Symfony/Component/Finder/Iterator/FilenameFilterIterator.php';
-require_once 'Symfony/Component/Finder/Iterator/RecursiveDirectoryIterator.php';
-require_once 'Symfony/Component/Finder/Iterator/ExcludeDirectoryFilterIterator.php';
-require_once 'Symfony/Component/Finder/SplFileInfo.php';
-require_once 'PHP/Timer/Autoload.php';
-require_once 'ezc/Base/base.php';
+namespace SebastianBergmann\PHPCPD\Detector\Strategy
+{
+    use SebastianBergmann\PHPCPD\CodeClone;
+    use SebastianBergmann\PHPCPD\CodeCloneMap;
 
-spl_autoload_register(
-    function($class) {
-        static $classes = null;
-        if ($classes === null) {
-            $classes = array(
-                'phpcpd_clone' => '/Clone.php',
-          'phpcpd_clonemap' => '/CloneMap.php',
-          'phpcpd_detector' => '/Detector.php',
-          'phpcpd_detector_strategy' => '/Detector/Strategy.php',
-          'phpcpd_detector_strategy_default' => '/Detector/Strategy/Default.php',
-          'phpcpd_detector_strategy_savememory' => '/Detector/Strategy/SaveMemory.php',
-          'phpcpd_log_xml' => '/Log/XML.php',
-          'phpcpd_log_xml_pmd' => '/Log/XML/PMD.php',
-          'phpcpd_textui_command' => '/TextUI/Command.php',
-          'phpcpd_textui_resultprinter' => '/TextUI/ResultPrinter.php'
-            );
-        }
-        $cn = strtolower($class);
-        if (isset($classes[$cn])) {
-            require dirname(__FILE__) . $classes[$cn];
+    /**
+     * Default strategy for detecting code clones.
+     *
+     * @author    Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
+     * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
+     * @author    Paul Guhl <paul.guhl@mayflower.de>
+     * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
+     * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+     * @version   Release: @package_version@
+     * @link      http://github.com/sebastianbergmann/phpcpd/tree
+     * @since     Class available since Release 1.4.0
+     */
+    class MemoryConservingStrategy extends AbstractStrategy
+    {
+        /**
+         * Copy & Paste Detection (CPD).
+         *
+         * @param  string       $file
+         * @param  integer      $minLines
+         * @param  integer      $minTokens
+         * @param  CodeCloneMap $result
+         * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
+         * @author Paul Guhl <paul.guhl@mayflower.de>
+         */
+        public function processFile($file, $minLines, $minTokens, CodeCloneMap $result)
+        {
         }
     }
-);
-
-spl_autoload_register(array('ezcBase', 'autoload'));
+}

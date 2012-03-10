@@ -47,10 +47,10 @@ ini_set('mbstring.func_overload', 0);
 ini_set('mbstring.internal_encoding', NULL);
 
 if (strpos('@php_bin@', '@php_bin') === 0) {
-    set_include_path(dirname(__FILE__) . PATH_SEPARATOR . get_include_path());
+    require 'src/autoload.php';
+} else {
+    require 'SebastianBergmann/PHPCPD/autoload.php';
 }
 
-require 'PHPCPD/Autoload.php';
-
-$textui = new PHPCPD_TextUI_Command;
+$textui = new SebastianBergmann\PHPCPD\TextUI\Command;
 $textui->main();

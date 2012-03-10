@@ -38,34 +38,35 @@
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @since     File available since Release 1.4.0
+ * @since     File available since Release 1.1.0
  */
 
-/**
- * Default strategy for detecting code clones.
- *
- * @author    Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
- * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @author    Paul Guhl <paul.guhl@mayflower.de>
- * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version   Release: @package_version@
- * @link      http://github.com/sebastianbergmann/phpcpd/tree
- * @since     Class available since Release 1.4.0
- */
-class PHPCPD_Detector_Strategy_SaveMemory extends PHPCPD_Detector_Strategy
-{
-    /**
-     * Copy & Paste Detection (CPD).
-     *
-     * @param  string          $file
-     * @param  integer         $minLines
-     * @param  integer         $minTokens
-     * @param  PHPCPD_CloneMap $result
-     * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
-     * @author Paul Guhl <paul.guhl@mayflower.de>
-     */
-    public function processFile($file, $minLines, $minTokens, PHPCPD_CloneMap $result)
-    {
+require_once 'SebastianBergmann/FinderFacade/autoload.php';
+require_once 'PHP/Timer/Autoload.php';
+require_once 'ezc/Base/base.php';
+
+spl_autoload_register(
+    function($class) {
+        static $classes = null;
+        if ($classes === null) {
+            $classes = array(
+              'sebastianbergmann\\phpcpd\\codeclone' => '/CodeClone.php',
+              'sebastianbergmann\\phpcpd\\codeclonemap' => '/CodeCloneMap.php',
+              'sebastianbergmann\\phpcpd\\detector\\detector' => '/Detector/Detector.php',
+              'sebastianbergmann\\phpcpd\\detector\\strategy\\abstractstrategy' => '/Detector/Strategy/Abstract.php',
+              'sebastianbergmann\\phpcpd\\detector\\strategy\\defaultstrategy' => '/Detector/Strategy/Default.php',
+              'sebastianbergmann\\phpcpd\\detector\\strategy\\memoryconservingstrategy' => '/Detector/Strategy/MemoryConserving.php',
+              'sebastianbergmann\\phpcpd\\log\\abstractxmllogger' => '/Log/AbstractXmlLogger.php',
+              'sebastianbergmann\\phpcpd\\log\\pmd' => '/Log/PMD.php',
+              'sebastianbergmann\\phpcpd\\textui\\command' => '/TextUI/Command.php',
+              'sebastianbergmann\\phpcpd\\textui\\resultprinter' => '/TextUI/ResultPrinter.php'
+            );
+        }
+        $cn = strtolower($class);
+        if (isset($classes[$cn])) {
+            require __DIR__ . $classes[$cn];
+        }
     }
-}
+);
+
+spl_autoload_register(array('ezcBase', 'autoload'));

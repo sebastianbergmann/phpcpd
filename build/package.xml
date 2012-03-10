@@ -30,50 +30,50 @@
  <notes>http://github.com/sebastianbergmann/phpcpd/tree</notes>
  <contents>
   <dir name="/">
-   <dir name="PHPCPD">
-    <dir name="Detector">
-     <dir name="Strategy">
-      <file baseinstalldir="/" name="Default.php" role="php">
+   <dir name="SebastianBergmann">
+    <dir name="PHPCPD">
+     <dir name="Detector">
+      <dir name="Strategy">
+      <file baseinstalldir="/" name="Abstract.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="SaveMemory.php" role="php">
+       <file baseinstalldir="/" name="Default.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="MemoryConserving.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir>
+      <file baseinstalldir="/" name="Detector.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
      </dir>
-     <file baseinstalldir="/" name="Strategy.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-    </dir>
-    <dir name="Log">
-     <dir name="XML">
+     <dir name="Log">
+      <file baseinstalldir="/" name="AbstractXmlLogger.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
       <file baseinstalldir="/" name="PMD.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
      </dir>
-     <file baseinstalldir="/" name="XML.php" role="php">
+     <dir name="TextUI">
+      <file baseinstalldir="/" name="Command.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="ResultPrinter.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir>
+     <file baseinstalldir="/" name="autoload.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file baseinstalldir="/" name="CodeClone.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file baseinstalldir="/" name="CodeCloneMap.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
      </file>
     </dir>
-    <dir name="TextUI">
-     <file baseinstalldir="/" name="Command.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-     <file baseinstalldir="/" name="ResultPrinter.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-    </dir>
-    <file baseinstalldir="/" name="Autoload.php" role="php">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="Clone.php" role="php">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="CloneMap.php" role="php">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="Detector.php" role="php">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
    </dir>
    <file baseinstalldir="/" name="phpcpd.php" role="script">
     <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config"/>
@@ -99,19 +99,19 @@
     <min>1.9.4</min>
    </pearinstaller>
    <package>
-    <name>Finder</name>
-    <channel>pear.symfony.com</channel>
-    <min>2.0.9</min>
+    <name>ConsoleTools</name>
+    <channel>components.ez.no</channel>
+    <min>1.6</min>
+   </package>
+   <package>
+    <name>FinderFacade</name>
+    <channel>pear.phpunit.de</channel>
+    <min>1.0.1</min>
    </package>
    <package>
     <name>PHP_Timer</name>
     <channel>pear.phpunit.de</channel>
     <min>1.0.2</min>
-   </package>
-   <package>
-    <name>ConsoleTools</name>
-    <channel>components.ez.no</channel>
-    <min>1.6</min>
    </package>
    <extension>
     <name>tokenizer</name>
