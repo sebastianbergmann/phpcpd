@@ -47,7 +47,7 @@ ini_set('mbstring.func_overload', 0);
 ini_set('mbstring.internal_encoding', NULL);
 
 if (strpos('@php_bin@', '@php_bin') === 0) {
-    require 'src/autoload.php';
+    require __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'autoload.php';
 } else {
     require 'SebastianBergmann/PHPCPD/autoload.php';
 }
