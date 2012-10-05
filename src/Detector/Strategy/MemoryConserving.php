@@ -54,7 +54,6 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
      * @author    Paul Guhl <paul.guhl@mayflower.de>
      * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
      * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
-     * @version   Release: @package_version@
      * @link      http://github.com/sebastianbergmann/phpcpd/tree
      * @since     Class available since Release 1.4.0
      */

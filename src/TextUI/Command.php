@@ -47,6 +47,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
     use SebastianBergmann\PHPCPD\Detector\Detector;
     use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
     use SebastianBergmann\PHPCPD\Log\PMD;
+    use SebastianBergmann\PHPCPD\Version;
 
     /**
      * TextUI frontend for PHPCPD.
@@ -54,7 +55,6 @@ namespace SebastianBergmann\PHPCPD\TextUI
      * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
      * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
      * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
-     * @version   Release: @package_version@
      * @link      http://github.com/sebastianbergmann/phpcpd/tree
      * @since     Class available since Release 1.0.0
      */
@@ -294,7 +294,9 @@ EOT;
          */
         protected function printVersionString()
         {
-            print "phpcpd @package_version@ by Sebastian Bergmann.\n\n";
+            printf(
+              "phpcpd %s by Sebastian Bergmann.\n\n", Version::id()
+            );
         }
     }
 }

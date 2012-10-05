@@ -59,7 +59,8 @@ spl_autoload_register(
               'sebastianbergmann\\phpcpd\\log\\abstractxmllogger' => '/Log/AbstractXmlLogger.php',
               'sebastianbergmann\\phpcpd\\log\\pmd' => '/Log/PMD.php',
               'sebastianbergmann\\phpcpd\\textui\\command' => '/TextUI/Command.php',
-              'sebastianbergmann\\phpcpd\\textui\\resultprinter' => '/TextUI/ResultPrinter.php'
+              'sebastianbergmann\\phpcpd\\textui\\resultprinter' => '/TextUI/ResultPrinter.php',
+              'sebastianbergmann\\phpcpd\\version' => '/Version.php'
             );
         }
         $cn = strtolower($class);

@@ -34,56 +34,33 @@
     <dir name="PHPCPD">
      <dir name="Detector">
       <dir name="Strategy">
-      <file baseinstalldir="/" name="Abstract.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-       <file baseinstalldir="/" name="Default.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="MemoryConserving.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
+      <file baseinstalldir="/" name="Abstract.php" role="php" />
+       <file baseinstalldir="/" name="Default.php" role="php" />
+       <file baseinstalldir="/" name="MemoryConserving.php" role="php" />
       </dir>
-      <file baseinstalldir="/" name="Detector.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
+      <file baseinstalldir="/" name="Detector.php" role="php" />
      </dir>
      <dir name="Log">
-      <file baseinstalldir="/" name="AbstractXmlLogger.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PMD.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
+      <file baseinstalldir="/" name="AbstractXmlLogger.php" role="php" />
+      <file baseinstalldir="/" name="PMD.php" role="php" />
      </dir>
      <dir name="TextUI">
-      <file baseinstalldir="/" name="Command.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="ResultPrinter.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
+      <file baseinstalldir="/" name="Command.php" role="php" />
+      <file baseinstalldir="/" name="ResultPrinter.php" role="php" />
      </dir>
-     <file baseinstalldir="/" name="autoload.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-     <file baseinstalldir="/" name="CodeClone.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-     <file baseinstalldir="/" name="CodeCloneMap.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
+     <file baseinstalldir="/" name="autoload.php" role="php" />
+     <file baseinstalldir="/" name="CodeClone.php" role="php" />
+     <file baseinstalldir="/" name="CodeCloneMap.php" role="php" />
+     <file baseinstalldir="/" name="Version.php" role="php" />
     </dir>
    </dir>
    <file baseinstalldir="/" name="phpcpd.php" role="script">
     <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config"/>
     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
-    <tasks:replace from="@package_version@" to="version" type="package-info" />
    </file>
    <file baseinstalldir="/" name="phpcpd.bat" role="script">
     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
     <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
-    <tasks:replace from="@package_version@" to="version" type="package-info" />
    </file>
    <file baseinstalldir="/" name="ChangeLog.markdown" role="doc"/>
    <file baseinstalldir="/" name="LICENSE" role="doc"/>

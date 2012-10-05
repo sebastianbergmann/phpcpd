@@ -38,84 +38,50 @@
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.0.0
+ * @since     File available since Release 1.4.0
  */
 
-namespace SebastianBergmann\PHPCPD\TextUI
+namespace SebastianBergmann\PHPCPD
 {
-    use SebastianBergmann\PHPCPD\CodeCloneMap;
-
     /**
-     * A ResultPrinter for the TextUI.
-     *
      * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
      * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
      * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
      * @link      http://github.com/sebastianbergmann/phpcpd/tree
-     * @since     Class available since Release 1.0.0
+     * @since     Class available since Release 1.4.0
      */
-    class ResultPrinter
+    class Version
     {
+        const VERSION = '1.4';
+        protected static $version;
+
         /**
-         * Prints a result set from Detector::copyPasteDetection().
-         *
-         * @param CodeCloneMap $clones
-         * @param bool         $printClones
-         * @param bool         $verbose
+         * @return string
          */
-        public function printResult(CodeCloneMap $clones, $printClones, $verbose)
+        public static function id()
         {
-            $numClones = count($clones);
+            if (self::$version === NULL) {
+                self::$version = self::VERSION;
 
-            if ($numClones > 0) {
-                $buffer = '';
-                $files  = array();
-                $lines  = 0;
+                if (is_dir(dirname(__DIR__) . '/.git')) {
+                    $dir = getcwd();
+                    chdir(__DIR__);
+                    $version = exec('git describe --tags');
+                    chdir($dir);
 
-                foreach ($clones as $clone) {
-                    if (!isset($files[$clone->aFile])) {
-                        $files[$clone->aFile] = TRUE;
-                    }
+                    if ($version) {
+                        if (count(explode('.', self::VERSION)) == 3) {
+                            self::$version = $version;
+                        } else {
+                            $version = explode('-', $version);
 
-                    if (!isset($files[$clone->bFile])) {
-                        $files[$clone->bFile] = TRUE;
-                    }
-
-                    $lines += $clone->size;
-
-                    if ($printClones) {
-                        $buffer .= sprintf(
-                          "\n  - %s:%d-%d\n    %s:%d-%d\n",
-                          $clone->aFile,
-                          $clone->aStartLine,
-                          $clone->aStartLine + $clone->size,
-                          $clone->bFile,
-                          $clone->bStartLine,
-                          $clone->bStartLine + $clone->size
-                        );
-
-                        if ($verbose) {
-                            $buffer .= "\n" . $clone->getLines('      ');
+                            self::$version = self::VERSION . '-' . $version[2];
                         }
                     }
                 }
-
-                printf(
-                  "Found %d exact clones with %d duplicated lines in %d files%s",
-                  $numClones,
-                  $lines,
-                  count($files),
-                  $printClones ? ":\n" . $buffer : ".\n"
-                );
             }
 
-            printf(
-              "%s%s duplicated lines out of %d total lines of code.\n\n%s\n",
-              $numClones > 0 ? "\n" : '',
-              $clones->getPercentage(),
-              $clones->getNumLines(),
-              \PHP_Timer::resourceUsage()
-            );
+            return self::$version;
         }
     }
 }
