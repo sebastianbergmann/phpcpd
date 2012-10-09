@@ -1,24 +1,26 @@
-phpcpd
-======
+# PHP Copy/Paste Detector (PHPCPD)
 
-**phpcpd** is a Copy/Paste Detector (CPD) for PHP code.
+`phpcpd` is a Copy/Paste Detector (CPD) for PHP code.
 
-Installation
-------------
+## Installation
 
-`phpcpd` should be installed using the PEAR Installer, the backbone of the [PHP Extension and Application Repository](http://pear.php.net/) that provides a distribution system for PHP packages.
+There a two supported ways of installing PHPUnit.
 
-Depending on your OS distribution and/or your PHP environment, you may need to install PEAR or update your existing PEAR installation before you can proceed with the following instructions. `sudo pear upgrade PEAR` usually suffices to upgrade an existing PEAR installation. The [PEAR Manual ](http://pear.php.net/manual/en/installation.getting.php) explains how to perform a fresh installation of PEAR.
+You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) to download and install PHPCPD as well as its dependencies. You can also download a [PHP Archive (PHAR)](http://php.net/phar) of PHPCPD that has all required dependencies of PHPCPD bundled in a single file.
 
-The following two commands (which you may have to run as `root`) are all that is required to install `phpcpd` using the PEAR Installer:
+### PEAR Installer
+
+The following two commands (which you may have to run as `root`) are all that is required to install PHPCPD using the PEAR Installer:
 
     pear config-set auto_discover 1
     pear install pear.phpunit.de/phpcpd
 
-After the installation you can find the `phpcpd` source files inside your local PEAR directory; the path is usually `/usr/lib/php/SebastianBergmann/PHPCPD`.
+### PHP Archive (PHAR)
 
-Usage Example
--------------
+    wget http://pear.phpunit.de/get/phpcpd.phar
+    chmod +x phpcpd.phar
+
+## Usage Example
 
     ➜ ~ phpcpd /usr/local/src/phpunit/PHPUnit
     phpcpd 1.4.0 by Sebastian Bergmann.
