@@ -17,7 +17,7 @@
   <email>sb@sebastian-bergmann.de</email>
   <active>yes</active>
  </lead>
- <date>2012-MM-DD</date>
+ <date>2012-10-09</date>
  <version>
   <release>1.4.0</release>
   <api>1.4.0</api>
@@ -36,7 +36,6 @@
       <dir name="Strategy">
       <file baseinstalldir="/" name="Abstract.php" role="php" />
        <file baseinstalldir="/" name="Default.php" role="php" />
-       <file baseinstalldir="/" name="MemoryConserving.php" role="php" />
       </dir>
       <file baseinstalldir="/" name="Detector.php" role="php" />
      </dir>
@@ -83,12 +82,12 @@
    <package>
     <name>FinderFacade</name>
     <channel>pear.phpunit.de</channel>
-    <min>1.0.1</min>
+    <min>1.0.4</min>
    </package>
    <package>
     <name>PHP_Timer</name>
     <channel>pear.phpunit.de</channel>
-    <min>1.0.2</min>
+    <min>1.0.4</min>
    </package>
    <extension>
     <name>tokenizer</name>
