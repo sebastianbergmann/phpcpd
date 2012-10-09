@@ -4,7 +4,7 @@
 
 ## Installation
 
-There a two supported ways of installing PHPUnit.
+There a two supported ways of installing PHPCPD.
 
 You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) to download and install PHPCPD as well as its dependencies. You can also download a [PHP Archive (PHAR)](http://php.net/phar) of PHPCPD that has all required dependencies of PHPCPD bundled in a single file.
 
