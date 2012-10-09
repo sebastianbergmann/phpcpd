@@ -35,7 +35,7 @@
      <dir name="Detector">
       <dir name="Strategy">
       <file baseinstalldir="/" name="Abstract.php" role="php" />
-       <file baseinstalldir="/" name="Default.php" role="php" />
+      <file baseinstalldir="/" name="Default.php" role="php" />
       </dir>
       <file baseinstalldir="/" name="Detector.php" role="php" />
      </dir>
