@@ -75,9 +75,9 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $clones = $clones->getClones();
 
         $this->assertEquals(TEST_FILES_PATH . 'Math.php', $clones[0]->aFile);
-        $this->assertEquals(86, $clones[0]->aStartLine);
+        $this->assertEquals(85, $clones[0]->aStartLine);
         $this->assertEquals(TEST_FILES_PATH . 'Math.php', $clones[0]->bFile);
-        $this->assertEquals(150, $clones[0]->bStartLine);
+        $this->assertEquals(149, $clones[0]->bStartLine);
         $this->assertEquals(28, $clones[0]->size);
         $this->assertEquals(68, $clones[0]->tokens);
 
