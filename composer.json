@@ -22,6 +22,7 @@
         "symfony/finder": ">=2.1.2",
         "theseer/fdomdocument": "dev-master"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "classmap": [
             "src/"
