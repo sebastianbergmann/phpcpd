@@ -58,12 +58,14 @@ namespace SebastianBergmann\PHPCPD\Log
     {
         protected $document;
 
+        protected $xml;
+
         /**
          * Constructor.
          *
          * @param string $filename
          */
-        public function __construct($filename)
+        public function __construct($filename = null)
         {
             $this->document = new \DOMDocument('1.0', 'UTF-8');
             $this->document->formatOutput = TRUE;
@@ -72,11 +74,23 @@ namespace SebastianBergmann\PHPCPD\Log
         }
 
         /**
-         * Writes the XML document to the file.
+         * Writes the XML document to the file or catches document content
          */
         protected function flush()
         {
-            file_put_contents($this->filename, $this->document->saveXML());
+            if ($this->filename) {
+                file_put_contents($this->filename, $this->document->saveXML());
+            } else {
+                $this->xml = $this->document->saveXML();
+            }
+        }
+
+        /**
+         * Get XML content if no save file was given.
+         */
+        public function getXML()
+        {
+            return $this->xml;
         }
 
         /**

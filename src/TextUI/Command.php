@@ -105,6 +105,16 @@ namespace SebastianBergmann\PHPCPD\TextUI
             $input->registerOption(
               new \ezcConsoleOption(
                 '',
+                'xml-out',
+                \ezcConsoleInput::TYPE_NONE,
+                NULL,
+                FALSE
+               )
+            );
+
+            $input->registerOption(
+              new \ezcConsoleOption(
+                '',
                 'min-lines',
                 \ezcConsoleInput::TYPE_INT,
                 5
@@ -201,6 +211,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
 
             $excludes   = $input->getOption('exclude')->value;
             $logPmd     = $input->getOption('log-pmd')->value;
+            $xmlOut     = $input->getOption('xml-out')->value;
             $minLines   = $input->getOption('min-lines')->value;
             $minTokens  = $input->getOption('min-tokens')->value;
             $names      = explode(',', $input->getOption('names')->value);
@@ -215,7 +226,9 @@ namespace SebastianBergmann\PHPCPD\TextUI
                 $output = NULL;
             }
 
-            $this->printVersionString();
+            if (!$xmlOut) {
+                $this->printVersionString();
+            }
 
             $finder = new FinderFacade($arguments, $excludes, $names);
             $files  = $finder->findFiles();
@@ -231,14 +244,24 @@ namespace SebastianBergmann\PHPCPD\TextUI
               $files, $minLines, $minTokens
             );
 
-            $printer = new ResultPrinter;
-            $printer->printResult($clones, !$quiet, $verbose);
-            unset($printer);
+            if (!$xmlOut) {
+                $printer = new ResultPrinter;
+                $printer->printResult($clones, !$quiet, $verbose);
+                unset($printer);
+            }
 
             if ($logPmd) {
                 $pmd = new PMD($logPmd);
                 $pmd->processClones($clones);
                 unset($pmd);
+            }
+
+            if ($xmlOut) {
+                $pmdxml = new PMD();
+                $pmdxml->processClones($clones);
+                print $pmdxml->getXML();
+                unset($pmdxml);
+                exit(0);
             }
 
             if (count($clones) > 0) {
@@ -271,6 +294,8 @@ namespace SebastianBergmann\PHPCPD\TextUI
 Usage: phpcpd [switches] <directory|file> ...
 
   --log-pmd <file>         Write report in PMD-CPD XML format to file.
+
+  --xml-out                Write report in PMD-CPD XML format to stdout.
 
   --min-lines <N>          Minimum number of identical lines (default: 5).
   --min-tokens <N>         Minimum number of identical tokens (default: 70).
