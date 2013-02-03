@@ -1,0 +1,34 @@
+{
+    "name": "sebastian/phpcpd",
+    "description": "Copy/Paste Detector (CPD) for PHP code.",
+    "homepage": "https://github.com/sebastianbergmann/phploc",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/phpcpd/issues"
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "zetacomponents/base": ">=1.8",
+        "zetacomponents/console-tools": ">=1.6",
+        "sebastian/finder-facade": "dev-master",
+        "phpunit/php-timer": ">=1.0.4",
+        "symfony/finder": ">=2.1.2",
+        "theseer/fdomdocument": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "bin": [
+        "phpcpd.php"
+    ]
+}
