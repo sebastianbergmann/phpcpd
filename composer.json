@@ -29,6 +29,6 @@
         ]
     },
     "bin": [
-        "phpcpd.php"
+        "composer/bin/phpcpd"
     ]
 }
