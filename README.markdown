@@ -12,8 +12,18 @@ You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.comma
 
 The following two commands (which you may have to run as `root`) are all that is required to install PHPCPD using the PEAR Installer:
 
-    pear config-set auto_discover 1
-    pear install pear.phpunit.de/phpcpd
+```sh
+pear config-set auto_discover 1
+pear install pear.phpunit.de/phpcpd
+```
+
+### Composer Installer
+
+Installation can be run via [composer](https://getcomposer.org/):
+
+```sh
+php composer.phar require sebastian/phpcpd
+```
 
 ### PHP Archive (PHAR)
 
