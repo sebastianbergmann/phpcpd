@@ -42,6 +42,7 @@
  */
 
 require_once 'SebastianBergmann/FinderFacade/autoload.php';
+require_once 'SebastianBergmann/Version/autoload.php';
 require_once 'PHP/Timer/Autoload.php';
 require_once 'ezc/Base/base.php';
 
@@ -58,8 +59,7 @@ spl_autoload_register(
               'sebastianbergmann\\phpcpd\\log\\abstractxmllogger' => '/Log/AbstractXmlLogger.php',
               'sebastianbergmann\\phpcpd\\log\\pmd' => '/Log/PMD.php',
               'sebastianbergmann\\phpcpd\\textui\\command' => '/TextUI/Command.php',
-              'sebastianbergmann\\phpcpd\\textui\\resultprinter' => '/TextUI/ResultPrinter.php',
-              'sebastianbergmann\\phpcpd\\version' => '/Version.php'
+              'sebastianbergmann\\phpcpd\\textui\\resultprinter' => '/TextUI/ResultPrinter.php'
             );
         }
         $cn = strtolower($class);

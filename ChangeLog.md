@@ -3,6 +3,11 @@ phpcpd
 
 This is the list of changes for the phpcpd 1.4 release series.
 
+phpcpd 1.4.1
+------------
+
+* The [Version](http://github.com/sebastianbergmann/version) component is now used to manage the version number.
+
 phpcpd 1.4.0
 ------------
 

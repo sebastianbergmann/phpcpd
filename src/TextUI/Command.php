@@ -44,10 +44,10 @@
 namespace SebastianBergmann\PHPCPD\TextUI
 {
     use SebastianBergmann\FinderFacade\FinderFacade;
+    use SebastianBergmann\Version;
     use SebastianBergmann\PHPCPD\Detector\Detector;
     use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
     use SebastianBergmann\PHPCPD\Log\PMD;
-    use SebastianBergmann\PHPCPD\Version;
 
     /**
      * TextUI frontend for PHPCPD.
@@ -60,6 +60,14 @@ namespace SebastianBergmann\PHPCPD\TextUI
      */
     class Command
     {
+        private $version;
+
+        public function __construct()
+        {
+            $version = new Version('1.4.1', __DIR__);
+            $this->version = $version->getVersion();
+        }
+
         /**
          * Main method.
          */
@@ -295,7 +303,7 @@ EOT;
         protected function printVersionString()
         {
             printf(
-              "phpcpd %s by Sebastian Bergmann.\n\n", Version::id()
+              "phpcpd %s by Sebastian Bergmann.\n\n", $this->version
             );
         }
     }
