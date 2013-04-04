@@ -4,26 +4,26 @@
 
 ## Installation
 
-There a two supported ways of installing PHPCPD.
+There are three supported ways of installing PHPCPD.
 
-You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) to download and install PHPCPD as well as its dependencies. You can also download a [PHP Archive (PHAR)](http://php.net/phar) of PHPCPD that has all required dependencies of PHPCPD bundled in a single file.
+You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) or [Composer](http://getcomposer.org/) to download and install PHPUnit as well as its dependencies. You can also download a [PHP Archive (PHAR)](http://php.net/phar) of PHPUnit that has all required (as well as some optional) dependencies of PHPUnit bundled in a single file.
 
 ### PEAR Installer
 
 The following two commands (which you may have to run as `root`) are all that is required to install PHPCPD using the PEAR Installer:
 
-```sh
-pear config-set auto_discover 1
-pear install pear.phpunit.de/phpcpd
-```
+    pear config-set auto_discover 1
+    pear install pear.phpunit.de/phpcpd
 
-### Composer Installer
+### Composer
 
-Installation can be run via [composer](https://getcomposer.org/):
+To add PHPCPD as a local, per-project dependency to your project, simply add a dependency on `sebastian/phpcpd` to your project's `composer.json` file. Here is a minimal example of a `composer.json` file that just defines a development-time dependency on PHPCPD 1.4:
 
-```sh
-php composer.phar require sebastian/phpcpd
-```
+    {
+        "require-dev": {
+            "sebastian/phpcpd": "1.4.*"
+        }
+    }
 
 ### PHP Archive (PHAR)
 
@@ -33,7 +33,7 @@ php composer.phar require sebastian/phpcpd
 ## Usage Example
 
     ➜ ~ phpcpd /usr/local/src/phpunit/PHPUnit
-    phpcpd 1.4.0 by Sebastian Bergmann.
+    phpcpd 1.4.1 by Sebastian Bergmann.
 
     Found 3 exact clones with 53 duplicated lines in 5 files:
 
