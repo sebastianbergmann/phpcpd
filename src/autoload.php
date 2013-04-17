@@ -41,10 +41,7 @@
  * @since     File available since Release 1.1.0
  */
 
-require_once 'SebastianBergmann/FinderFacade/autoload.php';
-require_once 'SebastianBergmann/Version/autoload.php';
-require_once 'PHP/Timer/Autoload.php';
-require_once 'ezc/Base/base.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 spl_autoload_register(
     function($class) {
