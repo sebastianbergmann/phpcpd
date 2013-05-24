@@ -141,6 +141,17 @@ namespace SebastianBergmann\PHPCPD\TextUI
             $input->registerOption(
               new \ezcConsoleOption(
                 '',
+                'excluded_names',
+                \ezcConsoleInput::TYPE_STRING,
+                '',
+                FALSE
+               )
+            );
+
+
+            $input->registerOption(
+              new \ezcConsoleOption(
+                '',
                 'quiet',
                 \ezcConsoleInput::TYPE_NONE,
                 NULL,
@@ -212,6 +223,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
             $minLines   = $input->getOption('min-lines')->value;
             $minTokens  = $input->getOption('min-tokens')->value;
             $names      = explode(',', $input->getOption('names')->value);
+            $excluded_names = explode(',', $input->getOption('excluded_names')->value);
             $quiet      = $input->getOption('quiet')->value;
             $verbose    = $input->getOption('verbose')->value;
 
@@ -225,7 +237,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
 
             $this->printVersionString();
 
-            $finder = new FinderFacade($arguments, $excludes, $names);
+            $finder = new FinderFacade($arguments, $excludes, $names, $excluded_names);
             $files  = $finder->findFiles();
 
             if (empty($files)) {
@@ -286,6 +298,8 @@ Usage: phpcpd [switches] <directory|file> ...
   --exclude <dir>          Exclude <dir> from code analysis.
   --names <names>          A comma-separated list of file names to check.
                            (default: *.php)
+
+  --excluded_names <names> A comma-separated list of file names to exclude from check.
 
   --help                   Prints this usage information.
   --version                Prints the version and exits.
