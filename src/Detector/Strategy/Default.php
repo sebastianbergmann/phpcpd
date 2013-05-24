@@ -106,7 +106,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
             $tokenNr   = 0;
 
             if ($count > 0) {
-                do {
+                while ($tokenNr <= count($currentTokenPositions) - $minTokens) {
                     $line = $currentTokenPositions[$tokenNr];
 
                     $hash = substr(
@@ -134,7 +134,10 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                             $fileA      = $this->hashes[$firstHash][0];
                             $firstLineA = $this->hashes[$firstHash][1];
 
-                            if ($line + 1 - $firstLine > $minLines &&
+	                        $lastToken = ($tokenNr - 1) + $minTokens - 1;
+	                        $lastLine  = $currentTokenPositions[$lastToken];
+
+                            if ($lastLine + 1 - $firstLine >= $minLines &&
                                 ($fileA != $file ||
                                  $firstLineA != $firstLine)) {
                                 $result->addClone(
@@ -143,8 +146,8 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                                     $firstLineA,
                                     $file,
                                     $firstLine,
-                                    $line + 1 - $firstLine,
-                                    $tokenNr + 1 - $firstToken
+                                    $lastLine + 1 - $firstLine,
+                                    $lastToken + 1 - $firstToken
                                   )
                                 );
                             }
@@ -157,14 +160,17 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                     }
 
                     $tokenNr++;
-                } while ($tokenNr <= count($currentTokenPositions) - 1);
+                }
             }
 
             if ($found) {
                 $fileA      = $this->hashes[$firstHash][0];
                 $firstLineA = $this->hashes[$firstHash][1];
 
-                if ($line + 1 - $firstLine > $minLines &&
+                $lastToken = ($tokenNr - 1) + $minTokens - 1;
+                $lastLine  = $currentTokenPositions[$lastToken];
+
+                if ($lastLine + 1 - $firstLine >= $minLines &&
                     ($fileA != $file || $firstLineA != $firstLine)) {
                     $result->addClone(
                       new CodeClone(
@@ -172,8 +178,8 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                         $firstLineA,
                         $file,
                         $firstLine,
-                        $line + 1 - $firstLine,
-                        $tokenNr + 1 - $firstToken
+                        $lastLine + 1 - $firstLine,
+                        $lastToken + 1 - $firstToken
                       )
                     );
                 }
