@@ -135,8 +135,9 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
 
                         $lastToken = ($tokenNr - 1) + $minTokens - 1;
                         $lastLine  = $currentTokenPositions[$lastToken];
+	                    $numLines  = $lastLine + 1 - $firstLine;
 
-                        if ($lastLine + 1 - $firstLine >= $minLines &&
+                        if ($numLines >= $minLines &&
                             ($fileA != $file ||
                              $firstLineA != $firstLine)) {
                             $result->addClone(
@@ -145,7 +146,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                                 $firstLineA,
                                 $file,
                                 $firstLine,
-                                $lastLine + 1 - $firstLine,
+                                $numLines,
                                 $lastToken + 1 - $firstToken
                               )
                             );
@@ -167,8 +168,9 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
 
                 $lastToken = ($tokenNr - 1) + $minTokens - 1;
                 $lastLine  = $currentTokenPositions[$lastToken];
+	            $numLines  = $lastLine + 1 - $firstLine;
 
-                if ($lastLine + 1 - $firstLine >= $minLines &&
+                if ($numLines >= $minLines &&
                     ($fileA != $file || $firstLineA != $firstLine)) {
                     $result->addClone(
                       new CodeClone(
@@ -176,7 +178,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                         $firstLineA,
                         $file,
                         $firstLine,
-                        $lastLine + 1 - $firstLine,
+                        $numLines,
                         $lastToken + 1 - $firstToken
                       )
                     );
