@@ -146,6 +146,66 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
+     * @dataProvider strategyProvider
+     */
+    public function testDetectingExactDuplicateFilesWorks($strategy)
+    {
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+
+        $clones = $detector->copyPasteDetection(array(
+          TEST_FILES_PATH . 'a.php',
+          TEST_FILES_PATH . 'b.php'
+        ), 20, 60);
+
+	    $clones = $clones->getClones();
+
+	    $this->assertCount(1, $clones);
+        $this->assertEquals(TEST_FILES_PATH . 'a.php', $clones[0]->aFile);
+        $this->assertEquals(4, $clones[0]->aStartLine);
+        $this->assertEquals(TEST_FILES_PATH . 'b.php', $clones[0]->bFile);
+        $this->assertEquals(4, $clones[0]->bStartLine);
+        $this->assertEquals(20, $clones[0]->size);
+        $this->assertEquals(60, $clones[0]->tokens);
+    }
+
+    /**
+     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
+     * @dataProvider strategyProvider
+     */
+    public function testClonesAreIgnoredIfTheySpanLessTokensThanMinTokens($strategy)
+    {
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+
+        $clones = $detector->copyPasteDetection(array(
+          TEST_FILES_PATH . 'a.php',
+          TEST_FILES_PATH . 'b.php'
+        ), 20, 61);
+
+	    $clones = $clones->getClones();
+
+	    $this->assertCount(0, $clones);
+    }
+
+    /**
+     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
+     * @dataProvider strategyProvider
+     */
+    public function testClonesAreIgnoredIfTheySpanLessLinesThanMinLines($strategy)
+    {
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+
+        $clones = $detector->copyPasteDetection(array(
+          TEST_FILES_PATH . 'a.php',
+          TEST_FILES_PATH . 'b.php'
+        ), 21, 60);
+
+	    $clones = $clones->getClones();
+
+	    $this->assertCount(0, $clones);
+    }
+
     public function strategyProvider()
     {
         return array(
