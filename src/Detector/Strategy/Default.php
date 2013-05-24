@@ -105,62 +105,60 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
             $found     = FALSE;
             $tokenNr   = 0;
 
-            if ($count > 0) {
-                while ($tokenNr <= count($currentTokenPositions) - $minTokens) {
-                    $line = $currentTokenPositions[$tokenNr];
+            while ($tokenNr <= $count - $minTokens) {
+                $line = $currentTokenPositions[$tokenNr];
 
-                    $hash = substr(
-                      md5(
-                        substr(
-                          $currentSignature, $tokenNr * 5,
-                          $minTokens * 5
-                        ),
-                        TRUE
-                      ),
-                      0,
-                      8
-                    );
+                $hash = substr(
+                  md5(
+                    substr(
+                      $currentSignature, $tokenNr * 5,
+                      $minTokens * 5
+                    ),
+                    TRUE
+                  ),
+                  0,
+                  8
+                );
 
-                    if (isset($this->hashes[$hash])) {
-                        $found = TRUE;
+                if (isset($this->hashes[$hash])) {
+                    $found = TRUE;
 
-                        if ($firstLine === 0) {
-                            $firstLine  = $line;
-                            $firstHash  = $hash;
-                            $firstToken = $tokenNr;
-                        }
-                    } else {
-                        if ($found) {
-                            $fileA      = $this->hashes[$firstHash][0];
-                            $firstLineA = $this->hashes[$firstHash][1];
+                    if ($firstLine === 0) {
+                        $firstLine  = $line;
+                        $firstHash  = $hash;
+                        $firstToken = $tokenNr;
+                    }
+                } else {
+                    if ($found) {
+                        $fileA      = $this->hashes[$firstHash][0];
+                        $firstLineA = $this->hashes[$firstHash][1];
 
-	                        $lastToken = ($tokenNr - 1) + $minTokens - 1;
-	                        $lastLine  = $currentTokenPositions[$lastToken];
+                        $lastToken = ($tokenNr - 1) + $minTokens - 1;
+                        $lastLine  = $currentTokenPositions[$lastToken];
 
-                            if ($lastLine + 1 - $firstLine >= $minLines &&
-                                ($fileA != $file ||
-                                 $firstLineA != $firstLine)) {
-                                $result->addClone(
-                                  new CodeClone(
-                                    $fileA,
-                                    $firstLineA,
-                                    $file,
-                                    $firstLine,
-                                    $lastLine + 1 - $firstLine,
-                                    $lastToken + 1 - $firstToken
-                                  )
-                                );
-                            }
-
-                            $found     = FALSE;
-                            $firstLine = 0;
+                        if ($lastLine + 1 - $firstLine >= $minLines &&
+                            ($fileA != $file ||
+                             $firstLineA != $firstLine)) {
+                            $result->addClone(
+                              new CodeClone(
+                                $fileA,
+                                $firstLineA,
+                                $file,
+                                $firstLine,
+                                $lastLine + 1 - $firstLine,
+                                $lastToken + 1 - $firstToken
+                              )
+                            );
                         }
 
-                        $this->hashes[$hash] = array($file, $line);
+                        $found     = FALSE;
+                        $firstLine = 0;
                     }
 
-                    $tokenNr++;
+                    $this->hashes[$hash] = array($file, $line);
                 }
+
+                $tokenNr++;
             }
 
             if ($found) {
