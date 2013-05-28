@@ -148,7 +148,6 @@ namespace SebastianBergmann\PHPCPD\TextUI
                )
             );
 
-
             $input->registerOption(
               new \ezcConsoleOption(
                 '',
@@ -228,6 +227,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
             $verbose      = $input->getOption('verbose')->value;
 
             array_map('trim', $names);
+            array_map('trim', $namesExclude);
 
             if ($input->getOption('progress')->value !== FALSE) {
                 $output = new \ezcConsoleOutput;
