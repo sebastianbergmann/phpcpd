@@ -141,7 +141,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
             $input->registerOption(
               new \ezcConsoleOption(
                 '',
-                'excluded_names',
+                'names-exclude',
                 \ezcConsoleInput::TYPE_STRING,
                 '',
                 FALSE
@@ -218,14 +218,14 @@ namespace SebastianBergmann\PHPCPD\TextUI
                 exit(1);
             }
 
-            $excludes   = $input->getOption('exclude')->value;
-            $logPmd     = $input->getOption('log-pmd')->value;
-            $minLines   = $input->getOption('min-lines')->value;
-            $minTokens  = $input->getOption('min-tokens')->value;
-            $names      = explode(',', $input->getOption('names')->value);
-            $excluded_names = explode(',', $input->getOption('excluded_names')->value);
-            $quiet      = $input->getOption('quiet')->value;
-            $verbose    = $input->getOption('verbose')->value;
+            $excludes     = $input->getOption('exclude')->value;
+            $logPmd       = $input->getOption('log-pmd')->value;
+            $minLines     = $input->getOption('min-lines')->value;
+            $minTokens    = $input->getOption('min-tokens')->value;
+            $names        = explode(',', $input->getOption('names')->value);
+            $namesExclude = explode(',', $input->getOption('names-exclude')->value);
+            $quiet        = $input->getOption('quiet')->value;
+            $verbose      = $input->getOption('verbose')->value;
 
             array_map('trim', $names);
 
@@ -237,7 +237,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
 
             $this->printVersionString();
 
-            $finder = new FinderFacade($arguments, $excludes, $names, $excluded_names);
+            $finder = new FinderFacade($arguments, $excludes, $names, $namesExclude);
             $files  = $finder->findFiles();
 
             if (empty($files)) {
@@ -298,8 +298,7 @@ Usage: phpcpd [switches] <directory|file> ...
   --exclude <dir>          Exclude <dir> from code analysis.
   --names <names>          A comma-separated list of file names to check.
                            (default: *.php)
-
-  --excluded_names <names> A comma-separated list of file names to exclude from check.
+  --names-exclude <names>  A comma-separated list of file names to exclude.
 
   --help                   Prints this usage information.
   --version                Prints the version and exits.
