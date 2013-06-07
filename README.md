@@ -17,11 +17,11 @@ The following two commands (which you may have to run as `root`) are all that is
 
 ### Composer
 
-To add PHPCPD as a local, per-project dependency to your project, simply add a dependency on `sebastian/phpcpd` to your project's `composer.json` file. Here is a minimal example of a `composer.json` file that just defines a development-time dependency on PHPCPD 1.4:
+To add PHPCPD as a local, per-project dependency to your project, simply add a dependency on `sebastian/phpcpd` to your project's `composer.json` file. Here is a minimal example of a `composer.json` file that just defines a development-time dependency on the latest stable version of PHPCPD:
 
     {
         "require-dev": {
-            "sebastian/phpcpd": "1.4.*"
+            "sebastian/phpcpd": "*"
         }
     }
 
