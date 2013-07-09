@@ -57,14 +57,14 @@ namespace SebastianBergmann\PHPCPD
     class CodeCloneMap implements \Countable, \Iterator
     {
         /**
-         * @var Clone[] The clones in the clone map
+         * @var CodeClone[] The clones in the clone map
          */
         protected $clones = array();
 
         /**
-         * @var Clone[] The clones in the clone map, stored by file
+         * @var CodeClone[] The clones in the clone map, stored by ID
          */
-        protected $clonesByFile = array();
+        protected $clonesById = array();
 
         /**
          * @var integer Current position while iterating the clone map
@@ -84,44 +84,35 @@ namespace SebastianBergmann\PHPCPD
         /**
          * Adds a clone to the map.
          *
-         * @param Clone $clone
+         * @param CodeClone $clone
          */
         public function addClone(CodeClone $clone)
         {
-            $this->clones[]           = $clone;
+            if( !isset($this->clonesById[$clone->id]) )
+            {
+                $this->clones[]               = $clone;
+                $this->clonesById[$clone->id] = $clone;
+            }
+            else
+            {
+                $existClone = $this->clonesById[$clone->id];
+                foreach($clone->getFiles() as $file)
+                {
+                    $existClone->addFile($file);
+                }
+            }
+
             $this->numDuplicateLines += $clone->size;
-
-            if (isset($this->clonesByFile[$clone->aFile])) {
-                $this->clonesByFile[$clone->aFile][] = $clone;
-            } else {
-                $this->clonesByFile[$clone->aFile] = array($clone);
-            }
-
-            if (isset($this->clonesByFile[$clone->bFile])) {
-                $this->clonesByFile[$clone->bFile][] = $clone;
-            } else {
-                $this->clonesByFile[$clone->bFile] = array($clone);
-            }
         }
 
         /**
          * Returns the clones stored in this map.
          *
-         * @return Clone[]
+         * @return CodeClone[]
          */
         public function getClones()
         {
             return $this->clones;
-        }
-
-        /**
-         * Returns the files the clones stored in this map occur in.
-         *
-         * @return string[]
-         */
-        public function getFilesWithClones()
-        {
-            return array_keys($this->clonesByFile);
         }
 
         /**
@@ -199,7 +190,7 @@ namespace SebastianBergmann\PHPCPD
         /**
          * Returns the current element.
          *
-         * @return Clone
+         * @return CodeClone
          */
         public function current()
         {

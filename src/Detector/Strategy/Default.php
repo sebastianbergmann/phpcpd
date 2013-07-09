@@ -44,6 +44,7 @@
 namespace SebastianBergmann\PHPCPD\Detector\Strategy
 {
     use SebastianBergmann\PHPCPD\CodeClone;
+    use SebastianBergmann\PHPCPD\CodeCloneFile;
     use SebastianBergmann\PHPCPD\CodeCloneMap;
 
     /**
@@ -142,10 +143,8 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                              $firstLineA != $firstLine)) {
                             $result->addClone(
                               new CodeClone(
-                                $fileA,
-                                $firstLineA,
-                                $file,
-                                $firstLine,
+                                new CodeCloneFile($fileA, $firstLineA),
+                                new CodeCloneFile($file, $firstLine),
                                 $numLines,
                                 $lastToken + 1 - $firstToken
                               )
@@ -174,10 +173,8 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                     ($fileA != $file || $firstLineA != $firstLine)) {
                     $result->addClone(
                       new CodeClone(
-                        $fileA,
-                        $firstLineA,
-                        $file,
-                        $firstLine,
+                        new CodeCloneFile($fileA, $firstLineA),
+                        new CodeCloneFile($file, $firstLine),
                         $numLines,
                         $lastToken + 1 - $firstToken
                       )

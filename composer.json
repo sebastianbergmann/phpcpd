@@ -23,6 +23,9 @@
         "theseer/fdomdocument": "~1.3",
         "sebastian/version": ">=1.0.0"
     },
+    "require-dev": {
+        "phpunit/phpunit" : "3.7.*"
+    },
     "autoload": {
         "classmap": [
             "src/"

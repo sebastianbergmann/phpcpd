@@ -73,11 +73,14 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         );
 
         $clones = $clones->getClones();
+				$files = $clones[0]->getFiles();
 
-        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $clones[0]->aFile);
-        $this->assertEquals(85, $clones[0]->aStartLine);
-        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $clones[0]->bFile);
-        $this->assertEquals(149, $clones[0]->bStartLine);
+				$file = current($files);
+        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $file->name);
+        $this->assertEquals(85, $file->startLine);
+				$file = next($files);
+        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $file->name);
+        $this->assertEquals(149, $file->startLine);
         $this->assertEquals(59, $clones[0]->size);
         $this->assertEquals(136, $clones[0]->tokens);
 
@@ -159,13 +162,16 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
           TEST_FILES_PATH . 'b.php'
         ), 20, 60);
 
-	    $clones = $clones->getClones();
+				$clones = $clones->getClones();
+				$files = $clones[0]->getFiles();
 
-	    $this->assertCount(1, $clones);
-        $this->assertEquals(TEST_FILES_PATH . 'a.php', $clones[0]->aFile);
-        $this->assertEquals(4, $clones[0]->aStartLine);
-        $this->assertEquals(TEST_FILES_PATH . 'b.php', $clones[0]->bFile);
-        $this->assertEquals(4, $clones[0]->bStartLine);
+				$file = current($files);
+				$this->assertCount(1, $clones);
+        $this->assertEquals(TEST_FILES_PATH . 'a.php', $file->name);
+        $this->assertEquals(4, $file->startLine);
+				$file = next($files);
+        $this->assertEquals(TEST_FILES_PATH . 'b.php', $file->name);
+        $this->assertEquals(4, $file->startLine);
         $this->assertEquals(20, $clones[0]->size);
         $this->assertEquals(60, $clones[0]->tokens);
     }

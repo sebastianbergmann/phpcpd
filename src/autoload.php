@@ -51,6 +51,7 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
+              'sebastianbergmann\\phpcpd\\codeclonefile' => '/CodeCloneFile.php',
               'sebastianbergmann\\phpcpd\\codeclone' => '/CodeClone.php',
               'sebastianbergmann\\phpcpd\\codeclonemap' => '/CodeCloneMap.php',
               'sebastianbergmann\\phpcpd\\detector\\detector' => '/Detector/Detector.php',
