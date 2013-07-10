@@ -176,6 +176,35 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(60, $clones[0]->tokens);
     }
 
+		/**
+		 * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
+		 * @dataProvider strategyProvider
+		 */
+		public function testDetectingClonesInMoreThanTwoFiles($strategy)
+		{
+				$detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+
+				$clones = $detector->copyPasteDetection(array(
+						TEST_FILES_PATH . 'a.php',
+						TEST_FILES_PATH . 'b.php',
+						TEST_FILES_PATH . 'c.php',
+				), 20, 60);
+
+				$clones = $clones->getClones();
+				$files = $clones[0]->getFiles();
+
+				$file = current($files);
+				$this->assertCount(1, $clones);
+				$this->assertEquals(TEST_FILES_PATH . 'a.php', $file->name);
+				$this->assertEquals(4, $file->startLine);
+				$file = next($files);
+				$this->assertEquals(TEST_FILES_PATH . 'b.php', $file->name);
+				$this->assertEquals(4, $file->startLine);
+				$file = next($files);
+				$this->assertEquals(TEST_FILES_PATH . 'c.php', $file->name);
+				$this->assertEquals(4, $file->startLine);
+		}
+
     /**
      * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider

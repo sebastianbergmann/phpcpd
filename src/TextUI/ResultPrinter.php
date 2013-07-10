@@ -84,7 +84,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
                         }
                     }
 
-                    $lines += $clone->size;
+                    $lines += $clone->size * (count($clone->getFiles()) - 1);
 
                     if ($printClones) {
                         $buffer .= "\n  -";
