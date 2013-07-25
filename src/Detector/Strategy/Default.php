@@ -74,7 +74,6 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
             $currentSignature      = '';
             $tokens                = token_get_all($buffer);
             $tokenNr               = 0;
-            $line                  = 1;
 
             $result->setNumLines(
               $result->getNumLines() + substr_count($buffer, "\n")
@@ -85,18 +84,14 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
             foreach (array_keys($tokens) as $key) {
                 $token = $tokens[$key];
 
-                if (is_string($token)) {
-                    $line += substr_count($token, "\n");
-                } else {
+                if (is_array($token)) {
                     if (!isset($this->tokensIgnoreList[$token[0]])) {
-                        $currentTokenPositions[$tokenNr++] = $line;
+                        $currentTokenPositions[$tokenNr++] = $token[2];
 
                         $currentSignature .= chr(
                           $token[0] & 255) . pack('N*', crc32($token[1])
                         );
                     }
-
-                    $line += substr_count($token[1], "\n");
                 }
             }
 
