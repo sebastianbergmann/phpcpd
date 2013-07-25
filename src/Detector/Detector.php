@@ -87,9 +87,10 @@ namespace SebastianBergmann\PHPCPD\Detector
          * @param  Iterator|array $files     List of files to process
          * @param  integer        $minLines  Minimum number of identical lines
          * @param  integer        $minTokens Minimum number of identical tokens
+         * @param  boolean        $fuzzy
          * @return CodeCloneMap   Map of exact clones found in the list of files
          */
-        public function copyPasteDetection($files, $minLines = 5, $minTokens = 70)
+        public function copyPasteDetection($files, $minLines = 5, $minTokens = 70, $fuzzy = FALSE)
         {
             $result = new CodeCloneMap;
 
@@ -100,7 +101,7 @@ namespace SebastianBergmann\PHPCPD\Detector
 
             foreach ($files as $file) {
                 $this->strategy->processFile(
-                  $file, $minLines, $minTokens, $result
+                  $file, $minLines, $minTokens, $result, $fuzzy
                 );
 
                 if ($this->output !== NULL) {

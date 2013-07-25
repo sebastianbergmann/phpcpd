@@ -151,6 +151,16 @@ namespace SebastianBergmann\PHPCPD\TextUI
             $input->registerOption(
               new \ezcConsoleOption(
                 '',
+                'fuzzy',
+                \ezcConsoleInput::TYPE_NONE,
+                NULL,
+                FALSE
+               )
+            );
+
+            $input->registerOption(
+              new \ezcConsoleOption(
+                '',
                 'quiet',
                 \ezcConsoleInput::TYPE_NONE,
                 NULL,
@@ -224,6 +234,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
             $names        = explode(',', $input->getOption('names')->value);
             $namesExclude = explode(',', $input->getOption('names-exclude')->value);
             $quiet        = $input->getOption('quiet')->value;
+            $fuzzy        = $input->getOption('fuzzy')->value;
             $verbose      = $input->getOption('verbose')->value;
 
             array_map('trim', $names);
@@ -250,7 +261,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
             $detector = new Detector($strategy, $output);
 
             $clones = $detector->copyPasteDetection(
-              $files, $minLines, $minTokens
+              $files, $minLines, $minTokens, $fuzzy
             );
 
             if (!$quiet) {
@@ -302,6 +313,7 @@ Usage: phpcpd [switches] <directory|file> ...
 
   --min-lines <N>          Minimum number of identical lines (default: 5).
   --min-tokens <N>         Minimum number of identical tokens (default: 70).
+  --fuzzy                  Fuzz variable names.
 
   --exclude <dir>          Exclude <dir> from code analysis.
   --names <names>          A comma-separated list of file names to check.

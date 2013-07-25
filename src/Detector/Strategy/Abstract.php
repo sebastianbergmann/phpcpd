@@ -81,7 +81,8 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
          * @param integer      $minLines
          * @param integer      $minTokens
          * @param CodeCloneMap $result
+         * @param boolean      $fuzzy
          */
-        abstract public function processFile($file, $minLines, $minTokens, CodeCloneMap $result);
+        abstract public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = FALSE);
     }
 }

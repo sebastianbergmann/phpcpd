@@ -257,6 +257,29 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $this->assertCount(0, $clones->getClones());
     }
 
+    /**
+     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
+     * @dataProvider strategyProvider
+     */
+    public function testFuzzyClonesAreFound($strategy)
+    {
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+
+        $clones = $detector->copyPasteDetection(
+          array(
+            TEST_FILES_PATH . 'a.php',
+            TEST_FILES_PATH . 'd.php'
+          ),
+          5,
+          20,
+          TRUE
+        );
+
+        $clones = $clones->getClones();
+
+        $this->assertCount(1, $clones);
+    }
+
     public function strategyProvider()
     {
         return array(

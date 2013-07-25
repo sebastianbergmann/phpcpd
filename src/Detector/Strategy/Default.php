@@ -66,9 +66,10 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
          * @param  integer      $minLines
          * @param  integer      $minTokens
          * @param  CodeCloneMap $result
+         * @param  boolean      $fuzzy
          * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
          */
-        public function processFile($file, $minLines, $minTokens, CodeCloneMap $result)
+        public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = FALSE)
         {
             $buffer                = file_get_contents($file);
             $currentTokenPositions = array();
@@ -88,6 +89,10 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                 if (is_array($token)) {
                     if (!isset($this->tokensIgnoreList[$token[0]])) {
                         $currentTokenPositions[$tokenNr++] = $token[2];
+
+                        if ($fuzzy && $token[0] == T_VARIABLE) {
+                            $token[1] = 'variable';
+                        }
 
                         $currentSignature .= chr(
                           $token[0] & 255) . pack('N*', crc32($token[1])
