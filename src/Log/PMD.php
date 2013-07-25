@@ -74,19 +74,16 @@ namespace SebastianBergmann\PHPCPD\Log
                 $duplication->setAttribute('lines', $clone->size);
                 $duplication->setAttribute('tokens', $clone->tokens);
 
-                $file = $duplication->appendChild(
-                  $this->document->createElement('file')
-                );
+                foreach($clone->getFiles() as $codeCloneFile)
+                {
+                    $file = $duplication->appendChild(
+                        $this->document->createElement('file')
+                    );
 
-                $file->setAttribute('path', $clone->aFile);
-                $file->setAttribute('line', $clone->aStartLine);
+                    $file->setAttribute('path', $codeCloneFile->name);
+                    $file->setAttribute('line', $codeCloneFile->startLine);
 
-                $file = $duplication->appendChild(
-                  $this->document->createElement('file')
-                );
-
-                $file->setAttribute('path', $clone->bFile);
-                $file->setAttribute('line', $clone->bStartLine);
+                }
 
                 $duplication->appendChild(
                   $this->document->createElement(
