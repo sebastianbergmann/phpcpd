@@ -61,10 +61,9 @@ namespace SebastianBergmann\PHPCPD\TextUI
          * Prints a result set from Detector::copyPasteDetection().
          *
          * @param CodeCloneMap $clones
-         * @param bool         $printClones
          * @param bool         $verbose
          */
-        public function printResult(CodeCloneMap $clones, $printClones, $verbose)
+        public function printResult(CodeCloneMap $clones, $verbose)
         {
             $numClones = count($clones);
 
@@ -82,41 +81,37 @@ namespace SebastianBergmann\PHPCPD\TextUI
                         }
                     }
 
-                    $lines += $clone->getSize() * (count($clone->getFiles()) - 1);
+                    $lines  += $clone->getSize() * (count($clone->getFiles()) - 1);
+                    $buffer .= "\n  -";
 
-                    if ($printClones) {
-                        $buffer .= "\n  -";
+                    foreach($clone->getFiles() as $file) {
+                        $buffer .= sprintf(
+                          "\r\t%s:%d-%d\n ",
+                          $file->getName(),
+                          $file->getStartLine(),
+                          $file->getStartLine() + $clone->getSize()
+                        );
+                    }
 
-                        foreach($clone->getFiles() as $file) {
-                            $buffer .= sprintf(
-                                "\r\t%s:%d-%d\n ",
-                                $file->getName(),
-                                $file->getStartLine(),
-                                $file->getStartLine() + $clone->getSize()
-                            );
-                        }
-
-                        if ($verbose) {
-                            $buffer .= "\n" . $clone->getLines('      ');
-                        }
+                    if ($verbose) {
+                        $buffer .= "\n" . $clone->getLines('      ');
                     }
                 }
 
                 printf(
-                  "Found %d exact clones with %d duplicated lines in %d files%s",
+                  "Found %d exact clones with %d duplicated lines in %d files:\n%s",
                   $numClones,
                   $lines,
                   count($files),
-                  $printClones ? ":\n" . $buffer : ".\n"
+                  $buffer
                 );
             }
 
             printf(
-              "%s%s duplicated lines out of %d total lines of code.\n\n%s\n",
+              "%s%s duplicated lines out of %d total lines of code.\n\n",
               $numClones > 0 ? "\n" : '',
               $clones->getPercentage(),
-              $clones->getNumLines(),
-              \PHP_Timer::resourceUsage()
+              $clones->getNumLines()
             );
         }
     }

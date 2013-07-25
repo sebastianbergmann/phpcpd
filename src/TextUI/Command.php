@@ -235,7 +235,9 @@ namespace SebastianBergmann\PHPCPD\TextUI
                 $output = NULL;
             }
 
-            $this->printVersionString();
+            if (!$quiet) {
+                $this->printVersionString();
+            }
 
             $finder = new FinderFacade($arguments, $excludes, $names, $namesExclude);
             $files  = $finder->findFiles();
@@ -251,14 +253,20 @@ namespace SebastianBergmann\PHPCPD\TextUI
               $files, $minLines, $minTokens
             );
 
-            $printer = new ResultPrinter;
-            $printer->printResult($clones, !$quiet, $verbose);
-            unset($printer);
+            if (!$quiet) {
+                $printer = new ResultPrinter;
+                $printer->printResult($clones, $verbose);
+                unset($printer);
+            }
 
             if ($logPmd) {
                 $pmd = new PMD($logPmd);
                 $pmd->processClones($clones);
                 unset($pmd);
+            }
+
+            if (!$quiet) {
+                print \PHP_Timer::resourceUsage() . "\n";
             }
 
             if (count($clones) > 0) {
@@ -304,7 +312,7 @@ Usage: phpcpd [switches] <directory|file> ...
   --version                Prints the version and exits.
 
   --progress               Show progress bar.
-  --quiet                  Only print the final summary.
+  --quiet                  Be quiet.
   --verbose                Print duplicated code.
 
 EOT;
