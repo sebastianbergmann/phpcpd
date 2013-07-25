@@ -15,6 +15,7 @@
     },
     "require": {
         "php": ">=5.3.3",
+        "ext-iconv": "*",
         "zetacomponents/base": ">=1.8",
         "zetacomponents/console-tools": ">=1.6",
         "sebastian/finder-facade": "~1.1",
