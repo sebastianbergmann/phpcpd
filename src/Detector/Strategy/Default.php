@@ -128,10 +128,9 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                     if ($found) {
                         $fileA      = $this->hashes[$firstHash][0];
                         $firstLineA = $this->hashes[$firstHash][1];
-
-                        $lastToken = ($tokenNr - 1) + $minTokens - 1;
-                        $lastLine  = $currentTokenPositions[$lastToken];
-	                    $numLines  = $lastLine + 1 - $firstLine;
+                        $lastToken  = ($tokenNr - 1) + $minTokens - 1;
+                        $lastLine   = $currentTokenPositions[$lastToken];
+                        $numLines   = $lastLine + 1 - $firstLine;
 
                         if ($numLines >= $minLines &&
                             ($fileA != $file ||
@@ -159,10 +158,9 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
             if ($found) {
                 $fileA      = $this->hashes[$firstHash][0];
                 $firstLineA = $this->hashes[$firstHash][1];
-
-                $lastToken = ($tokenNr - 1) + $minTokens - 1;
-                $lastLine  = $currentTokenPositions[$lastToken];
-	            $numLines  = $lastLine + 1 - $firstLine;
+                $lastToken  = ($tokenNr - 1) + $minTokens - 1;
+                $lastLine   = $currentTokenPositions[$lastToken];
+                $numLines   = $lastLine + 1 - $firstLine;
 
                 if ($numLines >= $minLines &&
                     ($fileA != $file || $firstLineA != $firstLine)) {

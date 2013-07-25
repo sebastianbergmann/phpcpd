@@ -71,8 +71,8 @@ namespace SebastianBergmann\PHPCPD\Log
                   $this->document->createElement('duplication')
                 );
 
-                $duplication->setAttribute('lines', $clone->size);
-                $duplication->setAttribute('tokens', $clone->tokens);
+                $duplication->setAttribute('lines', $clone->getSize());
+                $duplication->setAttribute('tokens', $clone->getTokens());
 
                 foreach($clone->getFiles() as $codeCloneFile)
                 {
@@ -80,8 +80,8 @@ namespace SebastianBergmann\PHPCPD\Log
                         $this->document->createElement('file')
                     );
 
-                    $file->setAttribute('path', $codeCloneFile->name);
-                    $file->setAttribute('line', $codeCloneFile->startLine);
+                    $file->setAttribute('path', $codeCloneFile->getName());
+                    $file->setAttribute('line', $codeCloneFile->getStartLine());
 
                 }
 

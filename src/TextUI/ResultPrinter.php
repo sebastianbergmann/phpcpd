@@ -44,7 +44,7 @@
 namespace SebastianBergmann\PHPCPD\TextUI
 {
     use SebastianBergmann\PHPCPD\CodeCloneMap;
-	use SebastianBergmann\PHPCPD\CodeClone;
+    use SebastianBergmann\PHPCPD\CodeClone;
 
     /**
      * A ResultPrinter for the TextUI.
@@ -74,27 +74,25 @@ namespace SebastianBergmann\PHPCPD\TextUI
                 $lines  = 0;
 
                 foreach ($clones as $clone) {
-                    /**
-                     * @var $clone CodeClone
-                     */
-		                foreach($clone->getFiles() as $file)
-                    {
-                        if (!isset($files[$file->name])) {
-                            $files[$file->name] = TRUE;
+                    foreach($clone->getFiles() as $file) {
+                        $filename = $file->getName();
+
+                        if (!isset($files[$filename])) {
+                            $files[$filename] = TRUE;
                         }
                     }
 
-                    $lines += $clone->size * (count($clone->getFiles()) - 1);
+                    $lines += $clone->getSize() * (count($clone->getFiles()) - 1);
 
                     if ($printClones) {
                         $buffer .= "\n  -";
-                        foreach($clone->getFiles() as $file)
-                        {
+
+                        foreach($clone->getFiles() as $file) {
                             $buffer .= sprintf(
                                 "\r\t%s:%d-%d\n ",
-                                $file->name,
-                                $file->startLine,
-                                $file->startLine + $clone->size
+                                $file->getName(),
+                                $file->getStartLine(),
+                                $file->getStartLine() + $clone->getSize()
                             );
                         }
 

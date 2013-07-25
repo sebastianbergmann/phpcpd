@@ -88,21 +88,20 @@ namespace SebastianBergmann\PHPCPD
          */
         public function addClone(CodeClone $clone)
         {
-            if( !isset($this->clonesById[$clone->id]) )
-            {
-                $this->clones[]               = $clone;
-                $this->clonesById[$clone->id] = $clone;
-            }
-            else
-            {
-                $existClone = $this->clonesById[$clone->id];
-                foreach($clone->getFiles() as $file)
-                {
+            $id = $clone->getId();
+
+            if (!isset($this->clonesById[$id])) {
+                $this->clones[]        = $clone;
+                $this->clonesById[$id] = $clone;
+            } else {
+                $existClone = $this->clonesById[$id];
+
+                foreach ($clone->getFiles() as $file) {
                     $existClone->addFile($file);
                 }
             }
 
-            $this->numDuplicateLines += $clone->size;
+            $this->numDuplicateLines += $clone->getSize();
         }
 
         /**

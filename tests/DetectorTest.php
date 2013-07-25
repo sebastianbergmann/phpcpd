@@ -73,16 +73,18 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         );
 
         $clones = $clones->getClones();
-				$files = $clones[0]->getFiles();
+        $files  = $clones[0]->getFiles();
+        $file   = current($files);
 
-				$file = current($files);
-        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $file->name);
-        $this->assertEquals(85, $file->startLine);
-				$file = next($files);
-        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $file->name);
-        $this->assertEquals(149, $file->startLine);
-        $this->assertEquals(59, $clones[0]->size);
-        $this->assertEquals(136, $clones[0]->tokens);
+        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $file->getName());
+        $this->assertEquals(85, $file->getStartLine());
+
+        $file = next($files);
+
+        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $file->getName());
+        $this->assertEquals(149, $file->getStartLine());
+        $this->assertEquals(59, $clones[0]->getSize());
+        $this->assertEquals(136, $clones[0]->getTokens());
 
         $this->assertEquals(
           '    public function div($v1, $v2)
@@ -162,48 +164,58 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
           TEST_FILES_PATH . 'b.php'
         ), 20, 60);
 
-				$clones = $clones->getClones();
-				$files = $clones[0]->getFiles();
+        $clones = $clones->getClones();
+        $files  = $clones[0]->getFiles();
+        $file   = current($files);
 
-				$file = current($files);
-				$this->assertCount(1, $clones);
-        $this->assertEquals(TEST_FILES_PATH . 'a.php', $file->name);
-        $this->assertEquals(4, $file->startLine);
-				$file = next($files);
-        $this->assertEquals(TEST_FILES_PATH . 'b.php', $file->name);
-        $this->assertEquals(4, $file->startLine);
-        $this->assertEquals(20, $clones[0]->size);
-        $this->assertEquals(60, $clones[0]->tokens);
+        $this->assertCount(1, $clones);
+        $this->assertEquals(TEST_FILES_PATH . 'a.php', $file->getName());
+        $this->assertEquals(4, $file->getStartLine());
+
+        $file = next($files);
+
+        $this->assertEquals(TEST_FILES_PATH . 'b.php', $file->getName());
+        $this->assertEquals(4, $file->getStartLine());
+        $this->assertEquals(20, $clones[0]->getSize());
+        $this->assertEquals(60, $clones[0]->getTokens());
     }
 
-		/**
-		 * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
-		 * @dataProvider strategyProvider
-		 */
-		public function testDetectingClonesInMoreThanTwoFiles($strategy)
-		{
-				$detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+    /**
+     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
+     * @dataProvider strategyProvider
+     */
+    public function testDetectingClonesInMoreThanTwoFiles($strategy)
+    {
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
-				$clones = $detector->copyPasteDetection(array(
-						TEST_FILES_PATH . 'a.php',
-						TEST_FILES_PATH . 'b.php',
-						TEST_FILES_PATH . 'c.php',
-				), 20, 60);
+        $clones = $detector->copyPasteDetection(
+          array(
+            TEST_FILES_PATH . 'a.php',
+            TEST_FILES_PATH . 'b.php',
+            TEST_FILES_PATH . 'c.php',
+          ),
+          20,
+          60
+        );
 
-				$clones = $clones->getClones();
-				$files = $clones[0]->getFiles();
+        $clones = $clones->getClones();
+        $files  = $clones[0]->getFiles();
+        $file   = current($files);
 
-				$file = current($files);
-				$this->assertCount(1, $clones);
-				$this->assertEquals(TEST_FILES_PATH . 'a.php', $file->name);
-				$this->assertEquals(4, $file->startLine);
-				$file = next($files);
-				$this->assertEquals(TEST_FILES_PATH . 'b.php', $file->name);
-				$this->assertEquals(4, $file->startLine);
-				$file = next($files);
-				$this->assertEquals(TEST_FILES_PATH . 'c.php', $file->name);
-				$this->assertEquals(4, $file->startLine);
-		}
+        $this->assertCount(1, $clones);
+        $this->assertEquals(TEST_FILES_PATH . 'a.php', $file->getName());
+        $this->assertEquals(4, $file->getStartLine());
+
+        $file = next($files);
+
+        $this->assertEquals(TEST_FILES_PATH . 'b.php', $file->getName());
+        $this->assertEquals(4, $file->getStartLine());
+
+        $file = next($files);
+
+        $this->assertEquals(TEST_FILES_PATH . 'c.php', $file->getName());
+        $this->assertEquals(4, $file->getStartLine());
+    }
 
     /**
      * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
@@ -213,14 +225,16 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
     {
         $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
-        $clones = $detector->copyPasteDetection(array(
-          TEST_FILES_PATH . 'a.php',
-          TEST_FILES_PATH . 'b.php'
-        ), 20, 61);
+        $clones = $detector->copyPasteDetection(
+          array(
+            TEST_FILES_PATH . 'a.php',
+            TEST_FILES_PATH . 'b.php'
+          ),
+          20,
+          61
+        );
 
-	    $clones = $clones->getClones();
-
-	    $this->assertCount(0, $clones);
+        $this->assertCount(0, $clones->getClones());
     }
 
     /**
@@ -231,14 +245,16 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
     {
         $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
-        $clones = $detector->copyPasteDetection(array(
-          TEST_FILES_PATH . 'a.php',
-          TEST_FILES_PATH . 'b.php'
-        ), 21, 60);
+        $clones = $detector->copyPasteDetection(
+          array(
+            TEST_FILES_PATH . 'a.php',
+            TEST_FILES_PATH . 'b.php'
+          ),
+          21,
+          60
+        );
 
-	    $clones = $clones->getClones();
-
-	    $this->assertCount(0, $clones);
+        $this->assertCount(0, $clones->getClones());
     }
 
     public function strategyProvider()

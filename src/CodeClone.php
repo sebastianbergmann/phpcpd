@@ -43,8 +43,8 @@
 
 namespace SebastianBergmann\PHPCPD
 {
-
     use SebastianBergmann\PHPCPD\CodeCloneFile;
+
     /**
      * Represents an exact code clone.
      *
@@ -59,66 +59,69 @@ namespace SebastianBergmann\PHPCPD
         /**
          * @var integer Size of the clone (lines)
          */
-        public $size;
+        private $size;
 
         /**
          * @var integer Size of the clone (tokens)
          */
-        public $tokens;
+        private $tokens;
 
         /**
          * @var CodeCloneFile[] Files with this code clone
          */
-        protected $files = array();
+        private $files = array();
 
         /**
-         * @var Unique ID of Code Duplicate Fragment
+         * @var string Unique ID of Code Duplicate Fragment
          */
-        public $id;
+        private $id;
 
         /**
          * @var Lines of the clone
          */
-        protected $lines = '';
+        private $lines = '';
 
-		    /**
-		     * Constructor.
-		     *
-		     * @param CodeCloneFile $fileA First file
-		     * @param CodeCloneFile $fileB Second file
-		     * @param integer $size        Size of the clone (lines)
-		     * @param integer $tokens      Size of the clone (tokens)
-		     */
+        /**
+         * Constructor.
+         *
+         * @param CodeCloneFile $fileA
+         * @param CodeCloneFile $fileB
+         * @param integer       $size
+         * @param integer       $tokens
+         */
         public function __construct(CodeCloneFile $fileA, CodeCloneFile $fileB, $size, $tokens)
         {
             $this->addFile($fileA);
             $this->addFile($fileB);
-            $this->size       = $size;
-            $this->tokens     = $tokens;
-            $this->id = md5($this->getLines());
+
+            $this->size   = $size;
+            $this->tokens = $tokens;
+            $this->id     = md5($this->getLines());
         }
 
-		    /**
-		     * Add file with clone
-		     *
-		     * @param CodeCloneFile $file
-		     */
-		    public function addFile( CodeCloneFile $file)
+        /**
+         * Add file with clone
+         *
+         * @param CodeCloneFile $file
+         */
+        public function addFile(CodeCloneFile $file)
         {
-            if( !isset($this->files[$file->id]))
-                $this->files[$file->id] = $file;
+            $id = $file->getId();
+
+            if (!isset($this->files[$id])) {
+                $this->files[$id] = $file;
+            }
         }
 
-		    /**
-		     * Get files with clone
-		     *
-		     * @return CodeCloneFile[]
-		     */
-		    public function getFiles()
+        /**
+         * Get files with clone
+         *
+         * @return CodeCloneFile[]
+         */
+        public function getFiles()
         {
             return $this->files;
         }
-
 
         /**
          * Returns the lines of the clone.
@@ -129,9 +132,10 @@ namespace SebastianBergmann\PHPCPD
         public function getLines($prefix = '')
         {
             $file = current($this->files);
+
             if (empty($this->lines)) {
                 $lines = array_slice(
-                  file($file->name), $file->startLine - 1, $this->size
+                  file($file->getName()), $file->getStartLine() - 1, $this->size
                 );
 
                 $indent = array();
@@ -160,6 +164,30 @@ namespace SebastianBergmann\PHPCPD
             }
 
             return $this->lines;
+        }
+
+        /**
+         * @return string
+         */
+        public function getId()
+        {
+            return $this->id;
+        }
+
+        /**
+         * @return integer
+         */
+        public function getSize()
+        {
+            return $this->size;
+        }
+
+        /**
+         * @return integer
+         */
+        public function getTokens()
+        {
+            return $this->tokens;
         }
     }
 }

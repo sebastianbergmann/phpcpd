@@ -38,11 +38,10 @@
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release ?
+ * @since     File available since Release 1.5.0
  */
 namespace SebastianBergmann\PHPCPD
 {
-
     /**
      * Represents an exact code clone file.
      *
@@ -50,34 +49,58 @@ namespace SebastianBergmann\PHPCPD
      * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
      * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
      * @link      http://github.com/sebastianbergmann/phpcpd/tree
-     * @since     Class available since Release ?
+     * @since     Class available since Release 1.5.0
      */
-    class CodeCloneFile {
+    class CodeCloneFile
+    {
+        /**
+         * @var string
+         */
+        private $id;
 
         /**
          * @var string
          */
-        public  $id;
+        private $name;
 
         /**
-         * @var string
+         * @var integer
          */
-        public  $name;
+        private $startLine;
 
         /**
-         * @var int
+         * @param string  $name
+         * @param integer $startLine
          */
-        public  $startLine;
-
-        /**
-         * @param string $name path of file
-         * @param int $startLine start line of clone
-         */
-        public function __construct( $name, $startLine)
+        public function __construct($name, $startLine)
         {
-            $this->name = $name;
+            $this->name      = $name;
             $this->startLine = $startLine;
-            $this->id = $this->name.":".$this->startLine;
+            $this->id        = $this->name . ':' . $this->startLine;
+        }
+
+        /**
+         * @return string
+         */
+        public function getId()
+        {
+            return $this->id;
+        }
+
+        /**
+         * @return string
+         */
+        public function getName()
+        {
+            return $this->name;
+        }
+
+        /**
+         * @return integer
+         */
+        public function getStartLine()
+        {
+            return $this->startLine;
         }
     }
 }
