@@ -44,6 +44,7 @@
 namespace SebastianBergmann\PHPCPD\TextUI
 {
     use SebastianBergmann\PHPCPD\CodeCloneMap;
+	use SebastianBergmann\PHPCPD\CodeClone;
 
     /**
      * A ResultPrinter for the TextUI.
@@ -73,26 +74,29 @@ namespace SebastianBergmann\PHPCPD\TextUI
                 $lines  = 0;
 
                 foreach ($clones as $clone) {
-                    if (!isset($files[$clone->aFile])) {
-                        $files[$clone->aFile] = TRUE;
+                    /**
+                     * @var $clone CodeClone
+                     */
+		                foreach($clone->getFiles() as $file)
+                    {
+                        if (!isset($files[$file->name])) {
+                            $files[$file->name] = TRUE;
+                        }
                     }
 
-                    if (!isset($files[$clone->bFile])) {
-                        $files[$clone->bFile] = TRUE;
-                    }
-
-                    $lines += $clone->size;
+                    $lines += $clone->size * (count($clone->getFiles()) - 1);
 
                     if ($printClones) {
-                        $buffer .= sprintf(
-                          "\n  - %s:%d-%d\n    %s:%d-%d\n",
-                          $clone->aFile,
-                          $clone->aStartLine,
-                          $clone->aStartLine + $clone->size,
-                          $clone->bFile,
-                          $clone->bStartLine,
-                          $clone->bStartLine + $clone->size
-                        );
+                        $buffer .= "\n  -";
+                        foreach($clone->getFiles() as $file)
+                        {
+                            $buffer .= sprintf(
+                                "\r\t%s:%d-%d\n ",
+                                $file->name,
+                                $file->startLine,
+                                $file->startLine + $clone->size
+                            );
+                        }
 
                         if ($verbose) {
                             $buffer .= "\n" . $clone->getLines('      ');

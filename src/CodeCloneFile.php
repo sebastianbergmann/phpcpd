@@ -38,36 +38,46 @@
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.1.0
+ * @since     File available since Release ?
  */
+namespace SebastianBergmann\PHPCPD
+{
 
-require_once 'SebastianBergmann/FinderFacade/autoload.php';
-require_once 'SebastianBergmann/Version/autoload.php';
-require_once 'PHP/Timer/Autoload.php';
-require_once 'ezc/Base/base.php';
+    /**
+     * Represents an exact code clone file.
+     *
+     * @author    Alexander Kazakov <alexshadow007@gmail.com>
+     * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
+     * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+     * @link      http://github.com/sebastianbergmann/phpcpd/tree
+     * @since     Class available since Release ?
+     */
+    class CodeCloneFile {
 
-spl_autoload_register(
-    function($class) {
-        static $classes = null;
-        if ($classes === null) {
-            $classes = array(
-              'sebastianbergmann\\phpcpd\\codeclonefile' => '/CodeCloneFile.php',
-              'sebastianbergmann\\phpcpd\\codeclone' => '/CodeClone.php',
-              'sebastianbergmann\\phpcpd\\codeclonemap' => '/CodeCloneMap.php',
-              'sebastianbergmann\\phpcpd\\detector\\detector' => '/Detector/Detector.php',
-              'sebastianbergmann\\phpcpd\\detector\\strategy\\abstractstrategy' => '/Detector/Strategy/Abstract.php',
-              'sebastianbergmann\\phpcpd\\detector\\strategy\\defaultstrategy' => '/Detector/Strategy/Default.php',
-              'sebastianbergmann\\phpcpd\\log\\abstractxmllogger' => '/Log/AbstractXmlLogger.php',
-              'sebastianbergmann\\phpcpd\\log\\pmd' => '/Log/PMD.php',
-              'sebastianbergmann\\phpcpd\\textui\\command' => '/TextUI/Command.php',
-              'sebastianbergmann\\phpcpd\\textui\\resultprinter' => '/TextUI/ResultPrinter.php'
-            );
-        }
-        $cn = strtolower($class);
-        if (isset($classes[$cn])) {
-            require __DIR__ . $classes[$cn];
+        /**
+         * @var string
+         */
+        public  $id;
+
+        /**
+         * @var string
+         */
+        public  $name;
+
+        /**
+         * @var int
+         */
+        public  $startLine;
+
+        /**
+         * @param string $name path of file
+         * @param int $startLine start line of clone
+         */
+        public function __construct( $name, $startLine)
+        {
+            $this->name = $name;
+            $this->startLine = $startLine;
+            $this->id = $this->name.":".$this->startLine;
         }
     }
-);
-
-spl_autoload_register(array('ezcBase', 'autoload'));
+}

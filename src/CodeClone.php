@@ -43,6 +43,8 @@
 
 namespace SebastianBergmann\PHPCPD
 {
+
+    use SebastianBergmann\PHPCPD\CodeCloneFile;
     /**
      * Represents an exact code clone.
      *
@@ -55,26 +57,6 @@ namespace SebastianBergmann\PHPCPD
     class CodeClone
     {
         /**
-         * @var string Name of the first file
-         */
-        public $aFile;
-
-        /**
-         * @var integer Start line in the first file
-         */
-        public $aStartLine;
-
-        /**
-         * @var string Name of the second file
-         */
-        public $bFile;
-
-        /**
-         * @var integer Start line in the second file
-         */
-        public $bStartLine;
-
-        /**
          * @var integer Size of the clone (lines)
          */
         public $size;
@@ -85,29 +67,58 @@ namespace SebastianBergmann\PHPCPD
         public $tokens;
 
         /**
+         * @var CodeCloneFile[] Files with this code clone
+         */
+        protected $files = array();
+
+        /**
+         * @var Unique ID of Code Duplicate Fragment
+         */
+        public $id;
+
+        /**
          * @var Lines of the clone
          */
         protected $lines = '';
 
-        /**
-         * Constructor.
-         *
-         * @param string  $aFile       Name of the first file
-         * @param integer $aStartLine  Start line in the first file
-         * @param string  $bFile       Name of the second file
-         * @param integer $bStartLine  Start line in the second file
-         * @param integer $size        Size of the clone (lines)
-         * @param integer $tokens      Size of the clone (tokens)
-         */
-        public function __construct($aFile, $aStartLine, $bFile, $bStartLine, $size, $tokens)
+		    /**
+		     * Constructor.
+		     *
+		     * @param CodeCloneFile $fileA First file
+		     * @param CodeCloneFile $fileB Second file
+		     * @param integer $size        Size of the clone (lines)
+		     * @param integer $tokens      Size of the clone (tokens)
+		     */
+        public function __construct(CodeCloneFile $fileA, CodeCloneFile $fileB, $size, $tokens)
         {
-            $this->aFile      = $aFile;
-            $this->aStartLine = $aStartLine;
-            $this->bFile      = $bFile;
-            $this->bStartLine = $bStartLine;
+            $this->addFile($fileA);
+            $this->addFile($fileB);
             $this->size       = $size;
             $this->tokens     = $tokens;
+            $this->id = md5($this->getLines());
         }
+
+		    /**
+		     * Add file with clone
+		     *
+		     * @param CodeCloneFile $file
+		     */
+		    public function addFile( CodeCloneFile $file)
+        {
+            if( !isset($this->files[$file->id]))
+                $this->files[$file->id] = $file;
+        }
+
+		    /**
+		     * Get files with clone
+		     *
+		     * @return CodeCloneFile[]
+		     */
+		    public function getFiles()
+        {
+            return $this->files;
+        }
+
 
         /**
          * Returns the lines of the clone.
@@ -117,9 +128,10 @@ namespace SebastianBergmann\PHPCPD
          */
         public function getLines($prefix = '')
         {
+            $file = current($this->files);
             if (empty($this->lines)) {
                 $lines = array_slice(
-                  file($this->aFile), $this->aStartLine - 1, $this->size
+                  file($file->name), $file->startLine - 1, $this->size
                 );
 
                 $indent = array();
