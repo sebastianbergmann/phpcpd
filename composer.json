@@ -17,10 +17,10 @@
         "php": ">=5.3.3",
         "zetacomponents/base": ">=1.8",
         "zetacomponents/console-tools": ">=1.6",
-        "sebastian/finder-facade": "dev-master",
+        "sebastian/finder-facade": "~1.1",
         "phpunit/php-timer": ">=1.0.4,<1.1.0",
         "symfony/finder": ">=2.1.2",
-        "theseer/fdomdocument": "dev-master",
+        "theseer/fdomdocument": "~1.4",
         "sebastian/version": ">=1.0.0"
     },
     "minimum-stability": "dev",
