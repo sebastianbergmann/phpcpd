@@ -1,23 +1,28 @@
+[![Latest Stable Version](https://poser.pugx.org/sebastian/phpcpd/v/stable.png)](https://packagist.org/packages/sebastian/phpcpd)
+[![Build Status](https://travis-ci.org/sebastianbergmann/phpcpd.png?branch=master)](https://travis-ci.org/sebastianbergmann/phpcpd)
+
 # PHP Copy/Paste Detector (PHPCPD)
 
 `phpcpd` is a Copy/Paste Detector (CPD) for PHP code.
 
 ## Installation
 
-There are three supported ways of installing PHPCPD.
+### PHP Archive (PHAR)
 
-You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) or [Composer](http://getcomposer.org/) to download and install PHPCPD as well as its dependencies. You can also download a [PHP Archive (PHAR)](http://php.net/phar) of PHPCPD that has all required (as well as some optional) dependencies of PHPCPD bundled in a single file.
+The easiest way to obtain PHPCPD is to download a [PHP Archive (PHAR)](http://php.net/phar) that has all required dependencies of PHPCPD bundled in a single file:
 
-### PEAR Installer
+    wget http://pear.phpunit.de/get/phpcpd.phar
+    chmod +x phpcpd.phar
+    mv phpcpd.phar /usr/local/bin/phpcpd
 
-The following two commands (which you may have to run as `root`) are all that is required to install PHPCPD using the PEAR Installer:
+You can also immediately use the PHAR after you have downloaded it, of course:
 
-    pear config-set auto_discover 1
-    pear install pear.phpunit.de/phpcpd
+    wget http://pear.phpunit.de/get/phpcpd.phar
+    php phpcpd.phar
 
 ### Composer
 
-To add PHPCPD as a local, per-project dependency to your project, simply add a dependency on `sebastian/phpcpd` to your project's `composer.json` file. Here is a minimal example of a `composer.json` file that just defines a development-time dependency on the latest stable version of PHPCPD:
+Simply add a dependency on `sebastian/phpcpd` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project. Here is a minimal example of a `composer.json` file that just defines a development-time dependency on PHPCPD:
 
     {
         "require-dev": {
@@ -25,10 +30,23 @@ To add PHPCPD as a local, per-project dependency to your project, simply add a d
         }
     }
 
-### PHP Archive (PHAR)
+For a standalone, system-wide installation via Composer, a `composer.json` similar to the one shown below can be used from an arbitary directory:
 
-    wget http://pear.phpunit.de/get/phpcpd.phar
-    chmod +x phpcpd.phar
+    {
+        "require": {
+            "sebastian/phpcpd": "*"
+        },
+        "config": {
+            "bin-dir": "/usr/local/bin/"
+        }
+    }
+
+### PEAR Installer
+
+The following two commands (which you may have to run as `root`) are all that is required to install PHPCPD using the PEAR Installer:
+
+    pear config-set auto_discover 1
+    pear install pear.phpunit.de/phpcpd
 
 ## Usage Example
 
