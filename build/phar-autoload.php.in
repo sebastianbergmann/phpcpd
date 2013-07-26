@@ -19,7 +19,7 @@ spl_autoload_register(
   }
 );
 
-$textui = new SebastianBergmann\PHPCPD\TextUI\Command;
-$textui->main();
+$application = new SebastianBergmann\PHPCPD\CLI\Application;
+$application->run();
 
 __HALT_COMPILER();

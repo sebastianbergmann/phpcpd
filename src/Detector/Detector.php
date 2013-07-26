@@ -64,21 +64,14 @@ namespace SebastianBergmann\PHPCPD\Detector
         protected $strategy;
 
         /**
-         * @var ezcConsoleOutput
-         */
-        protected $output;
-
-        /**
          * Constructor.
          *
          * @param AbstractStrategy $strategy
-         * @param ezcConsoleOutput $output
          * @since Method available since Release 1.3.0
          */
-        public function __construct(AbstractStrategy $strategy, \ezcConsoleOutput $output = NULL)
+        public function __construct(AbstractStrategy $strategy)
         {
             $this->strategy = $strategy;
-            $this->output   = $output;
         }
 
         /**
@@ -94,23 +87,10 @@ namespace SebastianBergmann\PHPCPD\Detector
         {
             $result = new CodeCloneMap;
 
-            if ($this->output !== NULL) {
-                $bar = new \ezcConsoleProgressbar($this->output, count($files));
-                print "Processing files\n";
-            }
-
             foreach ($files as $file) {
                 $this->strategy->processFile(
                   $file, $minLines, $minTokens, $result, $fuzzy
                 );
-
-                if ($this->output !== NULL) {
-                    $bar->advance();
-                }
-            }
-
-            if ($this->output !== NULL) {
-                print "\n\n";
             }
 
             return $result;

@@ -38,13 +38,14 @@
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.0.0
+ * @since     File available since Release 2.0.0
  */
 
-namespace SebastianBergmann\PHPCPD\TextUI
+namespace SebastianBergmann\PHPCPD\Log
 {
     use SebastianBergmann\PHPCPD\CodeCloneMap;
     use SebastianBergmann\PHPCPD\CodeClone;
+    use Symfony\Component\Console\Output\OutputInterface;
 
     /**
      * A ResultPrinter for the TextUI.
@@ -53,19 +54,20 @@ namespace SebastianBergmann\PHPCPD\TextUI
      * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
      * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
      * @link      http://github.com/sebastianbergmann/phpcpd/tree
-     * @since     Class available since Release 1.0.0
+     * @since     Class available since Release 2.0.0
      */
-    class ResultPrinter
+    class Text
     {
         /**
          * Prints a result set from Detector::copyPasteDetection().
          *
-         * @param CodeCloneMap $clones
-         * @param bool         $verbose
+         * @param OutputInterface $output
+         * @param CodeCloneMap    $clones
          */
-        public function printResult(CodeCloneMap $clones, $verbose)
+        public function printResult(OutputInterface $output, CodeCloneMap $clones)
         {
             $numClones = count($clones);
+            $verbose   = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
 
             if ($numClones > 0) {
                 $buffer = '';
@@ -98,20 +100,24 @@ namespace SebastianBergmann\PHPCPD\TextUI
                     }
                 }
 
-                printf(
-                  "Found %d exact clones with %d duplicated lines in %d files:\n%s",
-                  $numClones,
-                  $lines,
-                  count($files),
-                  $buffer
+                $output->write(
+                  sprintf(
+                    "Found %d exact clones with %d duplicated lines in %d files:\n%s",
+                    $numClones,
+                    $lines,
+                    count($files),
+                    $buffer
+                  )
                 );
             }
 
-            printf(
-              "%s%s duplicated lines out of %d total lines of code.\n\n",
-              $numClones > 0 ? "\n" : '',
-              $clones->getPercentage(),
-              $clones->getNumLines()
+            $output->write(
+              sprintf(
+                "%s%s duplicated lines out of %d total lines of code.\n\n",
+                $numClones > 0 ? "\n" : '',
+                $clones->getPercentage(),
+                $clones->getNumLines()
+              )
             );
         }
     }

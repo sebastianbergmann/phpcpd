@@ -43,24 +43,25 @@
 
 require_once 'SebastianBergmann/FinderFacade/autoload.php';
 require_once 'SebastianBergmann/Version/autoload.php';
+require_once 'Symfony/Component/Console/autoloader.php';
 require_once 'PHP/Timer/Autoload.php';
-require_once 'ezc/Base/base.php';
 
 spl_autoload_register(
     function($class) {
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-              'sebastianbergmann\\phpcpd\\codeclonefile' => '/CodeCloneFile.php',
+              'sebastianbergmann\\phpcpd\\cli\\application' => '/CLI/Application.php',
+              'sebastianbergmann\\phpcpd\\cli\\command' => '/CLI/Command.php',
               'sebastianbergmann\\phpcpd\\codeclone' => '/CodeClone.php',
+              'sebastianbergmann\\phpcpd\\codeclonefile' => '/CodeCloneFile.php',
               'sebastianbergmann\\phpcpd\\codeclonemap' => '/CodeCloneMap.php',
               'sebastianbergmann\\phpcpd\\detector\\detector' => '/Detector/Detector.php',
               'sebastianbergmann\\phpcpd\\detector\\strategy\\abstractstrategy' => '/Detector/Strategy/Abstract.php',
               'sebastianbergmann\\phpcpd\\detector\\strategy\\defaultstrategy' => '/Detector/Strategy/Default.php',
               'sebastianbergmann\\phpcpd\\log\\abstractxmllogger' => '/Log/AbstractXmlLogger.php',
               'sebastianbergmann\\phpcpd\\log\\pmd' => '/Log/PMD.php',
-              'sebastianbergmann\\phpcpd\\textui\\command' => '/TextUI/Command.php',
-              'sebastianbergmann\\phpcpd\\textui\\resultprinter' => '/TextUI/ResultPrinter.php'
+              'sebastianbergmann\\phpcpd\\log\\text' => '/Log/Text.php'
             );
         }
         $cn = strtolower($class);
@@ -69,5 +70,3 @@ spl_autoload_register(
         }
     }
 );
-
-spl_autoload_register(array('ezcBase', 'autoload'));

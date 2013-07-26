@@ -15,16 +15,11 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "zetacomponents/base": ">=1.8",
-        "zetacomponents/console-tools": ">=1.6",
-        "sebastian/finder-facade": "~1.1",
+        "sebastian/finder-facade": ">=1.1.0",
+        "sebastian/version": ">=1.0.0",
+        "symfony/console": ">=2.2.0",
         "phpunit/php-timer": ">=1.0.4,<1.1.0",
-        "symfony/finder": ">=2.1.2",
-        "theseer/fdomdocument": "~1.4",
-        "sebastian/version": ">=1.0.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit" : "3.7.*"
+        "theseer/fdomdocument": "~1.4"
     },
     "autoload": {
         "classmap": [

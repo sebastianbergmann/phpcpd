@@ -19,8 +19,8 @@
  </lead>
  <date>2013-MM-DD</date>
  <version>
-  <release>1.5.0</release>
-  <api>1.5.0</api>
+  <release>2.0.0</release>
+  <api>2.0.0</api>
  </version>
  <stability>
   <release>stable</release>
@@ -32,6 +32,10 @@
   <dir name="/">
    <dir name="SebastianBergmann">
     <dir name="PHPCPD">
+     <dir name="CLI">
+      <file baseinstalldir="/" name="Application.php" role="php" />
+      <file baseinstalldir="/" name="Command.php" role="php" />
+     </dir>
      <dir name="Detector">
       <dir name="Strategy">
       <file baseinstalldir="/" name="Abstract.php" role="php" />
@@ -42,10 +46,7 @@
      <dir name="Log">
       <file baseinstalldir="/" name="AbstractXmlLogger.php" role="php" />
       <file baseinstalldir="/" name="PMD.php" role="php" />
-     </dir>
-     <dir name="TextUI">
-      <file baseinstalldir="/" name="Command.php" role="php" />
-      <file baseinstalldir="/" name="ResultPrinter.php" role="php" />
+      <file baseinstalldir="/" name="Text.php" role="php" />
      </dir>
      <file baseinstalldir="/" name="autoload.php" role="php" />
      <file baseinstalldir="/" name="CodeClone.php" role="php" />
@@ -60,7 +61,6 @@
     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
     <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
    </file>
-   <file baseinstalldir="/" name="ChangeLog.md" role="doc"/>
    <file baseinstalldir="/" name="LICENSE" role="doc"/>
    <file baseinstalldir="/" name="README.md" role="doc"/>
   </dir>
@@ -74,9 +74,9 @@
     <min>1.9.4</min>
    </pearinstaller>
    <package>
-    <name>ConsoleTools</name>
-    <channel>components.ez.no</channel>
-    <min>1.6</min>
+    <name>Console</name>
+    <channel>pear.symfony.com</channel>
+    <min>2.2.0</min>
    </package>
    <package>
     <name>FinderFacade</name>

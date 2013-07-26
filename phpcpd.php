@@ -52,5 +52,5 @@ if (strpos('@php_bin@', '@php_bin') === 0) {
     require 'SebastianBergmann/PHPCPD/autoload.php';
 }
 
-$textui = new SebastianBergmann\PHPCPD\TextUI\Command;
-$textui->main();
+$application = new SebastianBergmann\PHPCPD\CLI\Application;
+$application->run();
