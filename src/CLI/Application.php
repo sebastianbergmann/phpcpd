@@ -123,7 +123,8 @@ namespace SebastianBergmann\PHPCPD\CLI
                 );
             }
 
-            if ($input->hasParameterOption('--version')) {
+            if ($input->hasParameterOption('--version') ||
+                $input->hasParameterOption('-V')) {
                 exit;
             }
 
