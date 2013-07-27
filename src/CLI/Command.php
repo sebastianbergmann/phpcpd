@@ -145,6 +145,8 @@ namespace SebastianBergmann\PHPCPD\CLI
             $files = $finder->findFiles();
 
             if (empty($files)) {
+                $output->writeln('No files found to scan');
+                exit(1);
             }
 
             $strategy = new DefaultStrategy;
