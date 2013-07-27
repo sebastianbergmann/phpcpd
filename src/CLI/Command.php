@@ -122,6 +122,12 @@ namespace SebastianBergmann\PHPCPD\CLI
                      NULL,
                      InputOption::VALUE_NONE,
                      'Fuzz variable names'
+                   )
+                 ->addOption(
+                     'progress',
+                     NULL,
+                     InputOption::VALUE_NONE,
+                     'Show progress bar'
                    );
         }
 
@@ -149,8 +155,15 @@ namespace SebastianBergmann\PHPCPD\CLI
                 exit(1);
             }
 
+            $progressHelper = NULL;
+
+            if ($input->getOption('progress')) {
+                $progressHelper = $this->getHelperSet()->get('progress');
+                $progressHelper->start($output, count($files));
+            }
+
             $strategy = new DefaultStrategy;
-            $detector = new Detector($strategy);
+            $detector = new Detector($strategy, $progressHelper);
             $quiet    = $output->getVerbosity() == OutputInterface::VERBOSITY_QUIET;
 
             $clones = $detector->copyPasteDetection(
@@ -159,6 +172,11 @@ namespace SebastianBergmann\PHPCPD\CLI
               $input->getOption('min-tokens'),
               $input->getOption('fuzzy')
             );
+
+            if ($input->getOption('progress')) {
+                $progressHelper->finish();
+                $output->writeln('');
+            }
 
             if (!$quiet) {
                 $printer = new Text;
