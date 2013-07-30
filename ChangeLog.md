@@ -6,6 +6,11 @@ This is the list of changes for the phpcpd 1.4 release series.
 phpcpd 1.4.2
 ------------
 
+* Upgraded bundled Version component for PHAR distribution.
+
+phpcpd 1.4.2
+------------
+
 * Fixed `composer.json`.
 
 phpcpd 1.4.1
