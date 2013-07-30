@@ -64,7 +64,7 @@ namespace SebastianBergmann\PHPCPD\TextUI
 
         public function __construct()
         {
-            $version = new Version('1.4.2', __DIR__);
+            $version = new Version('1.4.3', __DIR__);
             $this->version = $version->getVersion();
         }
 
