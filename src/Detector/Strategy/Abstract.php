@@ -66,7 +66,9 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
           T_OPEN_TAG => TRUE,
           T_OPEN_TAG_WITH_ECHO => TRUE,
           T_CLOSE_TAG => TRUE,
-          T_WHITESPACE => TRUE
+          T_WHITESPACE => TRUE,
+          T_USE => TRUE,
+          T_NS_SEPARATOR => TRUE
         );
 
         /**
