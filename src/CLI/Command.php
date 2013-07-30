@@ -144,8 +144,8 @@ namespace SebastianBergmann\PHPCPD\CLI
             $finder = new FinderFacade(
               $input->getArgument('values'),
               $input->getOption('exclude'),
-              $input->getOption('names'),
-              $input->getOption('names-exclude')
+              $this->handleCSVOption($input, 'names'),
+              $this->handleCSVOption($input, 'names-exclude')
             );
 
             $files = $finder->findFiles();
@@ -199,6 +199,23 @@ namespace SebastianBergmann\PHPCPD\CLI
             if (count($clones) > 0) {
                 exit(1);
             }
+        }
+
+        /**
+         * @param  Symfony\Component\Console\Input\InputOption $input
+         * @param  string                                      $option
+         * @return array
+         */
+        private function handleCSVOption(InputInterface $input, $option)
+        {
+            $result = $input->getOption($option);
+
+            if (!is_array($result)) {
+                $result = explode(',', $result);
+                array_map('trim', $result);
+            }
+
+            return $result;
         }
     }
 }
