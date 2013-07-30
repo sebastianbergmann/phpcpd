@@ -94,9 +94,8 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                             $token[1] = 'variable';
                         }
 
-                        $currentSignature .= chr(
-                          $token[0] & 255) . pack('N*', crc32($token[1])
-                        );
+                        $currentSignature .= chr($token[0] & 255) .
+                                             pack('N*', crc32($token[1]));
                     }
                 }
             }
