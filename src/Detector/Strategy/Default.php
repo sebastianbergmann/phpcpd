@@ -71,13 +71,13 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
          */
         public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = FALSE)
         {
-            $buffer                = file_get_contents($file);
-            $currentTokenPositions = array();
+            $buffer                    = file_get_contents($file);
+            $currentTokenPositions     = array();
             $currentTokenRealPositions = array();
-            $currentSignature      = '';
-            $tokens                = token_get_all($buffer);
-            $tokenNr               = 0;
-            $lastTokenLine=0;
+            $currentSignature          = '';
+            $tokens                    = token_get_all($buffer);
+            $tokenNr                   = 0;
+            $lastTokenLine             = 0;
 
             $result->setNumLines(
               $result->getNumLines() + substr_count($buffer, "\n")
@@ -90,6 +90,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
 
                 if (is_array($token)) {
                     if (!isset($this->tokensIgnoreList[$token[0]])) {
+
                         if($tokenNr == 0 ){
                             $currentTokenPositions[$tokenNr] = ($token[2] - $lastTokenLine);
                         }else{
@@ -110,11 +111,11 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                 }
             }
 
-            $count     = count($currentTokenPositions);
-            $firstLine = 0;
+            $count         = count($currentTokenPositions);
+            $firstLine     = 0;
             $firstRealLine = 0;
-            $found     = FALSE;
-            $tokenNr   = 0;
+            $found         = FALSE;
+            $tokenNr       = 0;
 
             while ($tokenNr <= $count - $minTokens) {
                 $line = $currentTokenPositions[$tokenNr];
@@ -136,19 +137,19 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                     $found = TRUE;
 
                     if ($firstLine === 0) {
-                        $firstLine  = $line;
+                        $firstLine     = $line;
                         $firstRealLine = $realLine;
-                        $firstHash  = $hash;
-                        $firstToken = $tokenNr;
+                        $firstHash     = $hash;
+                        $firstToken    = $tokenNr;
                     }
                 } else {
                     if ($found) {
-                        $fileA      = $this->hashes[$firstHash][0];
-                        $firstLineA = $this->hashes[$firstHash][1];
-                        $lastToken  = ($tokenNr - 1) + $minTokens - 1;
-                        $lastLine   = $currentTokenPositions[$lastToken];
+                        $fileA        = $this->hashes[$firstHash][0];
+                        $firstLineA   = $this->hashes[$firstHash][1];
+                        $lastToken    = ($tokenNr - 1) + $minTokens - 1;
+                        $lastLine     = $currentTokenPositions[$lastToken];
                         $lastRealLine = $currentTokenRealPositions[$lastToken];
-                        $numLines   = $lastLine + 1 - $firstLine;
+                        $numLines     = $lastLine + 1 - $firstLine;
                         $realNumLines = $lastRealLine +1 - $firstRealLine;
 
                         if ($numLines >= $minLines &&
@@ -175,12 +176,12 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
             }
 
             if ($found) {
-                $fileA      = $this->hashes[$firstHash][0];
-                $firstLineA = $this->hashes[$firstHash][1];
-                $lastToken  = ($tokenNr - 1) + $minTokens - 1;
-                $lastLine   = $currentTokenPositions[$lastToken];
+                $fileA        = $this->hashes[$firstHash][0];
+                $firstLineA   = $this->hashes[$firstHash][1];
+                $lastToken    = ($tokenNr - 1) + $minTokens - 1;
+                $lastLine     = $currentTokenPositions[$lastToken];
                 $lastRealLine = $currentTokenRealPositions[$lastToken];
-                $numLines   = $lastLine + 1 - $firstLine;
+                $numLines     = $lastLine + 1 - $firstLine;
                 $realNumLines = $lastRealLine +1 - $firstRealLine;
 
                 if ($numLines >= $minLines &&
