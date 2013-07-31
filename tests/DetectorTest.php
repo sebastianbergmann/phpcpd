@@ -280,6 +280,38 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $this->assertCount(1, $clones);
     }
 
+    /**
+     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
+     * @dataProvider strategyProvider
+     */
+    public function testStripComments($strategy)
+    {
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $clones = $detector->copyPasteDetection(
+            array(
+                TEST_FILES_PATH . 'e.php',
+                TEST_FILES_PATH . 'f.php'
+            ),
+            8,
+            10,
+            TRUE
+        );
+        $clones = $clones->getClones();
+        $this->assertCount(0, $clones);
+
+        $clones = $detector->copyPasteDetection(
+            array(
+                TEST_FILES_PATH . 'e.php',
+                TEST_FILES_PATH . 'f.php'
+            ),
+            7,
+            10,
+            TRUE
+        );
+        $clones = $clones->getClones();
+        $this->assertCount(1, $clones);
+    }
+
     public function strategyProvider()
     {
         return array(
