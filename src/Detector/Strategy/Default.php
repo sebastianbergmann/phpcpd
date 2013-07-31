@@ -73,9 +73,11 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
         {
             $buffer                = file_get_contents($file);
             $currentTokenPositions = array();
+            $currentTokenRealPositions = array();
             $currentSignature      = '';
             $tokens                = token_get_all($buffer);
             $tokenNr               = 0;
+            $lastTokenLine=0;
 
             $result->setNumLines(
               $result->getNumLines() + substr_count($buffer, "\n")
@@ -88,7 +90,13 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
 
                 if (is_array($token)) {
                     if (!isset($this->tokensIgnoreList[$token[0]])) {
-                        $currentTokenPositions[$tokenNr++] = $token[2];
+                        if($tokenNr == 0 ){
+                            $currentTokenPositions[$tokenNr] = ($token[2] - $lastTokenLine);
+                        }else{
+                            $currentTokenPositions[$tokenNr] = $currentTokenPositions[$tokenNr-1]
+                                                               + ($token[2] - $lastTokenLine);
+                        }
+                        $currentTokenRealPositions[$tokenNr++] = $token[2];
 
                         if ($fuzzy && $token[0] == T_VARIABLE) {
                             $token[1] = 'variable';
@@ -97,16 +105,20 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                         $currentSignature .= chr($token[0] & 255) .
                                              pack('N*', crc32($token[1]));
                     }
+
+                    $lastTokenLine = $token[2];
                 }
             }
 
             $count     = count($currentTokenPositions);
             $firstLine = 0;
+            $firstRealLine = 0;
             $found     = FALSE;
             $tokenNr   = 0;
 
             while ($tokenNr <= $count - $minTokens) {
                 $line = $currentTokenPositions[$tokenNr];
+                $realLine = $currentTokenRealPositions[$tokenNr];
 
                 $hash = substr(
                   md5(
@@ -125,6 +137,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
 
                     if ($firstLine === 0) {
                         $firstLine  = $line;
+                        $firstRealLine = $realLine;
                         $firstHash  = $hash;
                         $firstToken = $tokenNr;
                     }
@@ -134,7 +147,9 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                         $firstLineA = $this->hashes[$firstHash][1];
                         $lastToken  = ($tokenNr - 1) + $minTokens - 1;
                         $lastLine   = $currentTokenPositions[$lastToken];
+                        $lastRealLine = $currentTokenRealPositions[$lastToken];
                         $numLines   = $lastLine + 1 - $firstLine;
+                        $realNumLines = $lastRealLine +1 - $firstRealLine;
 
                         if ($numLines >= $minLines &&
                             ($fileA != $file ||
@@ -142,8 +157,8 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                             $result->addClone(
                               new CodeClone(
                                 new CodeCloneFile($fileA, $firstLineA),
-                                new CodeCloneFile($file, $firstLine),
-                                $numLines,
+                                new CodeCloneFile($file, $firstRealLine),
+                                $realNumLines,
                                 $lastToken + 1 - $firstToken
                               )
                             );
@@ -153,7 +168,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                         $firstLine = 0;
                     }
 
-                    $this->hashes[$hash] = array($file, $line);
+                    $this->hashes[$hash] = array($file, $realLine);
                 }
 
                 $tokenNr++;
@@ -164,15 +179,17 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                 $firstLineA = $this->hashes[$firstHash][1];
                 $lastToken  = ($tokenNr - 1) + $minTokens - 1;
                 $lastLine   = $currentTokenPositions[$lastToken];
+                $lastRealLine = $currentTokenRealPositions[$lastToken];
                 $numLines   = $lastLine + 1 - $firstLine;
+                $realNumLines = $lastRealLine +1 - $firstRealLine;
 
                 if ($numLines >= $minLines &&
                     ($fileA != $file || $firstLineA != $firstLine)) {
                     $result->addClone(
                       new CodeClone(
                         new CodeCloneFile($fileA, $firstLineA),
-                        new CodeCloneFile($file, $firstLine),
-                        $numLines,
+                          new CodeCloneFile($file, $firstRealLine),
+                        $realNumLines,
                         $lastToken + 1 - $firstToken
                       )
                     );
