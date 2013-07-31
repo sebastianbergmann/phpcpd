@@ -153,7 +153,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
 
                         if ($numLines >= $minLines &&
                             ($fileA != $file ||
-                             $firstLineA != $firstLine)) {
+                             $firstLineA != $firstRealLine)) {
                             $result->addClone(
                               new CodeClone(
                                 new CodeCloneFile($fileA, $firstLineA),
@@ -184,7 +184,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy
                 $realNumLines = $lastRealLine +1 - $firstRealLine;
 
                 if ($numLines >= $minLines &&
-                    ($fileA != $file || $firstLineA != $firstLine)) {
+                    ($fileA != $file || $firstLineA != $firstRealLine)) {
                     $result->addClone(
                       new CodeClone(
                         new CodeCloneFile($fileA, $firstLineA),
