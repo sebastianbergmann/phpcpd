@@ -41,50 +41,49 @@
  * @since     File available since Release 1.4.0
  */
 
-namespace SebastianBergmann\PHPCPD\Detector\Strategy
+namespace SebastianBergmann\PHPCPD\Detector\Strategy;
+
+use SebastianBergmann\PHPCPD\CodeCloneMap;
+
+/**
+ * Abstract base class for strategies to detect code clones.
+ *
+ * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link      http://github.com/sebastianbergmann/phpcpd/tree
+ * @since     Class available since Release 1.4.0
+ */
+abstract class AbstractStrategy
 {
-    use SebastianBergmann\PHPCPD\CodeCloneMap;
+    /**
+     * @var integer[] List of tokens to ignore
+     */
+    protected $tokensIgnoreList = array(
+      T_INLINE_HTML => true,
+      T_COMMENT => true,
+      T_DOC_COMMENT => true,
+      T_OPEN_TAG => true,
+      T_OPEN_TAG_WITH_ECHO => true,
+      T_CLOSE_TAG => true,
+      T_WHITESPACE => true,
+      T_USE => true,
+      T_NS_SEPARATOR => true
+    );
 
     /**
-     * Abstract base class for strategies to detect code clones.
-     *
-     * @author    Sebastian Bergmann <sebastian@phpunit.de>
-     * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
-     * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
-     * @link      http://github.com/sebastianbergmann/phpcpd/tree
-     * @since     Class available since Release 1.4.0
+     * @var string[]
      */
-    abstract class AbstractStrategy
-    {
-        /**
-         * @var integer[] List of tokens to ignore
-         */
-        protected $tokensIgnoreList = array(
-          T_INLINE_HTML => TRUE,
-          T_COMMENT => TRUE,
-          T_DOC_COMMENT => TRUE,
-          T_OPEN_TAG => TRUE,
-          T_OPEN_TAG_WITH_ECHO => TRUE,
-          T_CLOSE_TAG => TRUE,
-          T_WHITESPACE => TRUE,
-          T_USE => TRUE,
-          T_NS_SEPARATOR => TRUE
-        );
+    protected $hashes = array();
 
-        /**
-         * @var string[]
-         */
-        protected $hashes = array();
-
-        /**
-         * Copy & Paste Detection (CPD).
-         *
-         * @param string       $file
-         * @param integer      $minLines
-         * @param integer      $minTokens
-         * @param CodeCloneMap $result
-         * @param boolean      $fuzzy
-         */
-        abstract public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = FALSE);
-    }
+    /**
+     * Copy & Paste Detection (CPD).
+     *
+     * @param string       $file
+     * @param integer      $minLines
+     * @param integer      $minTokens
+     * @param CodeCloneMap $result
+     * @param boolean      $fuzzy
+     */
+    abstract public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = false);
 }

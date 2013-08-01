@@ -40,67 +40,66 @@
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @since     File available since Release 1.5.0
  */
-namespace SebastianBergmann\PHPCPD
+namespace SebastianBergmann\PHPCPD;
+
+/**
+ * Represents an exact code clone file.
+ *
+ * @author    Alexander Kazakov <alexshadow007@gmail.com>
+ * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link      http://github.com/sebastianbergmann/phpcpd/tree
+ * @since     Class available since Release 1.5.0
+ */
+class CodeCloneFile
 {
     /**
-     * Represents an exact code clone file.
-     *
-     * @author    Alexander Kazakov <alexshadow007@gmail.com>
-     * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
-     * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
-     * @link      http://github.com/sebastianbergmann/phpcpd/tree
-     * @since     Class available since Release 1.5.0
+     * @var string
      */
-    class CodeCloneFile
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var integer
+     */
+    private $startLine;
+
+    /**
+     * @param string  $name
+     * @param integer $startLine
+     */
+    public function __construct($name, $startLine)
     {
-        /**
-         * @var string
-         */
-        private $id;
+        $this->name      = $name;
+        $this->startLine = $startLine;
+        $this->id        = $this->name . ':' . $this->startLine;
+    }
 
-        /**
-         * @var string
-         */
-        private $name;
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-        /**
-         * @var integer
-         */
-        private $startLine;
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-        /**
-         * @param string  $name
-         * @param integer $startLine
-         */
-        public function __construct($name, $startLine)
-        {
-            $this->name      = $name;
-            $this->startLine = $startLine;
-            $this->id        = $this->name . ':' . $this->startLine;
-        }
-
-        /**
-         * @return string
-         */
-        public function getId()
-        {
-            return $this->id;
-        }
-
-        /**
-         * @return string
-         */
-        public function getName()
-        {
-            return $this->name;
-        }
-
-        /**
-         * @return integer
-         */
-        public function getStartLine()
-        {
-            return $this->startLine;
-        }
+    /**
+     * @return integer
+     */
+    public function getStartLine()
+    {
+        return $this->startLine;
     }
 }

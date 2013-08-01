@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="phpcpd" default="build">
- <target name="build" depends="prepare,lint,phpunit"/>
+ <target name="build" depends="prepare,lint,phpcs,phpunit"/>
 
  <target name="clean" description="Cleanup build artifacts">
   <delete dir="${basedir}/vendor"/>
@@ -47,6 +47,15 @@
     <modified />
    </fileset>
   </apply>
+ </target>
+
+ <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer">
+  <exec executable="phpcs">
+   <arg value="--standard=PSR2" />
+   <arg value="--extensions=php" />
+   <arg value="--ignore=autoload.php" />
+   <arg path="${basedir}/src" />
+  </exec>
  </target>
 
  <target name="phpunit" description="Run unit tests with PHPUnit">

@@ -47,7 +47,7 @@ require_once 'Symfony/Component/Console/autoloader.php';
 require_once 'PHP/Timer/Autoload.php';
 
 spl_autoload_register(
-    function($class) {
+    function ($class) {
         static $classes = null;
         if ($classes === null) {
             $classes = array(

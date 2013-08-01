@@ -41,70 +41,73 @@
  * @since     File available since Release 1.0.0
  */
 
-namespace SebastianBergmann\PHPCPD\Detector
+namespace SebastianBergmann\PHPCPD\Detector;
+
+use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
+use SebastianBergmann\PHPCPD\CodeCloneMap;
+use Symfony\Component\Console\Helper\ProgressHelper;
+
+/**
+ * PHPCPD code analyser.
+ *
+ * @author    Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
+ * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link      http://github.com/sebastianbergmann/phpcpd/tree
+ * @since     Class available since Release 1.0.0
+ */
+class Detector
 {
-    use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
-    use SebastianBergmann\PHPCPD\CodeCloneMap;
-    use Symfony\Component\Console\Helper\ProgressHelper;
+    /**
+     * @var SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy
+     */
+    protected $strategy;
 
     /**
-     * PHPCPD code analyser.
-     *
-     * @author    Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
-     * @author    Sebastian Bergmann <sebastian@phpunit.de>
-     * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
-     * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
-     * @link      http://github.com/sebastianbergmann/phpcpd/tree
-     * @since     Class available since Release 1.0.0
+     * @var Symfony\Component\Console\Helper\ProgressHelper
      */
-    class Detector
+    protected $progressHelper;
+
+    /**
+     * Constructor.
+     *
+     * @param AbstractStrategy $strategy
+     * @since Method available since Release 1.3.0
+     */
+    public function __construct(AbstractStrategy $strategy, ProgressHelper $progressHelper = null)
     {
-        /**
-         * @var SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy
-         */
-        protected $strategy;
+        $this->strategy       = $strategy;
+        $this->progressHelper = $progressHelper;
+    }
 
-        /**
-         * @var Symfony\Component\Console\Helper\ProgressHelper
-         */
-        protected $progressHelper;
+    /**
+     * Copy & Paste Detection (CPD).
+     *
+     * @param  Iterator|array $files     List of files to process
+     * @param  integer        $minLines  Minimum number of identical lines
+     * @param  integer        $minTokens Minimum number of identical tokens
+     * @param  boolean        $fuzzy
+     * @return CodeCloneMap   Map of exact clones found in the list of files
+     */
+    public function copyPasteDetection($files, $minLines = 5, $minTokens = 70, $fuzzy = false)
+    {
+        $result = new CodeCloneMap;
 
-        /**
-         * Constructor.
-         *
-         * @param AbstractStrategy $strategy
-         * @since Method available since Release 1.3.0
-         */
-        public function __construct(AbstractStrategy $strategy, ProgressHelper $progressHelper = NULL)
-        {
-            $this->strategy       = $strategy;
-            $this->progressHelper = $progressHelper;
-        }
+        foreach ($files as $file) {
+            $this->strategy->processFile(
+                $file,
+                $minLines,
+                $minTokens,
+                $result,
+                $fuzzy
+            );
 
-        /**
-         * Copy & Paste Detection (CPD).
-         *
-         * @param  Iterator|array $files     List of files to process
-         * @param  integer        $minLines  Minimum number of identical lines
-         * @param  integer        $minTokens Minimum number of identical tokens
-         * @param  boolean        $fuzzy
-         * @return CodeCloneMap   Map of exact clones found in the list of files
-         */
-        public function copyPasteDetection($files, $minLines = 5, $minTokens = 70, $fuzzy = FALSE)
-        {
-            $result = new CodeCloneMap;
-
-            foreach ($files as $file) {
-                $this->strategy->processFile(
-                  $file, $minLines, $minTokens, $result, $fuzzy
-                );
-
-                if ($this->progressHelper !== NULL) {
-                    $this->progressHelper->advance();
-                }
+            if ($this->progressHelper !== null) {
+                $this->progressHelper->advance();
             }
-
-            return $result;
         }
+
+        return $result;
     }
 }
