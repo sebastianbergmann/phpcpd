@@ -63,7 +63,7 @@ class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('2.0', __DIR__);
+        $version = new Version('2.0.0-BETA1', __DIR__);
         parent::__construct('phpcpd', $version->getVersion());
     }
 
