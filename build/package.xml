@@ -87,7 +87,6 @@
     <name>PHP_Timer</name>
     <channel>pear.phpunit.de</channel>
     <min>1.0.4</min>
-    <max>1.0.99</max>
    </package>
    <package>
     <name>Version</name>
