@@ -50,6 +50,7 @@
      </dir>
      <file baseinstalldir="/" name="autoload.php" role="php" />
      <file baseinstalldir="/" name="CodeClone.php" role="php" />
+     <file baseinstalldir="/" name="CodeCloneFile.php" role="php" />
      <file baseinstalldir="/" name="CodeCloneMap.php" role="php" />
     </dir>
    </dir>
