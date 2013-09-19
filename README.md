@@ -30,16 +30,11 @@ Simply add a dependency on `sebastian/phpcpd` to your project's `composer.json` 
         }
     }
 
-For a standalone, system-wide installation via Composer, a `composer.json` similar to the one shown below can be used from an arbitary directory:
+For a system-wide installation via Composer, you can run:
 
-    {
-        "require": {
-            "sebastian/phpcpd": "*"
-        },
-        "config": {
-            "bin-dir": "/usr/local/bin/"
-        }
-    }
+    composer global require 'sebastian/phpcpd=*'
+
+Make sure you have `~/.composer/vendor/bin/` in your path.
 
 ### PEAR Installer
 
