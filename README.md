@@ -11,13 +11,13 @@
 
 The easiest way to obtain PHPCPD is to download a [PHP Archive (PHAR)](http://php.net/phar) that has all required dependencies of PHPCPD bundled in a single file:
 
-    wget http://pear.phpunit.de/get/phpcpd.phar
+    wget https://phar.phpunit.de/phpcpd.phar
     chmod +x phpcpd.phar
     mv phpcpd.phar /usr/local/bin/phpcpd
 
 You can also immediately use the PHAR after you have downloaded it, of course:
 
-    wget http://pear.phpunit.de/get/phpcpd.phar
+    wget https://phar.phpunit.de/phpcpd.phar
     php phpcpd.phar
 
 ### Composer
