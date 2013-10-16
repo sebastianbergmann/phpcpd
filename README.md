@@ -62,3 +62,11 @@ The following two commands (which you may have to run as `root`) are all that is
     0.19% duplicated lines out of 27640 total lines of code.
 
     Time: 0 seconds, Memory: 18.25Mb
+
+### Exclude files from a run
+
+Too exclude a directory in `src/Proxy/` use the following:
+
+    phpcpd --exclude Proxy src/
+    ...
+
