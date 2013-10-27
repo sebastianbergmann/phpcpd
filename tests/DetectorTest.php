@@ -66,7 +66,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      */
     public function testDetectingSimpleClonesWorks($strategy)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = $this->createDetector($strategy);
 
         $clones = $detector->copyPasteDetection(
           array(TEST_FILES_PATH . 'Math.php')
@@ -157,7 +157,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      */
     public function testDetectingExactDuplicateFilesWorks($strategy)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = $this->createDetector($strategy);
 
         $clones = $detector->copyPasteDetection(array(
           TEST_FILES_PATH . 'a.php',
@@ -186,7 +186,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      */
     public function testDetectingClonesInMoreThanTwoFiles($strategy)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = $this->createDetector($strategy);
 
         $clones = $detector->copyPasteDetection(
           array(
@@ -223,7 +223,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      */
     public function testClonesAreIgnoredIfTheySpanLessTokensThanMinTokens($strategy)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = $this->createDetector($strategy);
 
         $clones = $detector->copyPasteDetection(
           array(
@@ -243,7 +243,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      */
     public function testClonesAreIgnoredIfTheySpanLessLinesThanMinLines($strategy)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = $this->createDetector($strategy);
 
         $clones = $detector->copyPasteDetection(
           array(
@@ -263,7 +263,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      */
     public function testFuzzyClonesAreFound($strategy)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = $this->createDetector($strategy);
 
         $clones = $detector->copyPasteDetection(
           array(
@@ -286,7 +286,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      */
     public function testStripComments($strategy)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = $this->createDetector($strategy);
         $clones = $detector->copyPasteDetection(
             array(
                 TEST_FILES_PATH . 'e.php',
@@ -310,6 +310,14 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         );
         $clones = $clones->getClones();
         $this->assertCount(1, $clones);
+    }
+
+    private function createDetector($strategyClass)
+    {
+        $tokenizer = new SebastianBergmann\PHPCPD\Detector\Tokenizer\PHP();
+        $strategy  = new $strategyClass($tokenizer);
+
+        return new SebastianBergmann\PHPCPD\Detector\Detector($strategy);
     }
 
     public function strategyProvider()

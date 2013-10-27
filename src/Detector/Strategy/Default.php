@@ -46,6 +46,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy;
 use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
+use SebastianBergmann\PHPCPD\Detector\Tokenizer;
 
 /**
  * Default strategy for detecting code clones.
@@ -60,6 +61,22 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
 class DefaultStrategy extends AbstractStrategy
 {
     /**
+     * @var Tokenizer
+     */
+    private $tokenizer;
+
+    /**
+     * Constructor.
+     *
+     * @param Tokenizer $tokenizer
+     * @since Method available since Release 2.0.0
+     */
+    public function __construct(Tokenizer $tokenizer)
+    {
+        $this->tokenizer = $tokenizer;
+    }
+
+    /**
      * Copy & Paste Detection (CPD).
      *
      * @param  string       $file
@@ -71,19 +88,20 @@ class DefaultStrategy extends AbstractStrategy
      */
     public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = false)
     {
-        $buffer                    = file_get_contents($file);
+        $tokenizerResult = $this->tokenizer->tokenizeFile($file);
+
         $currentTokenPositions     = array();
         $currentTokenRealPositions = array();
         $currentSignature          = '';
-        $tokens                    = token_get_all($buffer);
+        $tokens                    = $tokenizerResult->getTokens();
         $tokenNr                   = 0;
         $lastTokenLine             = 0;
 
         $result->setNumLines(
-            $result->getNumLines() + substr_count($buffer, "\n")
+            $result->getNumLines() + $tokenizerResult->getNumberOfLines()
         );
 
-        unset($buffer);
+        unset($tokenizerResult);
 
         foreach (array_keys($tokens) as $key) {
             $token = $tokens[$key];

@@ -45,6 +45,7 @@ namespace SebastianBergmann\PHPCPD\CLI;
 
 use SebastianBergmann\PHPCPD\Detector\Detector;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
+use SebastianBergmann\PHPCPD\Detector\Tokenizer\PHP;
 use SebastianBergmann\PHPCPD\Log\PMD;
 use SebastianBergmann\PHPCPD\Log\Text;
 use SebastianBergmann\FinderFacade\FinderFacade;
@@ -162,9 +163,10 @@ class Command extends AbstractCommand
             $progressHelper->start($output, count($files));
         }
 
-        $strategy = new DefaultStrategy;
-        $detector = new Detector($strategy, $progressHelper);
-        $quiet    = $output->getVerbosity() == OutputInterface::VERBOSITY_QUIET;
+        $tokenizer = new PHP;
+        $strategy  = new DefaultStrategy($tokenizer);
+        $detector  = new Detector($strategy, $progressHelper);
+        $quiet     = $output->getVerbosity() == OutputInterface::VERBOSITY_QUIET;
 
         $clones = $detector->copyPasteDetection(
             $files,

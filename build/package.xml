@@ -38,10 +38,15 @@
      </dir>
      <dir name="Detector">
       <dir name="Strategy">
-      <file baseinstalldir="/" name="Abstract.php" role="php" />
-      <file baseinstalldir="/" name="Default.php" role="php" />
+       <file baseinstalldir="/" name="Abstract.php" role="php" />
+       <file baseinstalldir="/" name="Default.php" role="php" />
+      </dir>
+      <dir name="Tokenizer">
+       <file baseinstalldir="/" name="PHP.php" role="php" />
+       <file baseinstalldir="/" name="Result.php" role="php" />
       </dir>
       <file baseinstalldir="/" name="Detector.php" role="php" />
+      <file baseinstalldir="/" name="Tokenizer.php" role="php" />
      </dir>
      <dir name="Log">
       <file baseinstalldir="/" name="AbstractXmlLogger.php" role="php" />
