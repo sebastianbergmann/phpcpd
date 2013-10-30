@@ -65,8 +65,13 @@ The following two commands (which you may have to run as `root`) are all that is
 
 ### Exclude files from a run
 
-Too exclude a directory in `src/Proxy/` use the following:
+To exclude any instance of a `Proxy/` directory in `src/` use the following:
 
     phpcpd --exclude Proxy src/
     ...
+
+This will ignore any `Proxy` directory in the tree:
+
+ * `src/Proxy/`
+ * `src/Something/Proxy/Else/`
 
