@@ -38,38 +38,64 @@
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.1.0
+ * @since     File available since Release 2.0.0
  */
 
-require_once 'SebastianBergmann/FinderFacade/autoload.php';
-require_once 'SebastianBergmann/Version/autoload.php';
-require_once 'Symfony/Component/Console/autoloader.php';
-require_once 'PHP/Timer/Autoload.php';
+namespace SebastianBergmann\PHPCPD\Detector\Tokenizer;
 
-spl_autoload_register(
-    function ($class) {
-        static $classes = null;
-        if ($classes === null) {
-            $classes = array(
-              'sebastianbergmann\\phpcpd\\cli\\application' => '/CLI/Application.php',
-              'sebastianbergmann\\phpcpd\\cli\\command' => '/CLI/Command.php',
-              'sebastianbergmann\\phpcpd\\codeclone' => '/CodeClone.php',
-              'sebastianbergmann\\phpcpd\\codeclonefile' => '/CodeCloneFile.php',
-              'sebastianbergmann\\phpcpd\\codeclonemap' => '/CodeCloneMap.php',
-              'sebastianbergmann\\phpcpd\\detector\\detector' => '/Detector/Detector.php',
-              'sebastianbergmann\\phpcpd\\detector\\strategy\\abstractstrategy' => '/Detector/Strategy/Abstract.php',
-              'sebastianbergmann\\phpcpd\\detector\\strategy\\defaultstrategy' => '/Detector/Strategy/Default.php',
-              'sebastianbergmann\\phpcpd\\detector\\tokenizer' => '/Detector/Tokenizer.php',
-              'sebastianbergmann\\phpcpd\\detector\\tokenizer\\php' => '/Detector/Tokenizer/PHP.php',
-              'sebastianbergmann\\phpcpd\\detector\\tokenizer\\result' => '/Detector/Tokenizer/Result.php',
-              'sebastianbergmann\\phpcpd\\log\\abstractxmllogger' => '/Log/AbstractXmlLogger.php',
-              'sebastianbergmann\\phpcpd\\log\\pmd' => '/Log/PMD.php',
-              'sebastianbergmann\\phpcpd\\log\\text' => '/Log/Text.php'
-            );
-        }
-        $cn = strtolower($class);
-        if (isset($classes[$cn])) {
-            require __DIR__ . $classes[$cn];
-        }
+/**
+ * Value object that represents the output of tokenizing a file.
+ *
+ * @author    Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
+ * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link      http://github.com/sebastianbergmann/phpcpd/tree
+ * @since     Class available since Release 2.0.0
+ */
+class Result
+{
+    /**
+     * @var array
+     */
+    private $tokens;
+
+    /**
+     * @var integer
+     */
+    private $numberOfLines;
+
+    /**
+     * Constructor.
+     *
+     * @param array   $tokens           Array of tokens, in the same format
+     *                                  as token_get_all() returns them.
+     * @param integer $numberOfLines  The number of lines in the read file.
+     */
+    public function __construct(array $tokens, $numberOfLines)
+    {
+        $this->tokens = $tokens;
+        $this->numberOfLines = $numberOfLines;
     }
-);
+
+    /**
+     * Returns the tokens that were read from the file.
+     *
+     * @return array        Array of tokens, in the same format
+     *                      as token_get_all() returns them.
+     */
+    public function getTokens()
+    {
+        return $this->tokens;
+    }
+
+    /**
+     * Returns the number of lines in the file.
+     *
+     * @return integer
+     */
+    public function getNumberOfLines()
+    {
+        return $this->numberOfLines;
+    }
+}
