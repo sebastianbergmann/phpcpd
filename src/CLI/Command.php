@@ -73,7 +73,8 @@ class Command extends AbstractCommand
                  array(
                      new InputArgument(
                          'values',
-                         InputArgument::IS_ARRAY
+                         InputArgument::IS_ARRAY,
+                         'Files and directories to analyze'
                      )
                  )
              )
@@ -95,7 +96,7 @@ class Command extends AbstractCommand
                  'exclude',
                  null,
                  InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                 'Exclude a directory from code analysis'
+                 'Exclude a directory from code analysis (must be relative to source)'
              )
              ->addOption(
                  'log-pmd',
