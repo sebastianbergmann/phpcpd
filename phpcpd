@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * phpcpd
@@ -38,25 +39,30 @@
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.1.0
+ * @since     File available since Release 1.0.0
  */
 
-require_once 'SebastianBergmann/FinderFacade/autoload.php';
-require_once 'SebastianBergmann/Version/autoload.php';
-require_once 'Symfony/Component/Console/autoloader.php';
-require_once 'PHP/Timer/Autoload.php';
+// @see https://github.com/sebastianbergmann/phpcpd/issues/18
+ini_set('mbstring.func_overload', 0);
+ini_set('mbstring.internal_encoding', NULL);
 
-spl_autoload_register(
-    function ($class) {
-        static $classes = null;
-        if ($classes === null) {
-            $classes = array(
-              ___CLASSLIST___
-            );
-        }
-        $cn = strtolower($class);
-        if (isset($classes[$cn])) {
-            require ___BASEDIR___$classes[$cn];
-        }
+$loaded = false;
+
+foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
+    if (file_exists($file)) {
+        require $file;
+        $loaded = true;
+        break;
     }
-);
+}
+
+if (!$loaded) {
+    die(
+        'You need to set up the project dependencies using the following commands:' . PHP_EOL .
+        'wget http://getcomposer.org/composer.phar' . PHP_EOL .
+        'php composer.phar install' . PHP_EOL
+    );
+}
+
+$application = new SebastianBergmann\PHPCPD\CLI\Application;
+$application->run();

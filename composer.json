@@ -27,7 +27,7 @@
         ]
     },
     "bin": [
-        "composer/bin/phpcpd"
+        "phpcpd"
     ],
     "extra": {
         "branch-alias": {

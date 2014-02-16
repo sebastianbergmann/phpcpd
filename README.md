@@ -36,29 +36,24 @@ For a system-wide installation via Composer, you can run:
 
 Make sure you have `~/.composer/vendor/bin/` in your path.
 
-### PEAR Installer
-
-The following two commands (which you may have to run as `root`) are all that is required to install PHPCPD using the PEAR Installer:
-
-    pear config-set auto_discover 1
-    pear install pear.phpunit.de/phpcpd
-
 ## Usage Example
 
-    ➜ ~ phpcpd /usr/local/src/phpunit/PHPUnit
-    phpcpd 1.4.1 by Sebastian Bergmann.
+    ➜ ~ phpcpd /tmp/wordpress-3.8.1/wp-includes
+    phpcpd 2.0.1 by Sebastian Bergmann.
 
-    Found 3 exact clones with 53 duplicated lines in 5 files:
+    Found 34 exact clones with 1273 duplicated lines in 11 files:
 
-      - /usr/local/src/phpunit/PHPUnit/Framework/Constraint/Or.php:136-157
-        /usr/local/src/phpunit/PHPUnit/Framework/Constraint/And.php:143-164
+      - /tmp/wordpress-3.8.1/wp-includes/class-snoopy.php:165-195
+        /tmp/wordpress-3.8.1/wp-includes/class-snoopy.php:225-255
 
-      - /usr/local/src/phpunit/PHPUnit/Framework/Constraint/Or.php:136-157
-        /usr/local/src/phpunit/PHPUnit/Framework/Constraint/Xor.php:141-162
+      .
+      .
+      .
 
-      - /usr/local/src/phpunit/PHPUnit/Framework/Comparator/Scalar.php:121-132
-        /usr/local/src/phpunit/PHPUnit/Framework/Comparator/Numeric.php:102-113
+      - /tmp/wordpress-3.8.1/wp-includes/SimplePie/Misc.php:1769-1830
+        /tmp/wordpress-3.8.1/wp-includes/SimplePie/Parse/Date.php:710-771
 
-    0.19% duplicated lines out of 27640 total lines of code.
+    0.86% duplicated lines out of 147877 total lines of code.
 
-    Time: 0 seconds, Memory: 18.25Mb
+    Time: 24.67 seconds, Memory: 159.00Mb
+

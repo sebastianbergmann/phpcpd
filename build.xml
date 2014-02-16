@@ -1,36 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="phpcpd" default="build">
- <target name="build" depends="prepare,lint,phpcs,phpunit"/>
+ <target name="build" depends="prepare,lint"/>
 
  <target name="clean" description="Cleanup build artifacts">
+  <delete dir="${basedir}/bin"/>
   <delete dir="${basedir}/vendor"/>
   <delete file="${basedir}/composer.lock"/>
-  <delete file="${basedir}/composer.phar"/>
   <delete dir="${basedir}/build/phar"/>
-  <delete dir="${basedir}/build/SebastianBergmann"/>
-  <delete file="${basedir}/build/LICENSE"/>
-  <delete file="${basedir}/build/README.md"/>
-  <delete file="${basedir}/build/phpcpd.bat"/>
-  <delete file="${basedir}/build/phpcpd.php"/>
   <delete>
    <fileset dir="${basedir}/build" includes="*.phar"/>
-   <fileset dir="${basedir}/build" includes="*.tgz"/>
   </delete>
  </target>
 
- <target name="prepare" depends="clean,phpab" description="Prepare for build">
+ <target name="composer" description="Install dependencies with Composer">
+  <get src="https://getcomposer.org/composer.phar" dest="${basedir}/composer.phar" skipexisting="true"/>
+
+  <exec executable="php">
+   <arg value="composer.phar"/>
+   <arg value="install"/>
+  </exec>
  </target>
 
- <target name="phpab" description="Generate autoloader scripts">
-  <exec executable="phpab">
-   <arg value="--output" />
-   <arg path="src/autoload.php" />
-   <arg value="--template" />
-   <arg path="src/autoload.php.in" />
-   <arg value="--indent" />
-   <arg value="              " />
-   <arg path="src" />
-  </exec>
+ <target name="prepare" depends="clean,composer" description="Prepare for build">
  </target>
 
  <target name="lint">
@@ -53,62 +44,32 @@
   <exec executable="phpcs">
    <arg value="--standard=PSR2" />
    <arg value="--extensions=php" />
-   <arg value="--ignore=autoload.php" />
    <arg path="${basedir}/src" />
   </exec>
  </target>
 
- <target name="phpunit" description="Run unit tests with PHPUnit">
-  <exec executable="phpunit" failonerror="true">
+ <target name="phpunit" depends="prepare,lint" description="Run unit tests with PHPUnit">
+  <exec executable="${basedir}/vendor/bin/phpunit" failonerror="true">
    <arg value="--configuration" />
    <arg path="${basedir}/build/phpunit.xml" />
   </exec>
  </target>
 
- <target name="pear">
-  <mkdir dir="${basedir}/build/SebastianBergmann/PHPCPD"/>
-
-  <copy todir="${basedir}/build/SebastianBergmann/PHPCPD">
-   <fileset dir="${basedir}/src"/>
-  </copy>
-
-  <copy file="LICENSE" todir="${basedir}/build"/>
-  <copy file="README.md" todir="${basedir}/build"/>
-  <copy file="phpcpd.bat" todir="${basedir}/build"/>
-  <copy file="phpcpd.php" todir="${basedir}/build"/>
-
-  <exec executable="pear" dir="${basedir}/build">
-   <arg value="package" />
-  </exec>
-
-  <delete dir="${basedir}/build/SebastianBergmann"/>
-  <delete file="${basedir}/build/LICENSE"/>
-  <delete file="${basedir}/build/README.md"/>
-  <delete file="${basedir}/build/phpcpd.bat"/>
-  <delete file="${basedir}/build/phpcpd.php"/>
+ <target name="phar"
+         description="Create PHAR archive of phpcpd and all its dependencies"
+         depends="clean,composer,phar-build">
+  <mkdir dir="${basedir}/build/phar"/>
  </target>
 
- <target name="phar"
-         description="Create PHAR archive of PHPCPD and all its dependencies"
-         depends="clean">
-  <mkdir dir="${basedir}/build/phar"/>
-
+ <target name="phar-build">
   <exec executable="bash" outputproperty="version">
    <arg value="-c" />
-   <arg value="${basedir}/phpcpd.php --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'" />
-  </exec>
-
-  <get src="https://getcomposer.org/composer.phar" dest="${basedir}/composer.phar"/>
-
-  <exec executable="php">
-   <arg value="composer.phar"/>
-   <arg value="install"/>
+   <arg value="${basedir}/phpcpd --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'" />
   </exec>
 
   <copy todir="${basedir}/build/phar/src">
    <fileset dir="${basedir}/src">
     <include name="**/*.php" />
-    <exclude name="**/autoload.php" />
    </fileset>
   </copy>
 
@@ -144,6 +105,8 @@
    <fileset dir="${basedir}/vendor/theseer/fdomdocument/src"/>
   </copy>
 
+  <exec executable="${basedir}/build/phar-manifest.php" output="${basedir}/build/phar/manifest.txt"/>
+
   <exec executable="phpab">
    <arg value="--all" />
    <arg value="--phar" />
@@ -157,10 +120,6 @@
   </exec>
 
   <chmod file="${basedir}/build/phpcpd-${version}.phar" perm="ugo+rx"/>
-
-  <delete dir="${basedir}/build/phar"/>
-  <delete dir="${basedir}/vendor"/>
-  <delete file="${basedir}/composer.lock"/>
-  <delete file="${basedir}/composer.phar"/>
  </target>
 </project>
+
