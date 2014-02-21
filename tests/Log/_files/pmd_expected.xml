@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+    <duplication lines="4" tokens="4">
+        <file path="%file1%" line="8"/>
+        <file path="%file2%" line="8"/>
+        <codefragment>function getAsciiEscapeChar()
+{
+    return "�";
+}
+</codefragment>
+    </duplication>
+</pmd-cpd>
