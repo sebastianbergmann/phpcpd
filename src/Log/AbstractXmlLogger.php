@@ -97,6 +97,30 @@ abstract class AbstractXmlLogger
     }
 
     /**
+     * Escapes a string for inclusion inside an XML tag.
+     *
+     * Converts the string to UTF-8, substitutes the unicode replacement
+     * character for every character disallowed in XML, and escapes
+     * special characters.
+     *
+     * @param  string $string
+     * @return string
+     */
+    protected function escapeForXml($string)
+    {
+        $string = $this->convertToUtf8($string);
+
+        // Substitute the unicode replacement character for disallowed chars
+        $string = preg_replace(
+            '/[^\x09\x0A\x0D\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]/u',
+            "\xEF\xBF\xBD",
+            $string
+        );
+
+        return htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
+    }
+
+    /**
      * Processes a list of clones.
      *
      * @param CodeCloneMap $clones

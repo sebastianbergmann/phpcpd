@@ -49,11 +49,7 @@ class PMD extends AbstractXmlLogger
             $duplication->appendChild(
                 $this->document->createElement(
                     'codefragment',
-                    htmlspecialchars(
-                        $this->convertToUtf8($clone->getLines()),
-                        ENT_COMPAT,
-                        'UTF-8'
-                    )
+                    $this->escapeForXml($clone->getLines())
                 )
             );
         }
