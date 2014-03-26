@@ -88,7 +88,7 @@ class Text
 
                 foreach ($clone->getFiles() as $file) {
                     $buffer .= sprintf(
-                        "\r\t%s:%d-%d\n ",
+                        "\t%s:%d-%d\n ",
                         $file->getName(),
                         $file->getStartLine(),
                         $file->getStartLine() + $clone->getSize()
