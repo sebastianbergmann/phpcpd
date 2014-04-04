@@ -138,7 +138,7 @@ class Command extends AbstractCommand
      * @param InputInterface  $input  An InputInterface instance
      * @param OutputInterface $output An OutputInterface instance
      *
-     * @return null|integer null or 0 if everything went fine, or an error code
+     * @return null|integer null or 0 if everything went fine, or the number of clones found.
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -197,9 +197,7 @@ class Command extends AbstractCommand
             print \PHP_Timer::resourceUsage() . "\n";
         }
 
-        if (count($clones) > 0) {
-            exit(1);
-        }
+        return count($clones);
     }
 
     /**
