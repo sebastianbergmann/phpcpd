@@ -111,7 +111,7 @@ class Application extends AbstractApplication
      * @param InputInterface  $input  An Input instance
      * @param OutputInterface $output An Output instance
      *
-     * @return integer 0 if everything went fine, or an error code
+     * @return integer 0 if everything went fine, or the number of clones found.
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
@@ -133,6 +133,6 @@ class Application extends AbstractApplication
             $input = new ArrayInput(array('--help'));
         }
 
-        parent::doRun($input, $output);
+        return parent::doRun($input, $output);
     }
 }
