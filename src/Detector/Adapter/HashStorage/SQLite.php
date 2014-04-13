@@ -135,8 +135,10 @@ class SQLite implements HashStorageInterface
         $this->db->beginTransaction();
 
         foreach ($this->hashBuffer as $hash => $value) {
-            $this->insertStatement->bindParam(':hash', md5($hash));
-            $this->insertStatement->bindParam(':value', serialize($value));
+			$hash_md5 = md5($hash);
+			$value_serialized = serialize($value);
+            $this->insertStatement->bindParam(':hash', $hash_md5);
+            $this->insertStatement->bindParam(':value', $value_serialized);
             $this->insertStatement->execute();
         }
         $this->hashBuffer = array();
