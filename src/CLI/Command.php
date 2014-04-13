@@ -136,7 +136,7 @@ class Command extends AbstractCommand
                  null,
                  InputOption::VALUE_REQUIRED,
                  'Select the storage adapter class, where hash keys are stored, could be one of "Memory" or "SQLite"',
-                 HashStorageFactory::$defaultAdapter
+                 HashStorageFactory::getDefaultAdapter()
              );
     }
 

@@ -60,7 +60,7 @@ class HashStorageFactory
      *
      * @var string the default adapter to use
      */
-    public static $defaultAdapter = 'Memory';
+    private static $defaultAdapter = 'Memory';
 
     public static function createStorageAdapter($className = null)
     {
@@ -75,4 +75,12 @@ class HashStorageFactory
 
         return new $className();
     }
+	
+	/**
+	 * 
+	 * @return string the configured default adapter to use
+	 */
+	public static function getDefaultAdapter(){
+		return self::$defaultAdapter;
+	}
 }
