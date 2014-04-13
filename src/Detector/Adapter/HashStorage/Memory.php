@@ -38,66 +38,40 @@
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2009-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.4.0
+ * @since     File available since Release 2.0.x
  */
 
-namespace SebastianBergmann\PHPCPD\Detector\Strategy;
-
-use SebastianBergmann\PHPCPD\CodeCloneMap;
-use SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage\HashStorageFactory;
-use SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage\HashStorageInterface;
+namespace SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage;
 
 /**
- * Abstract base class for strategies to detect code clones.
+ * The Memory HashStorageAdapter stores all hashes within a private array
+ * it is very fast but consumes a lot of memory when inspecting large projects
+ * 
  *
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @author    Matthias Glaub <magl@magl.net>
  * @copyright 2009-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link      http://github.com/sebastianbergmann/phpcpd/tree
- * @since     Class available since Release 1.4.0
+ * @since     Class available since Release Release 2.0.x
  */
-abstract class AbstractStrategy
+class Memory implements HashStorageInterface
 {
-    /**
-     * @var integer[] List of tokens to ignore
-     */
-    protected $tokensIgnoreList = array(
-      T_INLINE_HTML => true,
-      T_COMMENT => true,
-      T_DOC_COMMENT => true,
-      T_OPEN_TAG => true,
-      T_OPEN_TAG_WITH_ECHO => true,
-      T_CLOSE_TAG => true,
-      T_WHITESPACE => true,
-      T_USE => true,
-      T_NS_SEPARATOR => true
-    );
 
-    /**
-     * @var HashStorageInterface
-     */
-    protected $hashStorageAdapter;
+    private $hashes;
 
-    /**
-     *
-     * @param HashStorageInterface $hashStorageAdapter
-     */
-    public function __construct(HashStorageInterface $hashStorageAdapter = null)
+    public function get($hash)
     {
-        if (null == $hashStorageAdapter) {
-            $hashStorageAdapter = HashStorageFactory::createStorageAdapter(null);
-        }
-        $this->hashStorageAdapter = $hashStorageAdapter;
+        return $this->hashes[$hash];
     }
 
-    /**
-     * Copy & Paste Detection (CPD).
-     *
-     * @param string       $file
-     * @param integer      $minLines
-     * @param integer      $minTokens
-     * @param CodeCloneMap $result
-     * @param boolean      $fuzzy
-     */
-    abstract public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = false);
+    public function has($hash)
+    {
+        return isset($this->hashes[$hash]);
+    }
+
+    public function set($hash, $value)
+    {
+        $this->hashes[$hash] = $value;
+    }
 }

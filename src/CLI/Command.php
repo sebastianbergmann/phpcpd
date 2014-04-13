@@ -45,6 +45,7 @@ namespace SebastianBergmann\PHPCPD\CLI;
 
 use SebastianBergmann\PHPCPD\Detector\Detector;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
+use SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage\HashStorageFactory;
 use SebastianBergmann\PHPCPD\Log\PMD;
 use SebastianBergmann\PHPCPD\Log\Text;
 use SebastianBergmann\FinderFacade\FinderFacade;
@@ -129,6 +130,13 @@ class Command extends AbstractCommand
                  null,
                  InputOption::VALUE_NONE,
                  'Show progress bar'
+             )
+             ->addOption(
+                 'hash-storage',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Select the storage adapter class, where hash keys are stored, could be one of "Memory" or "SQLite"',
+                 HashStorageFactory::$defaultAdapter
              );
     }
 
@@ -163,7 +171,8 @@ class Command extends AbstractCommand
             $progressHelper->start($output, count($files));
         }
 
-        $strategy = new DefaultStrategy;
+        $hashStorageAdapter = HashStorageFactory::createStorageAdapter($input->getOption('hash-storage'));
+        $strategy = new DefaultStrategy($hashStorageAdapter);
         $detector = new Detector($strategy, $progressHelper);
         $quiet    = $output->getVerbosity() == OutputInterface::VERBOSITY_QUIET;
 

@@ -38,66 +38,41 @@
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2009-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.4.0
+ * @since     File available since Release 2.0.x
  */
 
-namespace SebastianBergmann\PHPCPD\Detector\Strategy;
-
-use SebastianBergmann\PHPCPD\CodeCloneMap;
-use SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage\HashStorageFactory;
-use SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage\HashStorageInterface;
+namespace SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage;
 
 /**
- * Abstract base class for strategies to detect code clones.
+ * Creates HashStorageAdapters
  *
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @author    Matthias Glaub <magl@magl.net>
  * @copyright 2009-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link      http://github.com/sebastianbergmann/phpcpd/tree
- * @since     Class available since Release 1.4.0
+ * @since     Class available since Release Release 2.0.x
  */
-abstract class AbstractStrategy
+class HashStorageFactory
 {
-    /**
-     * @var integer[] List of tokens to ignore
-     */
-    protected $tokensIgnoreList = array(
-      T_INLINE_HTML => true,
-      T_COMMENT => true,
-      T_DOC_COMMENT => true,
-      T_OPEN_TAG => true,
-      T_OPEN_TAG_WITH_ECHO => true,
-      T_CLOSE_TAG => true,
-      T_WHITESPACE => true,
-      T_USE => true,
-      T_NS_SEPARATOR => true
-    );
-
-    /**
-     * @var HashStorageInterface
-     */
-    protected $hashStorageAdapter;
 
     /**
      *
-     * @param HashStorageInterface $hashStorageAdapter
+     * @var string the default adapter to use
      */
-    public function __construct(HashStorageInterface $hashStorageAdapter = null)
+    public static $defaultAdapter = 'Memory';
+
+    public static function createStorageAdapter($className = null)
     {
-        if (null == $hashStorageAdapter) {
-            $hashStorageAdapter = HashStorageFactory::createStorageAdapter(null);
+        if (null == $className) {
+            $className = self::$defaultAdapter;
         }
-        $this->hashStorageAdapter = $hashStorageAdapter;
-    }
 
-    /**
-     * Copy & Paste Detection (CPD).
-     *
-     * @param string       $file
-     * @param integer      $minLines
-     * @param integer      $minTokens
-     * @param CodeCloneMap $result
-     * @param boolean      $fuzzy
-     */
-    abstract public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = false);
+        $className = __NAMESPACE__ . '\\' . $className;
+        if (!class_exists($className)) {
+            throw new \InvalidArgumentException('the class "' . $className . '" cannot be found');
+        }
+
+        return new $className();
+    }
 }
