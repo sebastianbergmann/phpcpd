@@ -70,7 +70,7 @@ class SQLite implements HashStorageInterface
     public function __construct(array $options = null)
     {
         if (!extension_loaded('pdo_sqlite')) {
-            throw new Exception('php module "pdo_sqlite" is not loaded');
+            throw new \Exception('php module "pdo_sqlite" is not loaded');
         }
         
         if($options && isset($options['buffer_size'])){
@@ -87,6 +87,7 @@ class SQLite implements HashStorageInterface
 
     public function __destruct()
     {
+        unset($this->insertStatement);
         unset($this->db);
         unlink($this->dbFile);
     }
