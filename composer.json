@@ -15,10 +15,10 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "sebastian/finder-facade": ">=1.1.0",
-        "sebastian/version": ">=1.0.3",
-        "symfony/console": ">=2.2.0",
-        "phpunit/php-timer": ">=1.0.4",
+        "sebastian/finder-facade": "~1.1",
+        "sebastian/version": "~1.0.3",
+        "symfony/console": "~2.2",
+        "phpunit/php-timer": "~1.0.4",
         "theseer/fdomdocument": "~1.4"
     },
     "autoload": {
