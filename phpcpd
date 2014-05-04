@@ -44,7 +44,9 @@
 
 // @see https://github.com/sebastianbergmann/phpcpd/issues/18
 ini_set('mbstring.func_overload', 0);
-ini_set('mbstring.internal_encoding', NULL);
+if (ini_get('mbstring.internal_encoding')) {
+    ini_set('mbstring.internal_encoding', NULL);
+}
 
 $loaded = false;
 
