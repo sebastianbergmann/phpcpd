@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpcpd
  *
@@ -55,6 +56,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage;
  */
 interface HashStorageInterface
 {
+
     public function has($hash);
 
     public function set($hash, $value);

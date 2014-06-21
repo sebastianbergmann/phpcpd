@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpcpd
  *
@@ -75,12 +76,13 @@ class HashStorageFactory
 
         return new $className();
     }
-	
-	/**
-	 * 
-	 * @return string the configured default adapter to use
-	 */
-	public static function getDefaultAdapter(){
-		return self::$defaultAdapter;
-	}
+
+    /**
+     * 
+     * @return string the configured default adapter to use
+     */
+    public static function getDefaultAdapter()
+    {
+        return self::$defaultAdapter;
+    }
 }

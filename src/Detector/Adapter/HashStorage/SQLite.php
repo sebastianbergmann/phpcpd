@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpcpd
  *
@@ -72,17 +73,16 @@ class SQLite implements HashStorageInterface
         if (!extension_loaded('pdo_sqlite')) {
             throw new \Exception('php module "pdo_sqlite" is not loaded');
         }
-        
-        if($options && isset($options['buffer_size'])){
+
+        if ($options && isset($options['buffer_size'])) {
             $this->bufferSize = (int) $options['buffer_size'];
         }
-        
+
         // prepare sqlite database
         $this->dbFile = tempnam(sys_get_temp_dir(), 'phpcpd.sqlite.');
         $this->db = new \PDO('sqlite:' . $this->dbFile);
         $this->db->exec(self::$CREATE_SQL);
         $this->insertStatement = $this->db->prepare(self::$INSERT_SQL);
-
     }
 
     public function __destruct()
@@ -136,8 +136,8 @@ class SQLite implements HashStorageInterface
         $this->db->beginTransaction();
 
         foreach ($this->hashBuffer as $hash => $value) {
-			$hash_md5 = md5($hash);
-			$value_serialized = serialize($value);
+            $hash_md5 = md5($hash);
+            $value_serialized = serialize($value);
             $this->insertStatement->bindParam(':hash', $hash_md5);
             $this->insertStatement->bindParam(':value', $value_serialized);
             $this->insertStatement->execute();
@@ -147,7 +147,8 @@ class SQLite implements HashStorageInterface
         $this->db->commit();
     }
 
-	public function getDBFilename(){
-		return $this->dbFile;
-	}
+    public function getDBFilename()
+    {
+        return $this->dbFile;
+    }
 }
