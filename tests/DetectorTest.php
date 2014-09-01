@@ -239,7 +239,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
           ),
           5,
           20,
-          TRUE
+          true
         );
 
         $clones = $clones->getClones();
@@ -261,7 +261,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
             ),
             8,
             10,
-            TRUE
+            true
         );
         $clones = $clones->getClones();
         $this->assertCount(0, $clones);
@@ -273,7 +273,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
             ),
             7,
             10,
-            TRUE
+            true
         );
         $clones = $clones->getClones();
         $this->assertCount(1, $clones);

@@ -150,4 +150,3 @@
   <chmod file="${basedir}/build/phpcpd-${version}.phar" perm="ugo+rx"/>
  </target>
 </project>
-
