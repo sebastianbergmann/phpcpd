@@ -116,9 +116,8 @@
   </copy>
 
   <copy todir="${basedir}/build/phar/php-timer">
-   <fileset dir="${basedir}/vendor/phpunit/php-timer/PHP">
+   <fileset dir="${basedir}/vendor/phpunit/php-timer/src">
     <include name="**/*.php" />
-    <exclude name="**/Autoload.php" />
    </fileset>
   </copy>
 
