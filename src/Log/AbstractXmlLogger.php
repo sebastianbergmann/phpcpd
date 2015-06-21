@@ -15,10 +15,6 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
 /**
  * Base class for XML loggers.
  *
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://github.com/sebastianbergmann/phpcpd/tree
  * @since     Class available since Release 1.0.0
  */
 abstract class AbstractXmlLogger
@@ -32,7 +28,7 @@ abstract class AbstractXmlLogger
      */
     public function __construct($filename)
     {
-        $this->document = new \DOMDocument('1.0', 'UTF-8');
+        $this->document               = new \DOMDocument('1.0', 'UTF-8');
         $this->document->formatOutput = true;
 
         $this->filename = $filename;
@@ -69,7 +65,7 @@ abstract class AbstractXmlLogger
      * Checks a string for UTF-8 encoding.
      *
      * @param  string $string
-     * @return boolean
+     * @return bool
      */
     protected function isUtf8($string)
     {

@@ -17,11 +17,6 @@ use Symfony\Component\Console\Helper\ProgressHelper;
 /**
  * PHPCPD code analyser.
  *
- * @author    Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://github.com/sebastianbergmann/phpcpd/tree
  * @since     Class available since Release 1.0.0
  */
 class Detector
@@ -52,9 +47,9 @@ class Detector
      * Copy & Paste Detection (CPD).
      *
      * @param  Iterator|array $files     List of files to process
-     * @param  integer        $minLines  Minimum number of identical lines
-     * @param  integer        $minTokens Minimum number of identical tokens
-     * @param  boolean        $fuzzy
+     * @param  int            $minLines  Minimum number of identical lines
+     * @param  int            $minTokens Minimum number of identical tokens
+     * @param  bool           $fuzzy
      * @return CodeCloneMap   Map of exact clones found in the list of files
      */
     public function copyPasteDetection($files, $minLines = 5, $minTokens = 70, $fuzzy = false)

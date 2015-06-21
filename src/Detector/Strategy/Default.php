@@ -17,11 +17,6 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
 /**
  * Default strategy for detecting code clones.
  *
- * @author    Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://github.com/sebastianbergmann/phpcpd/tree
  * @since     Class available since Release 1.4.0
  */
 class DefaultStrategy extends AbstractStrategy
@@ -29,12 +24,11 @@ class DefaultStrategy extends AbstractStrategy
     /**
      * Copy & Paste Detection (CPD).
      *
-     * @param  string       $file
-     * @param  integer      $minLines
-     * @param  integer      $minTokens
-     * @param  CodeCloneMap $result
-     * @param  boolean      $fuzzy
-     * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
+     * @param string       $file
+     * @param int          $minLines
+     * @param int          $minTokens
+     * @param CodeCloneMap $result
+     * @param bool         $fuzzy
      */
     public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = false)
     {

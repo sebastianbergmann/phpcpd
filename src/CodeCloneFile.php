@@ -34,10 +34,6 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package   phpcpd
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @since     File available since Release 1.5.0
  */
 namespace SebastianBergmann\PHPCPD;
@@ -45,10 +41,6 @@ namespace SebastianBergmann\PHPCPD;
 /**
  * Represents an exact code clone file.
  *
- * @author    Alexander Kazakov <alexshadow007@gmail.com>
- * @copyright Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://github.com/sebastianbergmann/phpcpd/tree
  * @since     Class available since Release 1.5.0
  */
 class CodeCloneFile
@@ -64,13 +56,13 @@ class CodeCloneFile
     private $name;
 
     /**
-     * @var integer
+     * @var int
      */
     private $startLine;
 
     /**
-     * @param string  $name
-     * @param integer $startLine
+     * @param string $name
+     * @param int    $startLine
      */
     public function __construct($name, $startLine)
     {
@@ -96,7 +88,7 @@ class CodeCloneFile
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getStartLine()
     {
