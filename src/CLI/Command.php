@@ -20,6 +20,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * @since     Class available since Release 2.0.0
@@ -119,15 +120,15 @@ class Command extends AbstractCommand
             exit(1);
         }
 
-        $progressHelper = null;
+        $progressBar = null;
 
         if ($input->getOption('progress')) {
-            $progressHelper = $this->getHelperSet()->get('progress');
-            $progressHelper->start($output, count($files));
+            $progressBar = new ProgressBar($output, count($files));
+            $progressBar->start();
         }
 
         $strategy = new DefaultStrategy;
-        $detector = new Detector($strategy, $progressHelper);
+        $detector = new Detector($strategy, $progressBar);
         $quiet    = $output->getVerbosity() == OutputInterface::VERBOSITY_QUIET;
 
         $clones = $detector->copyPasteDetection(
@@ -138,7 +139,7 @@ class Command extends AbstractCommand
         );
 
         if ($input->getOption('progress')) {
-            $progressHelper->finish();
+            $progressBar->finish();
             $output->writeln('');
         }
 

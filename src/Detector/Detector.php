@@ -12,7 +12,7 @@ namespace SebastianBergmann\PHPCPD\Detector;
 
 use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
-use Symfony\Component\Console\Helper\ProgressHelper;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * PHPCPD code analyser.
@@ -27,20 +27,18 @@ class Detector
     protected $strategy;
 
     /**
-     * @var Symfony\Component\Console\Helper\ProgressHelper
+     * @var Symfony\Component\Console\Helper\ProgressBar
      */
-    protected $progressHelper;
+    protected $progressBar;
 
     /**
-     * Constructor.
-     *
      * @param AbstractStrategy $strategy
-     * @since Method available since Release 1.3.0
+     * @param ProgressBar|null $progressBar
      */
-    public function __construct(AbstractStrategy $strategy, ProgressHelper $progressHelper = null)
+    public function __construct(AbstractStrategy $strategy, ProgressBar $progressBar = null)
     {
-        $this->strategy       = $strategy;
-        $this->progressHelper = $progressHelper;
+        $this->strategy    = $strategy;
+        $this->progressBar = $progressBar;
     }
 
     /**
@@ -65,8 +63,8 @@ class Detector
                 $fuzzy
             );
 
-            if ($this->progressHelper !== null) {
-                $this->progressHelper->advance();
+            if ($this->progressBar !== null) {
+                $this->progressBar->advance();
             }
         }
 
