@@ -22,12 +22,12 @@ use Symfony\Component\Console\Helper\ProgressBar;
 class Detector
 {
     /**
-     * @var SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy
+     * @var \SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy
      */
     protected $strategy;
 
     /**
-     * @var Symfony\Component\Console\Helper\ProgressBar
+     * @var \Symfony\Component\Console\Helper\ProgressBar
      */
     protected $progressBar;
 
@@ -44,11 +44,11 @@ class Detector
     /**
      * Copy & Paste Detection (CPD).
      *
-     * @param  Iterator|array $files     List of files to process
-     * @param  int            $minLines  Minimum number of identical lines
-     * @param  int            $minTokens Minimum number of identical tokens
-     * @param  bool           $fuzzy
-     * @return CodeCloneMap   Map of exact clones found in the list of files
+     * @param  \Iterator|array $files     List of files to process
+     * @param  int             $minLines  Minimum number of identical lines
+     * @param  int             $minTokens Minimum number of identical tokens
+     * @param  bool            $fuzzy
+     * @return CodeCloneMap    Map of exact clones found in the list of files
      */
     public function copyPasteDetection($files, $minLines = 5, $minTokens = 70, $fuzzy = false)
     {
