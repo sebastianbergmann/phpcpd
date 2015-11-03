@@ -157,8 +157,6 @@ class DefaultStrategy extends AbstractStrategy
                     )
                 );
             }
-
-            $found = false;
         }
     }
 }
