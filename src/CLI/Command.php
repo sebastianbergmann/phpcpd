@@ -167,8 +167,8 @@ class Command extends AbstractCommand
     }
 
     /**
-     * @param  Symfony\Component\Console\Input\InputOption $input
-     * @param  string                                      $option
+     * @param  \Symfony\Component\Console\Input\InputInterface $input
+     * @param  string                                          $option
      * @return array
      */
     private function handleCSVOption(InputInterface $input, $option)
