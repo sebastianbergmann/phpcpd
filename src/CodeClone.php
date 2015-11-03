@@ -38,7 +38,7 @@ class CodeClone
     private $id;
 
     /**
-     * @var Lines of the clone
+     * @var string Lines of the clone
      */
     private $lines = '';
 
