@@ -34,22 +34,12 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package   Example
- * @author    Manuel Pichler <mapi@phpundercontrol.org>
- * @copyright 2007-2011 Manuel Pichler. All rights reserved.
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @version   SVN: $Id$
- * @link      http://www.phpundercontrol.org/
  */
 
 /**
  * Simple math class.
  *
- * @package   Example
- * @author    Manuel Pichler <mapi@phpundercontrol.org>
- * @copyright 2007-2011 Manuel Pichler. All rights reserved.
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://www.phpundercontrol.org/
  */
 class PhpUnderControl_Example_Math
 {

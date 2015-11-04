@@ -2,7 +2,7 @@ build/phar
 build/SebastianBergmann
 build/phpcpd.bat
 build/phpcpd.php
-build/*.phar
+build/*.phar*
 build/*.tgz
 .idea
 cache.properties

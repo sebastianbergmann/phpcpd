@@ -32,7 +32,7 @@ Simply add a dependency on `sebastian/phpcpd` to your project's `composer.json` 
 
 For a system-wide installation via Composer, you can run:
 
-    composer global require 'sebastian/phpcpd=*'
+    composer global require "sebastian/phpcpd=*"
 
 Make sure you have `~/.composer/vendor/bin/` in your path.
 

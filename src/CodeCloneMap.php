@@ -1,57 +1,18 @@
 <?php
-/**
- * phpcpd
+/*
+ * This file is part of PHP Copy/Paste Detector (PHPCPD).
  *
- * Copyright (c) 2009-2014, Sebastian Bergmann <sebastian@phpunit.de>.
- * All rights reserved.
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *   * Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *
- *   * Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in
- *     the documentation and/or other materials provided with the
- *     distribution.
- *
- *   * Neither the name of Sebastian Bergmann nor the names of his
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- * @package   phpcpd
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright 2009-2014 Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.1.0
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace SebastianBergmann\PHPCPD;
 
-use SebastianBergmann\PHPCPD\CodeClone;
-
 /**
  * A map of exact clones.
  *
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright 2009-2014 Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://github.com/sebastianbergmann/phpcpd/tree
  * @since     Class available since Release 1.1.0
  */
 class CodeCloneMap implements \Countable, \Iterator
@@ -67,17 +28,17 @@ class CodeCloneMap implements \Countable, \Iterator
     protected $clonesById = array();
 
     /**
-     * @var integer Current position while iterating the clone map
+     * @var int Current position while iterating the clone map
      */
     protected $position = 0;
 
     /**
-     * @var integer Number of duplicate lines in the clone map
+     * @var int Number of duplicate lines in the clone map
      */
     protected $numDuplicateLines = 0;
 
     /**
-     * @var integer Number of lines analyzed
+     * @var int Number of lines analyzed
      */
     protected $numLines = 0;
 
@@ -133,7 +94,7 @@ class CodeCloneMap implements \Countable, \Iterator
     /**
      * Returns the number of lines analyzed.
      *
-     * @return integer
+     * @return int
      */
     public function getNumLines()
     {
@@ -143,7 +104,7 @@ class CodeCloneMap implements \Countable, \Iterator
     /**
      * Sets the number of physical source code lines in the project.
      *
-     * @param integer $numLines
+     * @param int $numLines
      */
     public function setNumLines($numLines)
     {
@@ -169,7 +130,7 @@ class CodeCloneMap implements \Countable, \Iterator
     /**
      * Checks if there is a current element after calls to rewind() or next().
      *
-     * @return boolean
+     * @return bool
      */
     public function valid()
     {
@@ -179,7 +140,7 @@ class CodeCloneMap implements \Countable, \Iterator
     /**
      * Returns the key of the current element.
      *
-     * @return integer
+     * @return int
      */
     public function key()
     {
