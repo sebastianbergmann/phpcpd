@@ -27,9 +27,9 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\PHPCPD\CodeClone::getLines
      * @dataProvider strategyProvider
      */
-    public function testDetectingSimpleClonesWorks($strategy)
+    public function testDetectingSimpleClonesWorks($strategy, $adapter)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy($adapter));
 
         $clones = $detector->copyPasteDetection(
           array(TEST_FILES_PATH . 'Math.php')
@@ -118,9 +118,9 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
      */
-    public function testDetectingExactDuplicateFilesWorks($strategy)
+    public function testDetectingExactDuplicateFilesWorks($strategy, $adapter)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy($adapter));
 
         $clones = $detector->copyPasteDetection(array(
           TEST_FILES_PATH . 'a.php',
@@ -147,9 +147,9 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
      */
-    public function testDetectingClonesInMoreThanTwoFiles($strategy)
+    public function testDetectingClonesInMoreThanTwoFiles($strategy, $adapter)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy($adapter));
 
         $clones = $detector->copyPasteDetection(
           array(
@@ -184,9 +184,9 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
      */
-    public function testClonesAreIgnoredIfTheySpanLessTokensThanMinTokens($strategy)
+    public function testClonesAreIgnoredIfTheySpanLessTokensThanMinTokens($strategy, $adapter)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy($adapter));
 
         $clones = $detector->copyPasteDetection(
           array(
@@ -204,9 +204,9 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
      */
-    public function testClonesAreIgnoredIfTheySpanLessLinesThanMinLines($strategy)
+    public function testClonesAreIgnoredIfTheySpanLessLinesThanMinLines($strategy, $adapter)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy($adapter));
 
         $clones = $detector->copyPasteDetection(
           array(
@@ -224,9 +224,9 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
      */
-    public function testFuzzyClonesAreFound($strategy)
+    public function testFuzzyClonesAreFound($strategy, $adapter)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy($adapter));
 
         $clones = $detector->copyPasteDetection(
           array(
@@ -247,9 +247,9 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
      * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
      */
-    public function testStripComments($strategy)
+    public function testStripComments($strategy, $adapter)
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy($adapter));
         $clones = $detector->copyPasteDetection(
             array(
                 TEST_FILES_PATH . 'e.php',
@@ -277,8 +277,11 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
 
     public function strategyProvider()
     {
+        $sqliteAdapter = SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage\HashStorageFactory::createStorageAdapter('SQLite');
+        
         return array(
-          array('SebastianBergmann\\PHPCPD\\Detector\\Strategy\\DefaultStrategy')
+            array('SebastianBergmann\\PHPCPD\\Detector\\Strategy\\DefaultStrategy', null),
+            array('SebastianBergmann\\PHPCPD\\Detector\\Strategy\\DefaultStrategy', $sqliteAdapter),
         );
     }
 }

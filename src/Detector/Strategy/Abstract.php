@@ -11,6 +11,8 @@
 namespace SebastianBergmann\PHPCPD\Detector\Strategy;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
+use SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage\HashStorageFactory;
+use SebastianBergmann\PHPCPD\Detector\Adapter\HashStorage\HashStorageInterface;
 
 /**
  * Abstract base class for strategies to detect code clones.
@@ -35,9 +37,21 @@ abstract class AbstractStrategy
     );
 
     /**
-     * @var string[]
+     * @var HashStorageInterface
      */
-    protected $hashes = array();
+    protected $hashStorageAdapter;
+
+    /**
+     *
+     * @param HashStorageInterface $hashStorageAdapter
+     */
+    public function __construct(HashStorageInterface $hashStorageAdapter = null)
+    {
+        if (null == $hashStorageAdapter) {
+            $hashStorageAdapter = HashStorageFactory::createStorageAdapter(null);
+        }
+        $this->hashStorageAdapter = $hashStorageAdapter;
+    }
 
     /**
      * Copy & Paste Detection (CPD).

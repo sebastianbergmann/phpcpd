@@ -95,7 +95,7 @@ class DefaultStrategy extends AbstractStrategy
                 8
             );
 
-            if (isset($this->hashes[$hash])) {
+            if ($this->hashStorageAdapter->has($hash)) {
                 $found = true;
 
                 if ($firstLine === 0) {
@@ -106,8 +106,9 @@ class DefaultStrategy extends AbstractStrategy
                 }
             } else {
                 if ($found) {
-                    $fileA        = $this->hashes[$firstHash][0];
-                    $firstLineA   = $this->hashes[$firstHash][1];
+                    $tmpHashArray = $this->hashStorageAdapter->get($firstHash);
+                    $fileA        = $tmpHashArray[0];
+                    $firstLineA   = $tmpHashArray[1];
                     $lastToken    = ($tokenNr - 1) + $minTokens - 1;
                     $lastLine     = $currentTokenPositions[$lastToken];
                     $lastRealLine = $currentTokenRealPositions[$lastToken];
@@ -131,15 +132,16 @@ class DefaultStrategy extends AbstractStrategy
                     $firstLine = 0;
                 }
 
-                $this->hashes[$hash] = array($file, $realLine);
+                $this->hashStorageAdapter->set($hash, array($file, $realLine));
             }
 
             $tokenNr++;
         }
 
         if ($found) {
-            $fileA        = $this->hashes[$firstHash][0];
-            $firstLineA   = $this->hashes[$firstHash][1];
+            $tmpHashArray = $this->hashStorageAdapter->get($firstHash);
+            $fileA        = $tmpHashArray[0];
+            $firstLineA   = $tmpHashArray[1];
             $lastToken    = ($tokenNr - 1) + $minTokens - 1;
             $lastLine     = $currentTokenPositions[$lastToken];
             $lastRealLine = $currentTokenRealPositions[$lastToken];
