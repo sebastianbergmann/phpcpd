@@ -20,12 +20,12 @@ class CodeCloneMap implements \Countable, \Iterator
     /**
      * @var CodeClone[] The clones in the clone map
      */
-    protected $clones = array();
+    protected $clones = [];
 
     /**
      * @var CodeClone[] The clones in the clone map, stored by ID
      */
-    protected $clonesById = array();
+    protected $clonesById = [];
 
     /**
      * @var int Current position while iterating the clone map

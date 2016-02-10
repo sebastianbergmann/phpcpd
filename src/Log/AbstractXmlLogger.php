@@ -45,7 +45,8 @@ abstract class AbstractXmlLogger
     /**
      * Converts a string to UTF-8 encoding.
      *
-     * @param  string $string
+     * @param string $string
+     *
      * @return string
      */
     protected function convertToUtf8($string)
@@ -64,7 +65,8 @@ abstract class AbstractXmlLogger
     /**
      * Checks a string for UTF-8 encoding.
      *
-     * @param  string $string
+     * @param string $string
+     *
      * @return bool
      */
     protected function isUtf8($string)

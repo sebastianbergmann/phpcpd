@@ -20,9 +20,9 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
 abstract class AbstractStrategy
 {
     /**
-     * @var integer[] List of tokens to ignore
+     * @var int[] List of tokens to ignore
      */
-    protected $tokensIgnoreList = array(
+    protected $tokensIgnoreList = [
       T_INLINE_HTML        => true,
       T_COMMENT            => true,
       T_DOC_COMMENT        => true,
@@ -32,12 +32,12 @@ abstract class AbstractStrategy
       T_WHITESPACE         => true,
       T_USE                => true,
       T_NS_SEPARATOR       => true
-    );
+    ];
 
     /**
      * @var string[]
      */
-    protected $hashes = array();
+    protected $hashes = [];
 
     /**
      * Copy & Paste Detection (CPD).

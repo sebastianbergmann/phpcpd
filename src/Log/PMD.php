@@ -44,7 +44,6 @@ class PMD extends AbstractXmlLogger
 
                 $file->setAttribute('path', $codeCloneFile->getName());
                 $file->setAttribute('line', $codeCloneFile->getStartLine());
-
             }
 
             $duplication->appendChild(

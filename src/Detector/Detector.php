@@ -44,11 +44,12 @@ class Detector
     /**
      * Copy & Paste Detection (CPD).
      *
-     * @param  \Iterator|array $files     List of files to process
-     * @param  int             $minLines  Minimum number of identical lines
-     * @param  int             $minTokens Minimum number of identical tokens
-     * @param  bool            $fuzzy
-     * @return CodeCloneMap    Map of exact clones found in the list of files
+     * @param \Iterator|array $files     List of files to process
+     * @param int             $minLines  Minimum number of identical lines
+     * @param int             $minTokens Minimum number of identical tokens
+     * @param bool            $fuzzy
+     *
+     * @return CodeCloneMap Map of exact clones found in the list of files
      */
     public function copyPasteDetection($files, $minLines = 5, $minTokens = 70, $fuzzy = false)
     {

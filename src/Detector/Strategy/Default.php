@@ -33,8 +33,8 @@ class DefaultStrategy extends AbstractStrategy
     public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = false)
     {
         $buffer                    = file_get_contents($file);
-        $currentTokenPositions     = array();
-        $currentTokenRealPositions = array();
+        $currentTokenPositions     = [];
+        $currentTokenRealPositions = [];
         $currentSignature          = '';
         $tokens                    = token_get_all($buffer);
         $tokenNr                   = 0;
@@ -131,7 +131,7 @@ class DefaultStrategy extends AbstractStrategy
                     $firstLine = 0;
                 }
 
-                $this->hashes[$hash] = array($file, $realLine);
+                $this->hashes[$hash] = [$file, $realLine];
             }
 
             $tokenNr++;

@@ -32,7 +32,7 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          array(TEST_FILES_PATH . 'Math.php')
+          [TEST_FILES_PATH . 'Math.php']
         );
 
         $clones = $clones->getClones();
@@ -122,10 +122,10 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
     {
         $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
-        $clones = $detector->copyPasteDetection(array(
+        $clones = $detector->copyPasteDetection([
           TEST_FILES_PATH . 'a.php',
           TEST_FILES_PATH . 'b.php'
-        ), 20, 60);
+        ], 20, 60);
 
         $clones = $clones->getClones();
         $files  = $clones[0]->getFiles();
@@ -152,11 +152,11 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          array(
+          [
             TEST_FILES_PATH . 'a.php',
             TEST_FILES_PATH . 'b.php',
             TEST_FILES_PATH . 'c.php',
-          ),
+          ],
           20,
           60
         );
@@ -189,10 +189,10 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          array(
+          [
             TEST_FILES_PATH . 'a.php',
             TEST_FILES_PATH . 'b.php'
-          ),
+          ],
           20,
           61
         );
@@ -209,10 +209,10 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          array(
+          [
             TEST_FILES_PATH . 'a.php',
             TEST_FILES_PATH . 'b.php'
-          ),
+          ],
           21,
           60
         );
@@ -229,10 +229,10 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          array(
+          [
             TEST_FILES_PATH . 'a.php',
             TEST_FILES_PATH . 'd.php'
-          ),
+          ],
           5,
           20,
           true
@@ -250,11 +250,11 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
     public function testStripComments($strategy)
     {
         $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
-        $clones = $detector->copyPasteDetection(
-            array(
+        $clones   = $detector->copyPasteDetection(
+            [
                 TEST_FILES_PATH . 'e.php',
                 TEST_FILES_PATH . 'f.php'
-            ),
+            ],
             8,
             10,
             true
@@ -263,10 +263,10 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
         $this->assertCount(0, $clones);
 
         $clones = $detector->copyPasteDetection(
-            array(
+            [
                 TEST_FILES_PATH . 'e.php',
                 TEST_FILES_PATH . 'f.php'
-            ),
+            ],
             7,
             10,
             true
@@ -277,8 +277,8 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
 
     public function strategyProvider()
     {
-        return array(
-          array('SebastianBergmann\\PHPCPD\\Detector\\Strategy\\DefaultStrategy')
-        );
+        return [
+          ['SebastianBergmann\\PHPCPD\\Detector\\Strategy\\DefaultStrategy']
+        ];
     }
 }

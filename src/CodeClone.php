@@ -30,7 +30,7 @@ class CodeClone
     /**
      * @var CodeCloneFile[] Files with this code clone
      */
-    private $files = array();
+    private $files = [];
 
     /**
      * @var string Unique ID of Code Duplicate Fragment
@@ -87,7 +87,8 @@ class CodeClone
     /**
      * Returns the lines of the clone.
      *
-     * @param  string $prefix
+     * @param string $prefix
+     *
      * @return string The lines of the clone
      */
     public function getLines($prefix = '')
@@ -101,7 +102,7 @@ class CodeClone
                 $this->size
             );
 
-            $indent = array();
+            $indent = [];
 
             foreach ($lines as &$line) {
                 $line    = rtrim($line, " \t\0\x0B");

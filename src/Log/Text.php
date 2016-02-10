@@ -33,7 +33,7 @@ class Text
 
         if ($numClones > 0) {
             $buffer = '';
-            $files  = array();
+            $files  = [];
             $lines  = 0;
 
             foreach ($clones as $clone) {

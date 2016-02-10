@@ -34,27 +34,27 @@ class Command extends AbstractCommand
     {
         $this->setName('phpcpd')
              ->setDefinition(
-                 array(
+                 [
                      new InputArgument(
                          'values',
                          InputArgument::IS_ARRAY,
                          'Files and directories to analyze'
                      )
-                 )
+                 ]
              )
              ->addOption(
                  'names',
                  null,
                  InputOption::VALUE_REQUIRED,
                  'A comma-separated list of file names to check',
-                 array('*.php')
+                 ['*.php']
              )
              ->addOption(
                  'names-exclude',
                  null,
                  InputOption::VALUE_REQUIRED,
                  'A comma-separated list of file names to exclude',
-                 array()
+                 []
              )
              ->addOption(
                  'exclude',
@@ -167,8 +167,9 @@ class Command extends AbstractCommand
     }
 
     /**
-     * @param  \Symfony\Component\Console\Input\InputInterface $input
-     * @param  string                                          $option
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param string                                          $option
+     *
      * @return array
      */
     private function handleCSVOption(InputInterface $input, $option)
