@@ -93,6 +93,12 @@ class Command extends AbstractCommand
                  null,
                  InputOption::VALUE_NONE,
                  'Show progress bar'
+             )
+             ->addOption(
+                 'ignore-violations-on-exit',
+                 null,
+                 InputOption::VALUE_NONE,
+                 'Ignore violations and exit with status code 0'
              );
     }
 
@@ -162,7 +168,9 @@ class Command extends AbstractCommand
         }
 
         if (count($clones) > 0) {
-            exit(1);
+            if (!$input->getOption('ignore-violations-on-exit')) {
+                exit(1);
+            }
         }
     }
 
