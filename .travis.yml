@@ -22,7 +22,8 @@ install:
   - if [[ "$DEPENDENCIES" = 'low' ]]; then travis_retry composer update --no-interaction --no-ansi --no-progress --no-suggest --optimize-autoloader --prefer-stable --prefer-lowest; fi
 
 script:
-  - phpunit
+  - wget https://phar.phpunit.de/phpunit-5.7.phar
+  - php phpunit-5.7.phar
 
 notifications:
   email: false
