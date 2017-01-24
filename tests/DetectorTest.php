@@ -163,7 +163,9 @@ class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
 
         $clones = $clones->getClones();
         $files  = $clones[0]->getFiles();
-        $file   = current($files);
+        sort($files);
+
+        $file = current($files);
 
         $this->assertCount(1, $clones);
         $this->assertEquals(TEST_FILES_PATH . 'a.php', $file->getName());
