@@ -1,5 +1,19 @@
 #!/usr/bin/env php
 <?php
+if (version_compare('5.6.0', PHP_VERSION, '>')) {
+    fwrite(
+        STDERR,
+        sprintf(
+            'This version of PHPCPD is supported on PHP 5.6, PHP 7.0, and PHP 7.1.' . PHP_EOL .
+            'You are using PHP %s%s.' . PHP_EOL,
+            PHP_VERSION,
+            defined('PHP_BINARY') ? ' (' . PHP_BINARY . ')' : ''
+        )
+    );
+
+    die(1);
+}
+
 if ($_SERVER['SCRIPT_NAME'] != '-') {
     $phar = realpath($_SERVER['SCRIPT_NAME']);
 } else {
