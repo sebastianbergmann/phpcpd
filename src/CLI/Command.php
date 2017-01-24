@@ -57,6 +57,13 @@ class Command extends AbstractCommand
                  []
              )
              ->addOption(
+                 'regexps-exclude',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'A comma-separated list of paths regexps to exclude (example: "#var/.*_tmp#")',
+                 array()
+             )
+             ->addOption(
                  'exclude',
                  null,
                  InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
@@ -110,7 +117,8 @@ class Command extends AbstractCommand
             $input->getArgument('values'),
             $input->getOption('exclude'),
             $this->handleCSVOption($input, 'names'),
-            $this->handleCSVOption($input, 'names-exclude')
+            $this->handleCSVOption($input, 'names-exclude'),
+            $this->handleCSVOption($input, 'regexps-exclude')
         );
 
         $files = $finder->findFiles();
