@@ -11,20 +11,20 @@
 
 The easiest way to obtain PHPCPD is to download a [PHP Archive (PHAR)](http://php.net/phar) that has all required dependencies of PHPCPD bundled in a single file:
 
-    wget https://phar.phpunit.de/phpcpd.phar
-    chmod +x phpcpd.phar
-    mv phpcpd.phar /usr/local/bin/phpcpd
+    $ wget https://phar.phpunit.de/phpcpd.phar
+    $ chmod +x phpcpd.phar
+    $ mv phpcpd.phar /usr/local/bin/phpcpd
 
 You can also immediately use the PHAR after you have downloaded it, of course:
 
-    wget https://phar.phpunit.de/phpcpd.phar
-    php phpcpd.phar
+    $ wget https://phar.phpunit.de/phpcpd.phar
+    $ php phpcpd.phar
 
 ### Composer
 
 You can add this tool as a local, per-project, development-time dependency to your project using [Composer](https://getcomposer.org/):
 
-    composer require --dev sebastian/phpcpd
+    $ composer require --dev sebastian/phpcpd
 
 You can then invoke it using the `vendor/bin/phpcpd` executable.
 
