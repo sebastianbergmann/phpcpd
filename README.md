@@ -30,22 +30,20 @@ You can then invoke it using the `vendor/bin/phpcpd` executable.
 
 ## Usage Example
 
-    ➜ ~ phpcpd /tmp/wordpress-3.8.1/wp-includes
-    phpcpd 2.0.1 by Sebastian Bergmann.
+    $ phpcpd wordpress-4.7.1
+    phpcpd 3.0.0 by Sebastian Bergmann.
 
-    Found 34 exact clones with 1273 duplicated lines in 11 files:
+    Found 59 clones with 2548 duplicated lines in 39 files:
 
-      - /tmp/wordpress-3.8.1/wp-includes/class-snoopy.php:165-195
-        /tmp/wordpress-3.8.1/wp-includes/class-snoopy.php:225-255
-
+      - /home/sb/wordpress-4.7.1/wp-admin/includes/class-ftp-pure.php:99-114
+        /home/sb/wordpress-4.7.1/wp-admin/includes/class-ftp-sockets.php:119-134
       .
       .
       .
+      - /home/sb/wordpress-4.7.1/wp-includes/class-wp-customize-manager.php:277-329
+        /home/sb/wordpress-4.7.1/wp-includes/class-wp-customize-control.php:652-704
 
-      - /tmp/wordpress-3.8.1/wp-includes/SimplePie/Misc.php:1769-1830
-        /tmp/wordpress-3.8.1/wp-includes/SimplePie/Parse/Date.php:710-771
+    0.77% duplicated lines out of 332387 total lines of code.
 
-    0.86% duplicated lines out of 147877 total lines of code.
-
-    Time: 24.67 seconds, Memory: 159.00Mb
+    Time: 2.91 seconds, Memory: 232.00MB
 
