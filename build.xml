@@ -5,6 +5,12 @@
     <target name="clean" description="Cleanup build artifacts">
         <delete dir="${basedir}/vendor"/>
         <delete file="${basedir}/composer.lock"/>
+        <delete>
+            <fileset dir="${basedir}/build">
+                <include name="**/phpcpd*.phar"/>
+                <include name="**/phpcpd*.phar.asc"/>
+            </fileset>
+        </delete>
     </target>
 
     <target name="install-dependencies" unless="dependencies-installed" depends="-dependencies-installed" description="Install dependencies with Composer">
