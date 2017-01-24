@@ -1,151 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="phpcpd" default="build">
- <target name="build" depends="prepare,lint"/>
+<project name="phpcpd" default="setup">
+    <target name="setup" depends="clean,install-dependencies"/>
 
- <target name="clean" description="Cleanup build artifacts">
-  <delete dir="${basedir}/bin"/>
-  <delete dir="${basedir}/vendor"/>
-  <delete file="${basedir}/composer.lock"/>
-  <delete dir="${basedir}/build/phar"/>
-  <delete>
-   <fileset dir="${basedir}/build">
-    <include name="**/*.phar" />
-    <include name="**/*.phar.asc" />
-   </fileset>
-  </delete>
- </target>
+    <target name="clean" description="Cleanup build artifacts">
+        <delete dir="${basedir}/vendor"/>
+        <delete file="${basedir}/composer.lock"/>
+    </target>
 
- <target name="composer" description="Install dependencies with Composer">
-  <tstamp>
-   <format property="thirty.days.ago" pattern="MM/dd/yyyy hh:mm aa" offset="-30" unit="day"/>
-  </tstamp>
-  <delete>
-   <fileset dir="${basedir}">
-    <include name="composer.phar" />
-    <date datetime="${thirty.days.ago}" when="before"/>
-   </fileset>
-  </delete>
+    <target name="install-dependencies" unless="dependencies-installed" depends="-dependencies-installed" description="Install dependencies with Composer">
+        <exec executable="composer" taskname="composer">
+            <arg value="update"/>
+            <arg value="--no-interaction"/>
+            <arg value="--no-progress"/>
+            <arg value="--no-ansi"/>
+            <arg value="--no-suggest"/>
+            <arg value="--optimize-autoloader"/>
+            <arg value="--prefer-stable"/>
+        </exec>
+    </target>
 
-  <get src="https://getcomposer.org/composer.phar" dest="${basedir}/composer.phar" skipexisting="true"/>
+    <target name="install-tools" unless="tools-installed" depends="-tools-installed" description="Install tools using phive">
+        <exec executable="phive" taskname="phive">
+            <arg value="install"/>
+        </exec>
+    </target>
 
-  <exec executable="php">
-   <arg value="composer.phar"/>
-   <arg value="install"/>
-  </exec>
- </target>
+    <target name="test" depends="install-dependencies,install-tools" description="Run tests with PHPUnit">
+        <exec executable="${basedir}/tools/phpunit" failonerror="true"/>
+    </target>
 
- <target name="prepare" depends="clean,composer" description="Prepare for build">
- </target>
+    <target name="signed-phar" description="Create signed PHAR archive of PHPCPD and all its dependencies (release)" depends="phar">
+        <exec executable="bash" outputproperty="version">
+            <arg value="-c" />
+            <arg value="${basedir}/phpcpd --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'" />
+        </exec>
 
- <target name="lint">
-  <apply executable="php" failonerror="true">
-   <arg value="-l" />
+        <exec executable="gpg" failonerror="true">
+            <arg value="--armor" />
+            <arg value="--detach-sign" />
+            <arg path="${basedir}/build/phpcpd-${version}.phar" />
+        </exec>
+    </target>
 
-   <fileset dir="${basedir}/src">
-    <include name="**/*.php" />
-    <modified />
-   </fileset>
+    <target name="phar" description="Create PHAR archive of phpcpd and all its dependencies" depends="setup,phar-build">
+    </target>
 
-   <fileset dir="${basedir}/tests">
-    <include name="**/*.php" />
-    <modified />
-   </fileset>
-  </apply>
- </target>
+    <target name="phar-build">
+        <exec executable="bash" outputproperty="version">
+            <arg value="-c" />
+            <arg value="${basedir}/phpcpd --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'" />
+        </exec>
 
- <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer">
-  <exec executable="phpcs">
-   <arg value="--standard=PSR2" />
-   <arg value="--extensions=php" />
-   <arg path="${basedir}/src" />
-  </exec>
- </target>
+        <copy todir="${basedir}/build/phar/src">
+            <fileset dir="${basedir}/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
 
- <target name="phpunit" depends="prepare,lint" description="Run unit tests with PHPUnit">
-  <exec executable="${basedir}/vendor/bin/phpunit" failonerror="true">
-   <arg value="--configuration" />
-   <arg path="${basedir}/build/phpunit.xml" />
-  </exec>
- </target>
+        <copy todir="${basedir}/build/phar/finder-facade">
+            <fileset dir="${basedir}/vendor/sebastian/finder-facade/src">
+                <include name="**/*.php" />
+                <exclude name="**/autoload.php" />
+            </fileset>
+        </copy>
 
- <target name="signed-phar"
-         description="Create signed PHAR archive of PHPCPD and all its dependencies (release)"
-         depends="phar">
-  <exec executable="bash" outputproperty="version">
-   <arg value="-c" />
-   <arg value="${basedir}/phpcpd --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'" />
-  </exec>
+        <copy todir="${basedir}/build/phar/version">
+            <fileset dir="${basedir}/vendor/sebastian/version/src">
+                <include name="**/*.php" />
+                <exclude name="**/autoload.php" />
+            </fileset>
+        </copy>
 
-  <exec executable="gpg" failonerror="true">
-   <arg value="--armor" />
-   <arg value="--detach-sign" />
-   <arg path="${basedir}/build/phpcpd-${version}.phar" />
-  </exec>
- </target>
+        <copy todir="${basedir}/build/phar/php-timer">
+            <fileset dir="${basedir}/vendor/phpunit/php-timer/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
 
- <target name="phar"
-         description="Create PHAR archive of phpcpd and all its dependencies"
-         depends="clean,composer,phar-build">
-  <mkdir dir="${basedir}/build/phar"/>
- </target>
+        <copy todir="${basedir}/build/phar/symfony">
+            <fileset dir="${basedir}/vendor/symfony">
+                <include name="**/*.php" />
+                <exclude name="**/Tests/**" />
+            </fileset>
+        </copy>
 
- <target name="phar-build">
-  <exec executable="bash" outputproperty="version">
-   <arg value="-c" />
-   <arg value="${basedir}/phpcpd --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'" />
-  </exec>
+        <copy todir="${basedir}/build/phar/fdomdocument">
+            <fileset dir="${basedir}/vendor/theseer/fdomdocument/src"/>
+        </copy>
 
-  <copy todir="${basedir}/build/phar/src">
-   <fileset dir="${basedir}/src">
-    <include name="**/*.php" />
-   </fileset>
-  </copy>
+        <exec executable="${basedir}/build/phar-manifest.php" output="${basedir}/build/phar/manifest.txt"/>
 
-  <copy todir="${basedir}/build/phar/finder-facade">
-   <fileset dir="${basedir}/vendor/sebastian/finder-facade/src">
-    <include name="**/*.php" />
-    <exclude name="**/autoload.php" />
-   </fileset>
-  </copy>
+        <exec executable="${basedir}/tools/phpab">
+            <arg value="--all" />
+            <arg value="--phar" />
+            <arg value="--output" />
+            <arg path="${basedir}/build/phpcpd-${version}.phar" />
+            <arg value="--template" />
+            <arg path="${basedir}/build/phar-autoload.php.in" />
+            <arg value="--indent" />
+            <arg value="            " />
+            <arg path="${basedir}/build/phar" />
+        </exec>
 
-  <copy todir="${basedir}/build/phar/version">
-   <fileset dir="${basedir}/vendor/sebastian/version/src">
-    <include name="**/*.php" />
-    <exclude name="**/autoload.php" />
-   </fileset>
-  </copy>
+        <chmod file="${basedir}/build/phpcpd-${version}.phar" perm="ugo+rx"/>
 
-  <copy todir="${basedir}/build/phar/php-timer">
-   <fileset dir="${basedir}/vendor/phpunit/php-timer/src">
-    <include name="**/*.php" />
-   </fileset>
-  </copy>
+        <delete dir="${basedir}/build/phar"/>
+    </target>
 
-  <copy todir="${basedir}/build/phar/symfony">
-   <fileset dir="${basedir}/vendor/symfony">
-    <include name="**/*.php" />
-    <exclude name="**/Tests/**" />
-   </fileset>
-  </copy>
+    <target name="-dependencies-installed">
+        <available file="${basedir}/vendor" property="dependencies-installed" type="dir"/>
+    </target>
 
-  <copy todir="${basedir}/build/phar/fdomdocument">
-   <fileset dir="${basedir}/vendor/theseer/fdomdocument/src"/>
-  </copy>
-
-  <exec executable="${basedir}/build/phar-manifest.php" output="${basedir}/build/phar/manifest.txt"/>
-
-  <exec executable="phpab">
-   <arg value="--all" />
-   <arg value="--phar" />
-   <arg value="--output" />
-   <arg path="${basedir}/build/phpcpd-${version}.phar" />
-   <arg value="--template" />
-   <arg path="${basedir}/build/phar-autoload.php.in" />
-   <arg value="--indent" />
-   <arg value="            " />
-   <arg path="${basedir}/build/phar" />
-  </exec>
-
-  <chmod file="${basedir}/build/phpcpd-${version}.phar" perm="ugo+rx"/>
- </target>
+    <target name="-tools-installed">
+        <available file="${basedir}/tools" property="tools-installed" type="dir"/>
+    </target>
 </project>

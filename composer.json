@@ -14,12 +14,12 @@
         "issues": "https://github.com/sebastianbergmann/phpcpd/issues"
     },
     "require": {
-        "php": ">=5.6",
-        "sebastian/finder-facade": "~1.1",
-        "sebastian/version": "~1.0|~2.0",
-        "symfony/console": "~2.7|^3.0",
-        "phpunit/php-timer": ">=1.0.6",
-        "theseer/fdomdocument": "~1.4"
+        "php": "^5.6|^7.0",
+        "sebastian/finder-facade": "^1.1",
+        "sebastian/version": "^2.0",
+        "symfony/console": "^3.0",
+        "phpunit/php-timer": "^1.0.6",
+        "theseer/fdomdocument": "^1.4"
     },
     "autoload": {
         "classmap": [
