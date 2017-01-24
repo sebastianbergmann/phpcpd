@@ -87,44 +87,28 @@ class CodeClone
     /**
      * Returns the lines of the clone.
      *
-     * @param string $prefix
+     * @param string $indent
      *
      * @return string The lines of the clone
      */
-    public function getLines($prefix = '')
+    public function getLines($indent = '')
     {
-        $file = current($this->files);
-
         if (empty($this->lines)) {
-            $lines = array_slice(
-                file($file->getName()),
-                $file->getStartLine() - 1,
-                $this->size
+            $file = current($this->files);
+
+            $this->lines = implode(
+                '',
+                array_map(
+                    function ($line) use ($indent) {
+                        return $indent. $line;
+                    },
+                    array_slice(
+                        file($file->getName()),
+                        $file->getStartLine() - 1,
+                        $this->size
+                    )
+                )
             );
-
-            $indent = [];
-
-            foreach ($lines as &$line) {
-                $line    = rtrim($line, " \t\0\x0B");
-                $line    = str_replace("\t", '    ', $line);
-                $_indent = strlen($line) - strlen(ltrim($line));
-
-                if ($_indent > 1) {
-                    $indent[] = $_indent;
-                }
-            }
-
-            $indent = empty($indent) ? 0 : min($indent);
-
-            if ($indent > 0) {
-                foreach ($lines as &$line) {
-                    if (strlen($line > 1)) {
-                        $line = $prefix . substr($line, $indent);
-                    }
-                }
-            }
-
-            $this->lines = implode('', $lines);
         }
 
         return $this->lines;

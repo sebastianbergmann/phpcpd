@@ -28,55 +28,46 @@ class Text
      */
     public function printResult(OutputInterface $output, CodeCloneMap $clones)
     {
-        $numClones = count($clones);
-        $verbose   = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
+        $verbose = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
 
-        if ($numClones > 0) {
-            $buffer = '';
-            $files  = [];
-            $lines  = 0;
-
-            foreach ($clones as $clone) {
-                foreach ($clone->getFiles() as $file) {
-                    $filename = $file->getName();
-
-                    if (!isset($files[$filename])) {
-                        $files[$filename] = true;
-                    }
-                }
-
-                $lines  += $clone->getSize() * (count($clone->getFiles()) - 1);
-                $buffer .= "\n  -";
-
-                foreach ($clone->getFiles() as $file) {
-                    $buffer .= sprintf(
-                        "\t%s:%d-%d\n ",
-                        $file->getName(),
-                        $file->getStartLine(),
-                        $file->getStartLine() + $clone->getSize()
-                    );
-                }
-
-                if ($verbose) {
-                    $buffer .= "\n" . $clone->getLines('      ');
-                }
-            }
-
+        if (count($clones) > 0) {
             $output->write(
                 sprintf(
-                    "Found %d exact clones with %d duplicated lines in %d files:\n%s",
-                    $numClones,
-                    $lines,
-                    count($files),
-                    $buffer
+                    'Found %d clones with %d duplicated lines in %d files:' . PHP_EOL . PHP_EOL,
+                    count($clones),
+                    $clones->getNumberOfDuplicatedLines(),
+                    $clones->getNumberOfFilesWithClones()
                 )
             );
         }
 
+        foreach ($clones as $clone) {
+            $firstOccurrence = true;
+
+            foreach ($clone->getFiles() as $file) {
+                $output->writeln(
+                    sprintf(
+                        '  %s%s:%d-%d',
+                        $firstOccurrence ? '- ' : '  ',
+                        $file->getName(),
+                        $file->getStartLine(),
+                        $file->getStartLine() + $clone->getSize()
+                    )
+                );
+
+                $firstOccurrence = false;
+            }
+
+            if ($verbose) {
+                $output->write(PHP_EOL . $clone->getLines('    '));
+            }
+
+            $output->writeln('');
+        }
+
         $output->write(
             sprintf(
-                "%s%s duplicated lines out of %d total lines of code.\n\n",
-                $numClones > 0 ? "\n" : '',
+                "%s duplicated lines out of %d total lines of code.\n\n",
                 $clones->getPercentage(),
                 $clones->getNumLines()
             )

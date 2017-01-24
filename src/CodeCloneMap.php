@@ -35,12 +35,17 @@ class CodeCloneMap implements \Countable, \Iterator
     /**
      * @var int Number of duplicate lines in the clone map
      */
-    private $numDuplicateLines = 0;
+    private $numberOfDuplicatedLines = 0;
 
     /**
      * @var int Number of lines analyzed
      */
     private $numLines = 0;
+
+    /**
+     * @var array
+     */
+    private $filesWithClones = [];
 
     /**
      * Adds a clone to the map.
@@ -62,7 +67,13 @@ class CodeCloneMap implements \Countable, \Iterator
             }
         }
 
-        $this->numDuplicateLines += $clone->getSize();
+        $this->numberOfDuplicatedLines += $clone->getSize() * (count($clone->getFiles()) - 1);
+
+        foreach ($clone->getFiles() as $file) {
+            if (!isset($this->filesWithClones[$file->getName()])) {
+                $this->filesWithClones[$file->getName()] = true;
+            }
+        }
     }
 
     /**
@@ -83,7 +94,7 @@ class CodeCloneMap implements \Countable, \Iterator
     public function getPercentage()
     {
         if ($this->numLines > 0) {
-            $percent = ($this->numDuplicateLines / $this->numLines) * 100;
+            $percent = ($this->numberOfDuplicatedLines / $this->numLines) * 100;
         } else {
             $percent = 100;
         }
@@ -117,6 +128,22 @@ class CodeCloneMap implements \Countable, \Iterator
     public function count()
     {
         return count($this->clones);
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfFilesWithClones()
+    {
+        return count($this->filesWithClones);
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfDuplicatedLines()
+    {
+        return $this->numberOfDuplicatedLines;
     }
 
     /**
