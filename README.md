@@ -22,19 +22,11 @@ You can also immediately use the PHAR after you have downloaded it, of course:
 
 ### Composer
 
-Simply add a dependency on `sebastian/phpcpd` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project. Here is a minimal example of a `composer.json` file that just defines a development-time dependency on PHPCPD:
+You can add this tool as a local, per-project, development-time dependency to your project using [Composer](https://getcomposer.org/):
 
-    {
-        "require-dev": {
-            "sebastian/phpcpd": "*"
-        }
-    }
+    composer require --dev sebastian/phpcpd
 
-For a system-wide installation via Composer, you can run:
-
-    composer global require "sebastian/phpcpd=*"
-
-Make sure you have `~/.composer/vendor/bin/` in your path.
+You can then invoke it using the `vendor/bin/phpcpd` executable.
 
 ## Usage Example
 
