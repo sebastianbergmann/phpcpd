@@ -100,6 +100,12 @@ class Command extends AbstractCommand
                  null,
                  InputOption::VALUE_NONE,
                  'Show progress bar'
+             )
+             ->addOption(
+                 'succeed-on-empty',
+                 null,
+                 InputOption::VALUE_NONE,
+                 'The command should fail when no files to scan are found'
              );
     }
 
@@ -125,7 +131,7 @@ class Command extends AbstractCommand
 
         if (empty($files)) {
             $output->writeln('No files found to scan');
-            exit(1);
+            exit((int) $input->getOption('succeed-on-empty'));
         }
 
         $progressBar = null;
