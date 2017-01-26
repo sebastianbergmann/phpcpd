@@ -100,7 +100,7 @@ class CodeClone
                 '',
                 array_map(
                     function ($line) use ($indent) {
-                        return $indent. $line;
+                        return $indent . $line;
                     },
                     array_slice(
                         file($file->getName()),
