@@ -105,7 +105,7 @@ class Command extends AbstractCommand
                  'succeed-on-empty',
                  null,
                  InputOption::VALUE_NONE,
-                 'The command should fail when no files to scan are found'
+                 'The command should succeed when no files to scan are found'
              );
     }
 
