@@ -2,7 +2,7 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [3.0.0] - 201Y-MM-DD
+## [3.0.0] - 2017-02-05
 
 ### Added
 

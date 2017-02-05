@@ -25,7 +25,7 @@ class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('3.0', dirname(dirname(__DIR__)));
+        $version = new Version('3.0.0', dirname(dirname(__DIR__)));
         parent::__construct('phpcpd', $version->getVersion());
     }
 
