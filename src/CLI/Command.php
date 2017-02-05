@@ -148,7 +148,7 @@ class Command extends AbstractCommand
 
         if ($input->getOption('progress')) {
             $progressBar->finish();
-            $output->writeln('');
+            $output->writeln("\n");
         }
 
         if (!$quiet) {
