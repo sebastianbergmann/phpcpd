@@ -17,5 +17,5 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 * PHPCPD is no longer supported on PHP 5.3, PHP 5.4, and PHP 5.5
 
-[3.0.0]: https://github.com/sebastianbergmann/phpunit/compare/2.0...3.0.0
+[3.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/2.0...3.0.0
 
