@@ -15,12 +15,14 @@ if (!defined('TEST_FILES_PATH')) {
     );
 }
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Tests for the PHPCPD code analyser.
  *
  * @since     Class available since Release 1.0.0
  */
-class PHPCPD_DetectorTest extends PHPUnit_Framework_TestCase
+class PHPCPD_DetectorTest extends TestCase
 {
     /**
      * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection

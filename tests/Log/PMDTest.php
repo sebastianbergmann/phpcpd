@@ -3,8 +3,9 @@ use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 use SebastianBergmann\PHPCPD\Log\PMD;
+use PHPUnit\Framework\TestCase;
 
-class PHPCPD_Log_PMDTest extends PHPUnit_Framework_TestCase
+class PHPCPD_Log_PMDTest extends TestCase
 {
     /** @var string */
     private $testFile1;
