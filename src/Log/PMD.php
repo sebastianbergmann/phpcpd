@@ -46,12 +46,14 @@ class PMD extends AbstractXmlLogger
                 $file->setAttribute('line', $codeCloneFile->getStartLine());
             }
 
-            $duplication->appendChild(
+            $codefragment = $duplication->appendChild(
                 $this->document->createElement(
-                    'codefragment',
-                    $this->escapeForXml($clone->getLines())
+                    'codefragment'
                 )
             );
+            
+            $codefragment->appendChild($this->document->createCDATASection($this->escapeForXml($clone->getLines())));
+            
         }
 
         $this->flush();
