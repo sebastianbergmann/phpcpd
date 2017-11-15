@@ -61,7 +61,7 @@ class Command extends AbstractCommand
                  null,
                  InputOption::VALUE_REQUIRED,
                  'A comma-separated list of paths regexps to exclude (example: "#var/.*_tmp#")',
-                 array()
+                 []
              )
              ->addOption(
                  'exclude',
@@ -100,6 +100,12 @@ class Command extends AbstractCommand
                  null,
                  InputOption::VALUE_NONE,
                  'Show progress bar'
+             )
+             ->addOption(
+                 'disable-runtime-exit',
+                 null,
+                 InputOption::VALUE_NONE,
+                 'Exit if replicates found'
              );
     }
 
@@ -169,7 +175,7 @@ class Command extends AbstractCommand
             print \PHP_Timer::resourceUsage() . "\n";
         }
 
-        if (count($clones) > 0) {
+        if (count($clones) > 0 && !$input->getOption('disable-runtime-exit')) {
             exit(1);
         }
     }
