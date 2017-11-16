@@ -6,6 +6,7 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 ### Fixed
 
+* Fixed [#147](https://github.com/sebastianbergmann/phpcpd/issues/147): Wrong exit code when no files were found to be scanned
 * Fixed [#152](https://github.com/sebastianbergmann/phpcpd/issues/152): Version requirement for `sebastian/version` is too strict
 
 ## [3.0.0] - 2017-02-05
