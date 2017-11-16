@@ -22,9 +22,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-/**
- * @since     Class available since Release 2.0.0
- */
 class Command extends AbstractCommand
 {
     /**
@@ -61,7 +58,7 @@ class Command extends AbstractCommand
                  null,
                  InputOption::VALUE_REQUIRED,
                  'A comma-separated list of paths regexps to exclude (example: "#var/.*_tmp#")',
-                 array()
+                 []
              )
              ->addOption(
                  'exclude',
@@ -131,7 +128,7 @@ class Command extends AbstractCommand
         $progressBar = null;
 
         if ($input->getOption('progress')) {
-            $progressBar = new ProgressBar($output, count($files));
+            $progressBar = new ProgressBar($output, \count($files));
             $progressBar->start();
         }
 
@@ -169,7 +166,7 @@ class Command extends AbstractCommand
             print \PHP_Timer::resourceUsage() . "\n";
         }
 
-        if (count($clones) > 0) {
+        if (\count($clones) > 0) {
             exit(1);
         }
     }
@@ -184,9 +181,9 @@ class Command extends AbstractCommand
     {
         $result = $input->getOption($option);
 
-        if (!is_array($result)) {
-            $result = explode(',', $result);
-            array_map('trim', $result);
+        if (!\is_array($result)) {
+            $result = \explode(',', $result);
+            \array_map('trim', $result);
         }
 
         return $result;

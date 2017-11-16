@@ -13,11 +13,6 @@ namespace SebastianBergmann\PHPCPD\Log;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * A ResultPrinter for the TextUI.
- *
- * @since     Class available since Release 2.0.0
- */
 class Text
 {
     /**
@@ -30,11 +25,11 @@ class Text
     {
         $verbose = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
 
-        if (count($clones) > 0) {
+        if (\count($clones) > 0) {
             $output->write(
-                sprintf(
+                \sprintf(
                     'Found %d clones with %d duplicated lines in %d files:' . PHP_EOL . PHP_EOL,
-                    count($clones),
+                    \count($clones),
                     $clones->getNumberOfDuplicatedLines(),
                     $clones->getNumberOfFilesWithClones()
                 )
@@ -46,7 +41,7 @@ class Text
 
             foreach ($clone->getFiles() as $file) {
                 $output->writeln(
-                    sprintf(
+                    \sprintf(
                         '  %s%s:%d-%d',
                         $firstOccurrence ? '- ' : '  ',
                         $file->getName(),
@@ -66,7 +61,7 @@ class Text
         }
 
         $output->write(
-            sprintf(
+            \sprintf(
                 "%s duplicated lines out of %d total lines of code.\n\n",
                 $clones->getPercentage(),
                 $clones->getNumLines()

@@ -16,16 +16,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 
-/**
- * TextUI frontend for PHPCPD.
- *
- * @since     Class available since Release 2.0.0
- */
 class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('3.0.0', dirname(dirname(__DIR__)));
+        $version = new Version('3.0.0', \dirname(\dirname(__DIR__)));
         parent::__construct('phpcpd', $version->getVersion());
     }
 
@@ -81,7 +76,7 @@ class Application extends AbstractApplication
 
         if (!$input->hasParameterOption('--quiet')) {
             $output->write(
-                sprintf(
+                \sprintf(
                     "phpcpd %s by Sebastian Bergmann.\n\n",
                     $this->getVersion()
                 )
@@ -102,15 +97,15 @@ class Application extends AbstractApplication
 
     private function disableXdebug()
     {
-        if (!extension_loaded('xdebug')) {
+        if (!\extension_loaded('xdebug')) {
             return;
         }
 
-        ini_set('xdebug.scream', 0);
-        ini_set('xdebug.max_nesting_level', 8192);
-        ini_set('xdebug.show_exception_trace', 0);
-        ini_set('xdebug.show_error_trace', 0);
+        \ini_set('xdebug.scream', 0);
+        \ini_set('xdebug.max_nesting_level', 8192);
+        \ini_set('xdebug.show_exception_trace', 0);
+        \ini_set('xdebug.show_error_trace', 0);
 
-        xdebug_disable();
+        \xdebug_disable();
     }
 }

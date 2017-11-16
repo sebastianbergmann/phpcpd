@@ -10,11 +10,6 @@
 
 namespace SebastianBergmann\PHPCPD;
 
-/**
- * Represents an exact code clone.
- *
- * @since     Class available since Release 1.1.0
- */
 class CodeClone
 {
     /**
@@ -57,7 +52,7 @@ class CodeClone
 
         $this->size   = $size;
         $this->tokens = $tokens;
-        $this->id     = md5($this->getLines());
+        $this->id     = \md5($this->getLines());
     }
 
     /**
@@ -94,16 +89,16 @@ class CodeClone
     public function getLines($indent = '')
     {
         if (empty($this->lines)) {
-            $file = current($this->files);
+            $file = \current($this->files);
 
-            $this->lines = implode(
+            $this->lines = \implode(
                 '',
-                array_map(
+                \array_map(
                     function ($line) use ($indent) {
                         return $indent . $line;
                     },
-                    array_slice(
-                        file($file->getName()),
+                    \array_slice(
+                        \file($file->getName()),
                         $file->getStartLine() - 1,
                         $this->size
                     )

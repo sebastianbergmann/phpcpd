@@ -10,11 +10,6 @@
 
 namespace SebastianBergmann\PHPCPD;
 
-/**
- * A map of exact clones.
- *
- * @since     Class available since Release 1.1.0
- */
 class CodeCloneMap implements \Countable, \Iterator
 {
     /**
@@ -67,7 +62,7 @@ class CodeCloneMap implements \Countable, \Iterator
             }
         }
 
-        $this->numberOfDuplicatedLines += $clone->getSize() * (count($clone->getFiles()) - 1);
+        $this->numberOfDuplicatedLines += $clone->getSize() * (\count($clone->getFiles()) - 1);
 
         foreach ($clone->getFiles() as $file) {
             if (!isset($this->filesWithClones[$file->getName()])) {
@@ -99,7 +94,7 @@ class CodeCloneMap implements \Countable, \Iterator
             $percent = 100;
         }
 
-        return sprintf('%01.2F%%', $percent);
+        return \sprintf('%01.2F%%', $percent);
     }
 
     /**
@@ -127,7 +122,7 @@ class CodeCloneMap implements \Countable, \Iterator
      */
     public function count()
     {
-        return count($this->clones);
+        return \count($this->clones);
     }
 
     /**
@@ -135,7 +130,7 @@ class CodeCloneMap implements \Countable, \Iterator
      */
     public function getNumberOfFilesWithClones()
     {
-        return count($this->filesWithClones);
+        return \count($this->filesWithClones);
     }
 
     /**
@@ -161,7 +156,7 @@ class CodeCloneMap implements \Countable, \Iterator
      */
     public function valid()
     {
-        return $this->position < count($this->clones);
+        return $this->position < \count($this->clones);
     }
 
     /**

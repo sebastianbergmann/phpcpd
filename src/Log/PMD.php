@@ -12,11 +12,6 @@ namespace SebastianBergmann\PHPCPD\Log;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 
-/**
- * Implementation of AbstractXmlLogger that writes in PMD-CPD format.
- *
- * @since     Class available since Release 1.0.0
- */
 class PMD extends AbstractXmlLogger
 {
     /**

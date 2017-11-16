@@ -14,11 +14,6 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-/**
- * PHPCPD code analyser.
- *
- * @since     Class available since Release 1.0.0
- */
 class Detector
 {
     /**

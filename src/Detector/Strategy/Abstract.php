@@ -12,11 +12,6 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 
-/**
- * Abstract base class for strategies to detect code clones.
- *
- * @since     Class available since Release 1.4.0
- */
 abstract class AbstractStrategy
 {
     /**
