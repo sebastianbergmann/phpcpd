@@ -2,6 +2,12 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [3.0.1] - 2017-MM-DD
+
+### Fixed
+
+* Fixed [#152](https://github.com/sebastianbergmann/phpcpd/issues/152): Version requirement for `sebastian/version` is too strict
+
 ## [3.0.0] - 2017-02-05
 
 ### Added
