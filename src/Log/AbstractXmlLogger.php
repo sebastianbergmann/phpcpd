@@ -14,6 +14,9 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
 
 abstract class AbstractXmlLogger
 {
+    /**
+     * @var \DOMDocument
+     */
     protected $document;
 
     /**
@@ -30,9 +33,16 @@ abstract class AbstractXmlLogger
     }
 
     /**
+     * Processes a list of clones.
+     *
+     * @param CodeCloneMap $clones
+     */
+    abstract public function processClones(CodeCloneMap $clones);
+
+    /**
      * Writes the XML document to the file.
      */
-    protected function flush()
+    protected function flush(): void
     {
         \file_put_contents($this->filename, $this->document->saveXML());
     }
@@ -115,11 +125,4 @@ abstract class AbstractXmlLogger
 
         return \htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
     }
-
-    /**
-     * Processes a list of clones.
-     *
-     * @param CodeCloneMap $clones
-     */
-    abstract public function processClones(CodeCloneMap $clones);
 }

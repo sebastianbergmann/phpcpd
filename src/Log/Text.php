@@ -13,7 +13,7 @@ namespace SebastianBergmann\PHPCPD\Log;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Text
+final class Text
 {
     /**
      * Prints a result set from Detector::copyPasteDetection().
@@ -21,7 +21,7 @@ class Text
      * @param OutputInterface $output
      * @param CodeCloneMap    $clones
      */
-    public function printResult(OutputInterface $output, CodeCloneMap $clones)
+    public function printResult(OutputInterface $output, CodeCloneMap $clones): void
     {
         $verbose = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
 

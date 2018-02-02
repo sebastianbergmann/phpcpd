@@ -9,7 +9,7 @@
  */
 namespace SebastianBergmann\PHPCPD;
 
-class CodeCloneFile
+final class CodeCloneFile
 {
     /**
      * @var string
@@ -26,37 +26,24 @@ class CodeCloneFile
      */
     private $startLine;
 
-    /**
-     * @param string $name
-     * @param int    $startLine
-     */
-    public function __construct($name, $startLine)
+    public function __construct(string $name, int $startLine)
     {
         $this->name      = $name;
         $this->startLine = $startLine;
         $this->id        = $this->name . ':' . $this->startLine;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return int
-     */
-    public function getStartLine()
+    public function getStartLine(): int
     {
         return $this->startLine;
     }

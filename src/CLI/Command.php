@@ -10,24 +10,25 @@
 
 namespace SebastianBergmann\PHPCPD\CLI;
 
+use SebastianBergmann\FinderFacade\FinderFacade;
 use SebastianBergmann\PHPCPD\Detector\Detector;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
 use SebastianBergmann\PHPCPD\Log\PMD;
 use SebastianBergmann\PHPCPD\Log\Text;
-use SebastianBergmann\FinderFacade\FinderFacade;
+use SebastianBergmann\Timer\Timer;
 use Symfony\Component\Console\Command\Command as AbstractCommand;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\ProgressBar;
 
-class Command extends AbstractCommand
+final class Command extends AbstractCommand
 {
     /**
      * Configures the current command.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('phpcpd')
              ->setDefinition(
@@ -163,7 +164,7 @@ class Command extends AbstractCommand
         }
 
         if (!$quiet) {
-            print \PHP_Timer::resourceUsage() . "\n";
+            print Timer::resourceUsage() . "\n";
         }
 
         if (\count($clones) > 0) {

@@ -15,7 +15,7 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
 abstract class AbstractStrategy
 {
     /**
-     * @var int[] List of tokens to ignore
+     * @var int[]
      */
     protected $tokensIgnoreList = [
       T_INLINE_HTML        => true,
@@ -34,14 +34,5 @@ abstract class AbstractStrategy
      */
     protected $hashes = [];
 
-    /**
-     * Copy & Paste Detection (CPD).
-     *
-     * @param string       $file
-     * @param int          $minLines
-     * @param int          $minTokens
-     * @param CodeCloneMap $result
-     * @param bool         $fuzzy
-     */
-    abstract public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = false);
+    abstract public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void;
 }

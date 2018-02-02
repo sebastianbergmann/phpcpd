@@ -10,43 +10,29 @@
 
 namespace SebastianBergmann\PHPCPD\Detector;
 
-use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
+use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-class Detector
+final class Detector
 {
     /**
      * @var \SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy
      */
-    protected $strategy;
+    private $strategy;
 
     /**
      * @var \Symfony\Component\Console\Helper\ProgressBar
      */
-    protected $progressBar;
+    private $progressBar;
 
-    /**
-     * @param AbstractStrategy $strategy
-     * @param ProgressBar|null $progressBar
-     */
     public function __construct(AbstractStrategy $strategy, ProgressBar $progressBar = null)
     {
         $this->strategy    = $strategy;
         $this->progressBar = $progressBar;
     }
 
-    /**
-     * Copy & Paste Detection (CPD).
-     *
-     * @param \Iterator|array $files     List of files to process
-     * @param int             $minLines  Minimum number of identical lines
-     * @param int             $minTokens Minimum number of identical tokens
-     * @param bool            $fuzzy
-     *
-     * @return CodeCloneMap Map of exact clones found in the list of files
-     */
-    public function copyPasteDetection($files, $minLines = 5, $minTokens = 70, $fuzzy = false)
+    public function copyPasteDetection(iterable $files, int $minLines = 5, int $minTokens = 70, bool $fuzzy = false): CodeCloneMap
     {
         $result = new CodeCloneMap;
 

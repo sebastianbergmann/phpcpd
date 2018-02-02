@@ -16,16 +16,7 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
 
 class DefaultStrategy extends AbstractStrategy
 {
-    /**
-     * Copy & Paste Detection (CPD).
-     *
-     * @param string       $file
-     * @param int          $minLines
-     * @param int          $minTokens
-     * @param CodeCloneMap $result
-     * @param bool         $fuzzy
-     */
-    public function processFile($file, $minLines, $minTokens, CodeCloneMap $result, $fuzzy = false)
+    public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void
     {
         $buffer                    = \file_get_contents($file);
         $currentTokenPositions     = [];
@@ -46,7 +37,7 @@ class DefaultStrategy extends AbstractStrategy
 
             if (\is_array($token)) {
                 if (!isset($this->tokensIgnoreList[$token[0]])) {
-                    if ($tokenNr == 0) {
+                    if ($tokenNr === 0) {
                         $currentTokenPositions[$tokenNr] = $token[2] - $lastTokenLine;
                     } else {
                         $currentTokenPositions[$tokenNr] = $currentTokenPositions[$tokenNr - 1] +
@@ -55,7 +46,7 @@ class DefaultStrategy extends AbstractStrategy
 
                     $currentTokenRealPositions[$tokenNr++] = $token[2];
 
-                    if ($fuzzy && $token[0] == T_VARIABLE) {
+                    if ($fuzzy && $token[0] === T_VARIABLE) {
                         $token[1] = 'variable';
                     }
 
@@ -110,8 +101,8 @@ class DefaultStrategy extends AbstractStrategy
                     $realNumLines = $lastRealLine + 1 - $firstRealLine;
 
                     if ($numLines >= $minLines &&
-                        ($fileA != $file ||
-                         $firstLineA != $firstRealLine)) {
+                        ($fileA !== $file ||
+                         $firstLineA !== $firstRealLine)) {
                         $result->addClone(
                             new CodeClone(
                                 new CodeCloneFile($fileA, $firstLineA),
@@ -142,7 +133,7 @@ class DefaultStrategy extends AbstractStrategy
             $realNumLines = $lastRealLine + 1 - $firstRealLine;
 
             if ($numLines >= $minLines &&
-                ($fileA != $file || $firstLineA != $firstRealLine)) {
+                ($fileA !== $file || $firstLineA !== $firstRealLine)) {
                 $result->addClone(
                     new CodeClone(
                         new CodeCloneFile($fileA, $firstLineA),

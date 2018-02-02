@@ -10,7 +10,7 @@
 
 namespace SebastianBergmann\PHPCPD;
 
-class CodeClone
+final class CodeClone
 {
     /**
      * @var int Size of the clone (lines)
@@ -37,15 +37,7 @@ class CodeClone
      */
     private $lines = '';
 
-    /**
-     * Constructor.
-     *
-     * @param CodeCloneFile $fileA
-     * @param CodeCloneFile $fileB
-     * @param int           $size
-     * @param int           $tokens
-     */
-    public function __construct(CodeCloneFile $fileA, CodeCloneFile $fileB, $size, $tokens)
+    public function __construct(CodeCloneFile $fileA, CodeCloneFile $fileB, int $size, int $tokens)
     {
         $this->addFile($fileA);
         $this->addFile($fileB);
@@ -55,12 +47,7 @@ class CodeClone
         $this->id     = \md5($this->getLines());
     }
 
-    /**
-     * Add file with clone
-     *
-     * @param CodeCloneFile $file
-     */
-    public function addFile(CodeCloneFile $file)
+    public function addFile(CodeCloneFile $file): void
     {
         $id = $file->getId();
 
@@ -70,23 +57,14 @@ class CodeClone
     }
 
     /**
-     * Get files with clone
-     *
      * @return CodeCloneFile[]
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         return $this->files;
     }
 
-    /**
-     * Returns the lines of the clone.
-     *
-     * @param string $indent
-     *
-     * @return string The lines of the clone
-     */
-    public function getLines($indent = '')
+    public function getLines($indent = ''): string
     {
         if (empty($this->lines)) {
             $file = \current($this->files);
@@ -109,26 +87,17 @@ class CodeClone
         return $this->lines;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return int
-     */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->size;
     }
 
-    /**
-     * @return int
-     */
-    public function getTokens()
+    public function getTokens(): int
     {
         return $this->tokens;
     }

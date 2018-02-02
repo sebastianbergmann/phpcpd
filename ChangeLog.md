@@ -2,6 +2,12 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [4.0.0] - 2018-01-02
+
+### Removed
+
+* PHPCPD is no longer supported on PHP 5.6 and PHP 7.0
+
 ## [3.0.1] - 2017-11-16
 
 ### Fixed
@@ -24,5 +30,7 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 * PHPCPD is no longer supported on PHP 5.3, PHP 5.4, and PHP 5.5
 
+[4.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/3.0.1...4.0.0
+[3.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/2.0...3.0.0
 

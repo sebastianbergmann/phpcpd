@@ -12,42 +12,17 @@ namespace SebastianBergmann\PHPCPD\CLI;
 
 use SebastianBergmann\Version;
 use Symfony\Component\Console\Application as AbstractApplication;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\ArrayInput;
 
-class Application extends AbstractApplication
+final class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('3.0.1', \dirname(\dirname(__DIR__)));
+        $version = new Version('4.0.0', \dirname(\dirname(__DIR__)));
+
         parent::__construct('phpcpd', $version->getVersion());
-    }
-
-    /**
-     * Gets the name of the command based on input.
-     *
-     * @param InputInterface $input The input interface
-     *
-     * @return string The command name
-     */
-    protected function getCommandName(InputInterface $input)
-    {
-        return 'phpcpd';
-    }
-
-    /**
-     * Gets the default commands that should always be available.
-     *
-     * @return array An array of default Command instances
-     */
-    protected function getDefaultCommands()
-    {
-        $defaultCommands = parent::getDefaultCommands();
-
-        $defaultCommands[] = new Command;
-
-        return $defaultCommands;
     }
 
     /**
@@ -95,7 +70,33 @@ class Application extends AbstractApplication
         parent::doRun($input, $output);
     }
 
-    private function disableXdebug()
+    /**
+     * Gets the name of the command based on input.
+     *
+     * @param InputInterface $input The input interface
+     *
+     * @return string The command name
+     */
+    protected function getCommandName(InputInterface $input)
+    {
+        return 'phpcpd';
+    }
+
+    /**
+     * Gets the default commands that should always be available.
+     *
+     * @return array An array of default Command instances
+     */
+    protected function getDefaultCommands()
+    {
+        $defaultCommands = parent::getDefaultCommands();
+
+        $defaultCommands[] = new Command;
+
+        return $defaultCommands;
+    }
+
+    private function disableXdebug(): void
     {
         if (!\extension_loaded('xdebug')) {
             return;

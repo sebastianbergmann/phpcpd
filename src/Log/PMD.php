@@ -12,14 +12,14 @@ namespace SebastianBergmann\PHPCPD\Log;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 
-class PMD extends AbstractXmlLogger
+final class PMD extends AbstractXmlLogger
 {
     /**
      * Processes a list of clones.
      *
      * @param CodeCloneMap $clones
      */
-    public function processClones(CodeCloneMap $clones)
+    public function processClones(CodeCloneMap $clones): void
     {
         $cpd = $this->document->createElement('pmd-cpd');
         $this->document->appendChild($cpd);
