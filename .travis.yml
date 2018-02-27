@@ -17,6 +17,7 @@ env:
 before_install:
   - composer self-update
   - composer clear-cache
+  - wget -O phpunit.phar https://phar.phpunit.de/phpunit-7.phar
 
 install:
   - if [[ "$DEPENDENCIES" = 'high' ]]; then travis_retry composer update $DEFAULT_COMPOSER_FLAGS; fi
