@@ -25,6 +25,9 @@ final class Text
     {
         $verbose = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
 
+        $maxLength = 0;
+        $summedLength = 0;
+        $averageCounter = 0;
         if (\count($clones) > 0) {
             $output->write(
                 \sprintf(
@@ -50,6 +53,12 @@ final class Text
                     )
                 );
 
+                if($maxLength < $clone->getSize()) {
+                    $maxLength = $clone->getSize();
+                }
+                $summedLength += $clone->getSize();
+                $averageCounter++;
+
                 $firstOccurrence = false;
             }
 
@@ -62,9 +71,12 @@ final class Text
 
         $output->write(
             \sprintf(
-                "%s duplicated lines out of %d total lines of code.\n\n",
+                "%s duplicated lines out of %d total lines of code.\n" .
+                "Average size of duplication is %d lines, biggest clone has %d of lines\n",
                 $clones->getPercentage(),
-                $clones->getNumLines()
+                $clones->getNumLines(),
+                $summedLength / $averageCounter,
+                $maxLength
             )
         );
     }
