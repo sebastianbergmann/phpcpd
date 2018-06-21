@@ -8,6 +8,10 @@
 
 ## Installation
 
+### Requirements
+
+PHPCD requires PHP 7.1.
+
 ### PHP Archive (PHAR)
 
 The easiest way to obtain PHPCPD is to download a [PHP Archive (PHAR)](http://php.net/phar) that has all required dependencies of PHPCPD bundled in a single file:
@@ -55,4 +59,3 @@ Found 59 clones with 2548 duplicated lines in 39 files:
 
 Time: 2.91 seconds, Memory: 232.00MB
 ```
-
