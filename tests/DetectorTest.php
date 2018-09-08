@@ -46,7 +46,7 @@ class PHPCPD_DetectorTest extends TestCase
         $this->assertEquals(TEST_FILES_PATH . 'Math.php', $file->getName());
         $this->assertEquals(139, $file->getStartLine());
         $this->assertEquals(59, $clones[0]->getSize());
-        $this->assertEquals(136, $clones[0]->getTokens());
+        $this->assertEquals(138, $clones[0]->getTokens());
 
         $this->assertEquals(
           '    public function div($v1, $v2)
@@ -286,6 +286,27 @@ class PHPCPD_DetectorTest extends TestCase
         );
         $clones = $clones->getClones();
         $this->assertCount(1, $clones);
+    }
+
+    /**
+     * @covers SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
+     * @dataProvider strategyProvider
+     *
+     * @param string $strategy
+     */
+    public function testNullableTypeHints(string $strategy): void
+    {
+        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $clones   = $detector->copyPasteDetection(
+            [
+                TEST_FILES_PATH . 'NullableTypeHint.php',
+            ],
+            2,
+            7,
+            true
+        );
+        $clones = $clones->getClones();
+        $this->assertCount(0, $clones);
     }
 
     public function strategyProvider()
