@@ -35,6 +35,9 @@ class DefaultStrategy extends AbstractStrategy
         foreach (\array_keys($tokens) as $key) {
             $token = $tokens[$key];
 
+            if (is_string($token) && $token === '?') {
+                $token = [0, '?', $lastTokenLine];
+            }
             if (\is_array($token)) {
                 if (!isset($this->tokensIgnoreList[$token[0]])) {
                     if ($tokenNr === 0) {
