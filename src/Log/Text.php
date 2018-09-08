@@ -25,9 +25,10 @@ final class Text
     {
         $verbose = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
 
-        $maxLength = 0;
-        $summedLength = 0;
+        $maxLength      = 0;
+        $summedLength   = 0;
         $averageCounter = 0;
+
         if (\count($clones) > 0) {
             $output->write(
                 \sprintf(
@@ -53,9 +54,10 @@ final class Text
                     )
                 );
 
-                if($maxLength < $clone->getSize()) {
+                if ($maxLength < $clone->getSize()) {
                     $maxLength = $clone->getSize();
                 }
+
                 $summedLength += $clone->getSize();
                 $averageCounter++;
 
