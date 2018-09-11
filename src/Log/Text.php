@@ -25,11 +25,13 @@ final class Text
     {
         $verbose = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
 
-        $maxLength      = 0;
-        $summedLength   = 0;
+        $maxLength = 0;
+        $summedLength = 0;
         $averageCounter = 0;
+        $averageDuplicationSize = 0;
+        $cloneCount = \count($clones);
 
-        if (\count($clones) > 0) {
+        if ($cloneCount > 0) {
             $output->write(
                 \sprintf(
                     'Found %d clones with %d duplicated lines in %d files:' . PHP_EOL . PHP_EOL,
@@ -54,10 +56,9 @@ final class Text
                     )
                 );
 
-                if ($maxLength < $clone->getSize()) {
+                if($maxLength < $clone->getSize()) {
                     $maxLength = $clone->getSize();
                 }
-
                 $summedLength += $clone->getSize();
                 $averageCounter++;
 
@@ -71,15 +72,29 @@ final class Text
             $output->writeln('');
         }
 
-        $output->write(
-            \sprintf(
-                "%s duplicated lines out of %d total lines of code.\n" .
-                "Average size of duplication is %d lines, biggest clone has %d of lines\n",
-                $clones->getPercentage(),
-                $clones->getNumLines(),
-                $summedLength / $averageCounter,
-                $maxLength
-            )
-        );
+        if($averageCounter > 0)
+        {
+            $averageDuplicationSize = $summedLength / $averageCounter;
+        }
+
+        if ($cloneCount == 0)
+        {
+            $output->write(
+                \sprintf(
+                    'No clones found!' . PHP_EOL . PHP_EOL
+                )
+            );
+        } else {
+            $output->write(
+                \sprintf(
+                    "%s duplicated lines out of %d total lines of code.\n" .
+                    "Average size of duplication is %d lines, biggest clone has %d of lines\n",
+                    $clones->getPercentage(),
+                    $clones->getNumLines(),
+                    $averageDuplicationSize,
+                    $maxLength
+                )
+            );
+        }
     }
 }
