@@ -46,11 +46,12 @@ final class Text
             foreach ($clone->getFiles() as $file) {
                 $output->writeln(
                     \sprintf(
-                        '  %s%s:%d-%d',
+                        '  %s%s:%d-%d%s',
                         $firstOccurrence ? '- ' : '  ',
                         $file->getName(),
                         $file->getStartLine(),
-                        $file->getStartLine() + $clone->getSize()
+                        $file->getStartLine() + $clone->getSize(),
+                        $firstOccurrence ? ' (' . $clone->getSize() . ' lines)' : ''
                     )
                 );
 
