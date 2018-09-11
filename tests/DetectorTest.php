@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+namespace SebastianBergmann\PHPCPD\Detector;
+
 if (!\defined('TEST_FILES_PATH')) {
     \define(
       'TEST_FILES_PATH',
@@ -16,19 +18,24 @@ if (!\defined('TEST_FILES_PATH')) {
 }
 
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
 
-class PHPCPD_DetectorTest extends TestCase
+/**
+ * @covers \SebastianBergmann\PHPCPD\Detector\Detector
+ * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy
+ *
+ * @uses \SebastianBergmann\PHPCPD\CodeClone
+ * @uses \SebastianBergmann\PHPCPD\CodeCloneFile
+ * @uses \SebastianBergmann\PHPCPD\CodeCloneMap
+ */
+class DetectorTest extends TestCase
 {
     /**
-     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
-     * @covers       SebastianBergmann\PHPCPD\CodeClone::getLines
      * @dataProvider strategyProvider
-     *
-     * @param mixed $strategy
      */
     public function testDetectingSimpleClonesWorks($strategy): void
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
           [TEST_FILES_PATH . 'Math.php']
@@ -114,14 +121,11 @@ class PHPCPD_DetectorTest extends TestCase
     }
 
     /**
-     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
-     *
-     * @param mixed $strategy
      */
     public function testDetectingExactDuplicateFilesWorks($strategy): void
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection([
           TEST_FILES_PATH . 'a.php',
@@ -145,14 +149,11 @@ class PHPCPD_DetectorTest extends TestCase
     }
 
     /**
-     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
-     *
-     * @param mixed $strategy
      */
     public function testDetectingClonesInMoreThanTwoFiles($strategy): void
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
           [
@@ -186,14 +187,11 @@ class PHPCPD_DetectorTest extends TestCase
     }
 
     /**
-     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
-     *
-     * @param mixed $strategy
      */
     public function testClonesAreIgnoredIfTheySpanLessTokensThanMinTokens($strategy): void
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
           [
@@ -208,14 +206,11 @@ class PHPCPD_DetectorTest extends TestCase
     }
 
     /**
-     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
-     *
-     * @param mixed $strategy
      */
     public function testClonesAreIgnoredIfTheySpanLessLinesThanMinLines($strategy): void
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
           [
@@ -230,14 +225,11 @@ class PHPCPD_DetectorTest extends TestCase
     }
 
     /**
-     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
-     *
-     * @param mixed $strategy
      */
     public function testFuzzyClonesAreFound($strategy): void
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
           [
@@ -255,14 +247,11 @@ class PHPCPD_DetectorTest extends TestCase
     }
 
     /**
-     * @covers       SebastianBergmann\PHPCPD\Detector\Detector::copyPasteDetection
      * @dataProvider strategyProvider
-     *
-     * @param mixed $strategy
      */
     public function testStripComments($strategy): void
     {
-        $detector = new SebastianBergmann\PHPCPD\Detector\Detector(new $strategy);
+        $detector = new Detector(new $strategy);
         $clones   = $detector->copyPasteDetection(
             [
                 TEST_FILES_PATH . 'e.php',
@@ -291,7 +280,7 @@ class PHPCPD_DetectorTest extends TestCase
     public function strategyProvider()
     {
         return [
-          ['SebastianBergmann\\PHPCPD\\Detector\\Strategy\\DefaultStrategy']
+          [DefaultStrategy::class]
         ];
     }
 }

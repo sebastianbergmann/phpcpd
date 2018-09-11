@@ -7,22 +7,37 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace SebastianBergmann\PHPCPD\Log;
+
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
-use SebastianBergmann\PHPCPD\Log\PMD;
 
-class PHPCPD_Log_PMDTest extends TestCase
+/**
+ * @covers \SebastianBergmann\PHPCPD\Log\PMD
+ * @covers \SebastianBergmann\PHPCPD\Log\AbstractXmlLogger
+ *
+ * @uses \SebastianBergmann\PHPCPD\CodeClone
+ * @uses \SebastianBergmann\PHPCPD\CodeCloneFile
+ * @uses \SebastianBergmann\PHPCPD\CodeCloneMap
+ * @uses \SebastianBergmann\PHPCPD\CodeCloneMapIterator
+ */
+class PMDTest extends TestCase
 {
     /** @var string */
     private $testFile1;
+
     /** @var @var string */
     private $testFile2;
+
     /** @var string */
     private $pmdLogFile;
+
     /** @var string */
     private $expectedPmdLogFile;
+
     /** @var \SebastianBergmann\PHPCPD\Log\PMD */
     private $pmdLogger;
 
@@ -57,10 +72,6 @@ class PHPCPD_Log_PMDTest extends TestCase
         }
     }
 
-    /**
-     * @covers \SebastianBergmann\PHPCPD\Log\PMD
-     * @covers \SebastianBergmann\PHPCPD\Log\AbstractXmlLogger
-     */
     public function testSubstitutesDisallowedCharacters(): void
     {
         $file1    = new CodeCloneFile($this->testFile1, 8);
