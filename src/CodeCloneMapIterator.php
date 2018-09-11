@@ -25,6 +25,16 @@ final class CodeCloneMapIterator implements \Iterator
     public function __construct(CodeCloneMap $clones)
     {
         $this->clones = $clones->getClones();
+
+        usort(
+            $this->clones,
+            function (CodeClone $a, CodeClone $b): int
+            {
+                return $a->getSize() <=> $b->getSize();
+            }
+        );
+
+        $this->clones = array_reverse($this->clones);
     }
 
     public function rewind(): void
