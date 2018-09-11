@@ -37,6 +37,10 @@ final class Detector
         $result = new CodeCloneMap;
 
         foreach ($files as $file) {
+            if (empty($file)) {
+                continue;
+            }
+
             $this->strategy->processFile(
                 $file,
                 $minLines,
