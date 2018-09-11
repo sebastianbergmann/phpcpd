@@ -74,7 +74,7 @@ final class Text
         $output->write(
             \sprintf(
                 "%s duplicated lines out of %d total lines of code.\n" .
-                "Average size of duplication is %d lines, biggest clone has %d of lines\n",
+                "Average size of duplication is %d lines, biggest clone has %d of lines\n\n",
                 $clones->getPercentage(),
                 $clones->getNumLines(),
                 $summedLength / $averageCounter,
