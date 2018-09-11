@@ -25,9 +25,7 @@ final class Text
     {
         $verbose = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
 
-        $maxLength      = 0;
-        $summedLength   = 0;
-        $averageCounter = 0;
+        $largestCodeCloneSize = 0;
 
         if (\count($clones) > 0) {
             $output->write(
@@ -55,15 +53,10 @@ final class Text
                     )
                 );
 
-                if ($maxLength < $clone->getSize()) {
-                    $maxLength = $clone->getSize();
-                }
-
-                $summedLength += $clone->getSize();
-                $averageCounter++;
-
                 $firstOccurrence = false;
             }
+
+            $largestCodeCloneSize = max($largestCodeCloneSize, $clone->getSize());
 
             if ($verbose) {
                 $output->write(PHP_EOL . $clone->getLines('    '));
@@ -78,8 +71,8 @@ final class Text
                 "Average size of duplication is %d lines, biggest clone has %d of lines\n\n",
                 $clones->getPercentage(),
                 $clones->getNumLines(),
-                $summedLength / $averageCounter,
-                $maxLength
+                $clones->getNumLines() / count($clones),
+                $largestCodeCloneSize
             )
         );
     }
