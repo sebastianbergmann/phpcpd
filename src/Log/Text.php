@@ -65,6 +65,12 @@ final class Text
             $output->writeln('');
         }
 
+        if (count($clones) === 0) {
+            $output->write("No clones found.\n\n");
+
+            return;
+        }
+
         $output->write(
             \sprintf(
                 "%s duplicated lines out of %d total lines of code.\n" .
