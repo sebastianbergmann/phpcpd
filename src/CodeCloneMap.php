@@ -10,7 +10,9 @@
 
 namespace SebastianBergmann\PHPCPD;
 
-final class CodeCloneMap implements \Countable, \Iterator
+use Traversable;
+
+final class CodeCloneMap implements \Countable, \IteratorAggregate
 {
     /**
      * @var CodeClone[]
@@ -21,11 +23,6 @@ final class CodeCloneMap implements \Countable, \Iterator
      * @var CodeClone[]
      */
     private $clonesById = [];
-
-    /**
-     * @var int
-     */
-    private $position = 0;
 
     /**
      * @var int
@@ -110,28 +107,8 @@ final class CodeCloneMap implements \Countable, \Iterator
         return $this->numberOfDuplicatedLines;
     }
 
-    public function rewind(): void
+    public function getIterator(): CodeCloneMapIterator
     {
-        $this->position = 0;
-    }
-
-    public function valid(): bool
-    {
-        return $this->position < \count($this->clones);
-    }
-
-    public function key(): int
-    {
-        return $this->position;
-    }
-
-    public function current(): CodeClone
-    {
-        return $this->clones[$this->position];
-    }
-
-    public function next(): void
-    {
-        $this->position++;
+        return new CodeCloneMapIterator($this);
     }
 }
