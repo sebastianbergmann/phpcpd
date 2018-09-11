@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCPD\Log;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
@@ -21,10 +20,8 @@ abstract class AbstractXmlLogger
 
     /**
      * Constructor.
-     *
-     * @param string $filename
      */
-    public function __construct($filename)
+    public function __construct(string $filename)
     {
         $this->document               = new \DOMDocument('1.0', 'UTF-8');
         $this->document->formatOutput = true;
@@ -34,8 +31,6 @@ abstract class AbstractXmlLogger
 
     /**
      * Processes a list of clones.
-     *
-     * @param CodeCloneMap $clones
      */
     abstract public function processClones(CodeCloneMap $clones);
 
@@ -49,12 +44,8 @@ abstract class AbstractXmlLogger
 
     /**
      * Converts a string to UTF-8 encoding.
-     *
-     * @param string $string
-     *
-     * @return string
      */
-    protected function convertToUtf8($string)
+    protected function convertToUtf8(string $string): string
     {
         if (!$this->isUtf8($string)) {
             if (\function_exists('mb_convert_encoding')) {
@@ -69,12 +60,8 @@ abstract class AbstractXmlLogger
 
     /**
      * Checks a string for UTF-8 encoding.
-     *
-     * @param string $string
-     *
-     * @return bool
      */
-    protected function isUtf8($string)
+    protected function isUtf8(string $string): string
     {
         $length = \strlen($string);
 
@@ -107,12 +94,8 @@ abstract class AbstractXmlLogger
      * Converts the string to UTF-8, substitutes the unicode replacement
      * character for every character disallowed in XML, and escapes
      * special characters.
-     *
-     * @param string $string
-     *
-     * @return string
      */
-    protected function escapeForXml($string)
+    protected function escapeForXml(string $string): string
     {
         $string = $this->convertToUtf8($string);
 
@@ -123,6 +106,6 @@ abstract class AbstractXmlLogger
             $string
         );
 
-        return \htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
+        return \htmlspecialchars($string, \ENT_COMPAT, 'UTF-8');
     }
 }

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCPD\CLI;
 
 use SebastianBergmann\FinderFacade\FinderFacade;
@@ -37,7 +36,7 @@ final class Command extends AbstractCommand
                          'values',
                          InputArgument::IS_ARRAY,
                          'Files and directories to analyze'
-                     )
+                     ),
                  ]
              )
              ->addOption(
@@ -103,11 +102,6 @@ final class Command extends AbstractCommand
 
     /**
      * Executes the current command.
-     *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
-     *
-     * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -172,18 +166,13 @@ final class Command extends AbstractCommand
         }
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param string                                          $option
-     *
-     * @return array
-     */
-    private function handleCSVOption(InputInterface $input, $option)
+    private function handleCSVOption(InputInterface $input, string $option): array
     {
         $result = $input->getOption($option);
 
         if (!\is_array($result)) {
             $result = \explode(',', $result);
+
             \array_map('trim', $result);
         }
 

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCPD\CLI;
 
 use SebastianBergmann\Version;
@@ -20,7 +19,7 @@ final class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('4.1', dirname(__DIR__, 2));
+        $version = new Version('4.1', \dirname(__DIR__, 2));
 
         parent::__construct('phpcpd', $version->getVersion());
     }
@@ -39,13 +38,8 @@ final class Application extends AbstractApplication
 
     /**
      * Runs the current application.
-     *
-     * @param InputInterface  $input  An Input instance
-     * @param OutputInterface $output An Output instance
-     *
-     * @return int 0 if everything went fine, or an error code
      */
-    public function doRun(InputInterface $input, OutputInterface $output)
+    public function doRun(InputInterface $input, OutputInterface $output): int
     {
         $this->disableXdebug();
 
@@ -67,27 +61,21 @@ final class Application extends AbstractApplication
             $input = new ArrayInput(['--help']);
         }
 
-        parent::doRun($input, $output);
+        return (int) parent::doRun($input, $output);
     }
 
     /**
      * Gets the name of the command based on input.
-     *
-     * @param InputInterface $input The input interface
-     *
-     * @return string The command name
      */
-    protected function getCommandName(InputInterface $input)
+    protected function getCommandName(InputInterface $input): string
     {
         return 'phpcpd';
     }
 
     /**
      * Gets the default commands that should always be available.
-     *
-     * @return array An array of default Command instances
      */
-    protected function getDefaultCommands()
+    protected function getDefaultCommands(): array
     {
         $defaultCommands = parent::getDefaultCommands();
 

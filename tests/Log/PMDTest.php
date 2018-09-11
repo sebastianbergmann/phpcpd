@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCPD\Log;
 
 use PHPUnit\Framework\TestCase;
@@ -54,7 +53,7 @@ class PMDTest extends TestCase
             \file_get_contents($expectedPmdLogTemplate),
             [
                 '%file1%' => $this->testFile1,
-                '%file2%' => $this->testFile2
+                '%file2%' => $this->testFile2,
             ]
         );
         \file_put_contents($this->expectedPmdLogFile, $expectedPmdLogContents);
@@ -67,6 +66,7 @@ class PMDTest extends TestCase
         if (\file_exists($this->pmdLogFile)) {
             \unlink($this->pmdLogFile);
         }
+
         if (\file_exists($this->expectedPmdLogFile)) {
             \unlink($this->expectedPmdLogFile);
         }

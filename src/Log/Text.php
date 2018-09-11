@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCPD\Log;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
@@ -17,9 +16,6 @@ final class Text
 {
     /**
      * Prints a result set from Detector::copyPasteDetection().
-     *
-     * @param OutputInterface $output
-     * @param CodeCloneMap    $clones
      */
     public function printResult(OutputInterface $output, CodeCloneMap $clones): void
     {
@@ -30,7 +26,7 @@ final class Text
         if (\count($clones) > 0) {
             $output->write(
                 \sprintf(
-                    'Found %d clones with %d duplicated lines in %d files:' . PHP_EOL . PHP_EOL,
+                    'Found %d clones with %d duplicated lines in %d files:' . \PHP_EOL . \PHP_EOL,
                     \count($clones),
                     $clones->getNumberOfDuplicatedLines(),
                     $clones->getNumberOfFilesWithClones()
@@ -56,16 +52,16 @@ final class Text
                 $firstOccurrence = false;
             }
 
-            $largestCodeCloneSize = max($largestCodeCloneSize, $clone->getSize());
+            $largestCodeCloneSize = \max($largestCodeCloneSize, $clone->getSize());
 
             if ($verbose) {
-                $output->write(PHP_EOL . $clone->getLines('    '));
+                $output->write(\PHP_EOL . $clone->getLines('    '));
             }
 
             $output->writeln('');
         }
 
-        if (count($clones) === 0) {
+        if (\count($clones) === 0) {
             $output->write("No clones found.\n\n");
 
             return;
@@ -77,7 +73,7 @@ final class Text
                 "Average size of duplication is %d lines, biggest clone has %d of lines\n\n",
                 $clones->getPercentage(),
                 $clones->getNumLines(),
-                $clones->getNumLines() / count($clones),
+                $clones->getNumLines() / \count($clones),
                 $largestCodeCloneSize
             )
         );

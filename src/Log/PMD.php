@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCPD\Log;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
@@ -16,8 +15,6 @@ final class PMD extends AbstractXmlLogger
 {
     /**
      * Processes a list of clones.
-     *
-     * @param CodeCloneMap $clones
      */
     public function processClones(CodeCloneMap $clones): void
     {

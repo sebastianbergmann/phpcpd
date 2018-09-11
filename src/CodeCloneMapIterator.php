@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCPD;
 
 final class CodeCloneMapIterator implements \Iterator
@@ -26,15 +25,14 @@ final class CodeCloneMapIterator implements \Iterator
     {
         $this->clones = $clones->getClones();
 
-        usort(
+        \usort(
             $this->clones,
-            function (CodeClone $a, CodeClone $b): int
-            {
+            function (CodeClone $a, CodeClone $b): int {
                 return $a->getSize() <=> $b->getSize();
             }
         );
 
-        $this->clones = array_reverse($this->clones);
+        $this->clones = \array_reverse($this->clones);
     }
 
     public function rewind(): void
