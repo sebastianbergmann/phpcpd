@@ -38,21 +38,22 @@ You can then invoke it using the `vendor/bin/phpcpd` executable.
 ## Usage Example
 
 ```
-$ phpcpd wordpress-4.7.1
-phpcpd 4.0.0 by Sebastian Bergmann.
+$ phpcpd --fuzzy wordpress-4.9.8
+phpcpd 4.1.0 by Sebastian Bergmann.
 
-Found 59 clones with 2548 duplicated lines in 39 files:
+Found 66 clones with 3014 duplicated lines in 40 files:
 
-  - /home/sb/wordpress-4.7.1/wp-admin/includes/class-ftp-pure.php:99-114
-    /home/sb/wordpress-4.7.1/wp-admin/includes/class-ftp-sockets.php:119-134
-  .
-  .
-  .
-  - /home/sb/wordpress-4.7.1/wp-includes/class-wp-customize-manager.php:277-329
-    /home/sb/wordpress-4.7.1/wp-includes/class-wp-customize-control.php:652-704
+  - /home/sb/wordpress-4.9.8/wp-includes/Requests/IRI.php:358-708 (350 lines)
+    /home/sb/wordpress-4.9.8/wp-includes/SimplePie/IRI.php:404-754
+.
+.
+.
+  - /home/sb/wordpress-4.9.8/wp-includes/SimplePie/File.php:133-144 (11 lines)
+    /home/sb/wordpress-4.9.8/wp-includes/SimplePie/File.php:215-226
 
-0.77% duplicated lines out of 332387 total lines of code.
+0.86% duplicated lines out of 349460 total lines of code.
+Average size of duplication is 45 lines, largest clone has 350 of lines
 
-Time: 2.91 seconds, Memory: 232.00MB
+Time: 1.79 seconds, Memory: 272.00MB
 ```
 
