@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCPD\Detector\Strategy;
 
 use SebastianBergmann\PHPCPD\CodeClone;
@@ -46,7 +45,7 @@ class DefaultStrategy extends AbstractStrategy
 
                     $currentTokenRealPositions[$tokenNr++] = $token[2];
 
-                    if ($fuzzy && $token[0] === T_VARIABLE) {
+                    if ($fuzzy && $token[0] === \T_VARIABLE) {
                         $token[1] = 'variable';
                     }
 

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCPD\Detector;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
@@ -37,6 +36,10 @@ final class Detector
         $result = new CodeCloneMap;
 
         foreach ($files as $file) {
+            if (empty($file)) {
+                continue;
+            }
+
             $this->strategy->processFile(
                 $file,
                 $minLines,
