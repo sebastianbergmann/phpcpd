@@ -35,24 +35,30 @@ $ composer require --dev sebastian/phpcpd
 
 You can then invoke it using the `vendor/bin/phpcpd` executable.
 
+### Run tests
+
+```
+$ php phpunit.phar
+```
+
 ## Usage Example
 
 ```
 $ phpcpd wordpress-4.7.1
-phpcpd 4.0.0 by Sebastian Bergmann.
+phpcpd 4.0.0-2-ged3cdd4 by Sebastian Bergmann.
 
-Found 59 clones with 2548 duplicated lines in 39 files:
+Found 60 clones with 2721 duplicated lines in 41 files:
 
-  - /home/sb/wordpress-4.7.1/wp-admin/includes/class-ftp-pure.php:99-114
-    /home/sb/wordpress-4.7.1/wp-admin/includes/class-ftp-sockets.php:119-134
+  - /home/sb/WordPress/wp-admin/includes/ajax-actions.php:3680-3710
+    /home/sb/WordPress/wp-admin/includes/ajax-actions.php:3968-3998
   .
   .
   .
-  - /home/sb/wordpress-4.7.1/wp-includes/class-wp-customize-manager.php:277-329
-    /home/sb/wordpress-4.7.1/wp-includes/class-wp-customize-control.php:652-704
+  - /home/sb/WordPress/wp-includes/rest-api/endpoints/class-wp-rest-terms-controller.php:99-125
+    /home/sb/WordPress/wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:71-97
 
-0.77% duplicated lines out of 332387 total lines of code.
-
-Time: 2.91 seconds, Memory: 232.00MB
+0.74% duplicated lines out of 366140 total lines of code.
+Average size of duplication is 42 lines, biggest clone has 350 of lines
+Time: 1.94 seconds, Memory: 272.00MB
 ```
 
