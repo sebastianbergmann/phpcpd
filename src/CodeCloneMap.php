@@ -108,4 +108,9 @@ final class CodeCloneMap implements \Countable, \IteratorAggregate
     {
         return new CodeCloneMapIterator($this);
     }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->clones);
+    }
 }

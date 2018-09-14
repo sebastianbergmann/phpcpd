@@ -61,7 +61,7 @@ final class Text
             $output->writeln('');
         }
 
-        if (\count($clones) === 0) {
+        if ($clones->isEmpty()) {
             $output->write("No clones found.\n\n");
 
             return;
