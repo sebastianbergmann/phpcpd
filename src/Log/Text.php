@@ -21,8 +21,6 @@ final class Text
     {
         $verbose = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
 
-        $largestCodeCloneSize = 0;
-
         if (\count($clones) > 0) {
             $output->write(
                 \sprintf(
@@ -52,8 +50,6 @@ final class Text
                 $firstOccurrence = false;
             }
 
-            $largestCodeCloneSize = \max($largestCodeCloneSize, $clone->getSize());
-
             if ($verbose) {
                 $output->write(\PHP_EOL . $clone->getLines('    '));
             }
@@ -70,11 +66,11 @@ final class Text
         $output->write(
             \sprintf(
                 "%s duplicated lines out of %d total lines of code.\n" .
-                "Average size of duplication is %d lines, biggest clone has %d of lines\n\n",
+                "Average size of duplication is %d lines, largest clone has %d of lines\n\n",
                 $clones->getPercentage(),
                 $clones->getNumLines(),
-                $clones->getNumLines() / \count($clones),
-                $largestCodeCloneSize
+                $clones->getAverageSize(),
+                $clones->getLargestSize()
             )
         );
     }

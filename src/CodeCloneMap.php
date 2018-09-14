@@ -32,6 +32,11 @@ final class CodeCloneMap implements \Countable, \IteratorAggregate
     private $numLines = 0;
 
     /**
+     * @var int
+     */
+    private $largestCloneSize = 0;
+
+    /**
      * @var array
      */
     private $filesWithClones = [];
@@ -58,6 +63,8 @@ final class CodeCloneMap implements \Countable, \IteratorAggregate
                 $this->filesWithClones[$file->getName()] = true;
             }
         }
+
+        $this->largestCloneSize = \max($this->largestCloneSize, $clone->getSize());
     }
 
     /**
@@ -112,5 +119,15 @@ final class CodeCloneMap implements \Countable, \IteratorAggregate
     public function isEmpty(): bool
     {
         return empty($this->clones);
+    }
+
+    public function getAverageSize(): int
+    {
+        return $this->getNumberOfDuplicatedLines() / $this->count();
+    }
+
+    public function getLargestSize(): int
+    {
+        return $this->largestCloneSize;
     }
 }
