@@ -2,7 +2,11 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [4.1.0] - 2018-MM-DD
+## [4.1.0] - 2018-09-17
+
+### Added
+
+* Implemented [#117](https://github.com/sebastianbergmann/phpcpd/issues/117): Report average and maximum length of code clone
 
 ### Changed
 
