@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHP Copy/Paste Detector (PHPCPD).
  *
@@ -8,13 +8,6 @@
  * file that was distributed with this source code.
  */
 namespace SebastianBergmann\PHPCPD\Detector;
-
-if (!\defined('TEST_FILES_PATH')) {
-    \define(
-      'TEST_FILES_PATH',
-      __DIR__ . \DIRECTORY_SEPARATOR . '_files' . \DIRECTORY_SEPARATOR
-    );
-}
 
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
@@ -37,19 +30,19 @@ class DetectorTest extends TestCase
         $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          [TEST_FILES_PATH . 'Math.php']
+          [__DIR__ . '/../fixture/Math.php']
         );
 
         $clones = $clones->getClones();
         $files  = $clones[0]->getFiles();
         $file   = \current($files);
 
-        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $file->getName());
+        $this->assertEquals(__DIR__ . '/../fixture/Math.php', $file->getName());
         $this->assertEquals(75, $file->getStartLine());
 
         $file = \next($files);
 
-        $this->assertEquals(TEST_FILES_PATH . 'Math.php', $file->getName());
+        $this->assertEquals(__DIR__ . '/../fixture/Math.php', $file->getName());
         $this->assertEquals(139, $file->getStartLine());
         $this->assertEquals(59, $clones[0]->getSize());
         $this->assertEquals(136, $clones[0]->getTokens());
@@ -127,8 +120,8 @@ class DetectorTest extends TestCase
         $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection([
-            TEST_FILES_PATH . 'a.php',
-            TEST_FILES_PATH . 'b.php',
+            __DIR__ . '/../fixture/a.php',
+            __DIR__ . '/../fixture/b.php',
         ], 20, 60);
 
         $clones = $clones->getClones();
@@ -136,12 +129,12 @@ class DetectorTest extends TestCase
         $file   = \current($files);
 
         $this->assertCount(1, $clones);
-        $this->assertEquals(TEST_FILES_PATH . 'a.php', $file->getName());
+        $this->assertEquals(__DIR__ . '/../fixture/a.php', $file->getName());
         $this->assertEquals(4, $file->getStartLine());
 
         $file = \next($files);
 
-        $this->assertEquals(TEST_FILES_PATH . 'b.php', $file->getName());
+        $this->assertEquals(__DIR__ . '/../fixture/b.php', $file->getName());
         $this->assertEquals(4, $file->getStartLine());
         $this->assertEquals(20, $clones[0]->getSize());
         $this->assertEquals(60, $clones[0]->getTokens());
@@ -156,9 +149,9 @@ class DetectorTest extends TestCase
 
         $clones = $detector->copyPasteDetection(
           [
-              TEST_FILES_PATH . 'a.php',
-              TEST_FILES_PATH . 'b.php',
-              TEST_FILES_PATH . 'c.php',
+              __DIR__ . '/../fixture/a.php',
+              __DIR__ . '/../fixture/b.php',
+              __DIR__ . '/../fixture/c.php',
           ],
           20,
           60
@@ -171,17 +164,17 @@ class DetectorTest extends TestCase
         $file = \current($files);
 
         $this->assertCount(1, $clones);
-        $this->assertEquals(TEST_FILES_PATH . 'a.php', $file->getName());
+        $this->assertEquals(__DIR__ . '/../fixture/a.php', $file->getName());
         $this->assertEquals(4, $file->getStartLine());
 
         $file = \next($files);
 
-        $this->assertEquals(TEST_FILES_PATH . 'b.php', $file->getName());
+        $this->assertEquals(__DIR__ . '/../fixture/b.php', $file->getName());
         $this->assertEquals(4, $file->getStartLine());
 
         $file = \next($files);
 
-        $this->assertEquals(TEST_FILES_PATH . 'c.php', $file->getName());
+        $this->assertEquals(__DIR__ . '/../fixture/c.php', $file->getName());
         $this->assertEquals(4, $file->getStartLine());
     }
 
@@ -194,8 +187,8 @@ class DetectorTest extends TestCase
 
         $clones = $detector->copyPasteDetection(
           [
-              TEST_FILES_PATH . 'a.php',
-              TEST_FILES_PATH . 'b.php',
+              __DIR__ . '/../fixture/a.php',
+              __DIR__ . '/../fixture/b.php',
           ],
           20,
           61
@@ -213,8 +206,8 @@ class DetectorTest extends TestCase
 
         $clones = $detector->copyPasteDetection(
           [
-              TEST_FILES_PATH . 'a.php',
-              TEST_FILES_PATH . 'b.php',
+              __DIR__ . '/../fixture/a.php',
+              __DIR__ . '/../fixture/b.php',
           ],
           21,
           60
@@ -232,8 +225,8 @@ class DetectorTest extends TestCase
 
         $clones = $detector->copyPasteDetection(
           [
-              TEST_FILES_PATH . 'a.php',
-              TEST_FILES_PATH . 'd.php',
+              __DIR__ . '/../fixture/a.php',
+              __DIR__ . '/../fixture/d.php',
           ],
           5,
           20,
@@ -253,8 +246,8 @@ class DetectorTest extends TestCase
         $detector = new Detector(new $strategy);
         $clones   = $detector->copyPasteDetection(
             [
-                TEST_FILES_PATH . 'e.php',
-                TEST_FILES_PATH . 'f.php',
+                __DIR__ . '/../fixture/e.php',
+                __DIR__ . '/../fixture/f.php',
             ],
             8,
             10,
@@ -265,8 +258,8 @@ class DetectorTest extends TestCase
 
         $clones = $detector->copyPasteDetection(
             [
-                TEST_FILES_PATH . 'e.php',
-                TEST_FILES_PATH . 'f.php',
+                __DIR__ . '/../fixture/e.php',
+                __DIR__ . '/../fixture/f.php',
             ],
             7,
             10,

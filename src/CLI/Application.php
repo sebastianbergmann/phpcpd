@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHP Copy/Paste Detector (PHPCPD).
  *
@@ -19,7 +19,7 @@ final class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('4.1.0', \dirname(__DIR__, 2));
+        $version = new Version('5.0', \dirname(__DIR__, 2));
 
         parent::__construct('phpcpd', $version->getVersion());
     }

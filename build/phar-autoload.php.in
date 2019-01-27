@@ -1,10 +1,10 @@
 #!/usr/bin/env php
-<?php
-if (version_compare('5.6.0', PHP_VERSION, '>')) {
+<?php declare(strict_types=1);
+if (version_compare('7.3.0', PHP_VERSION, '>')) {
     fwrite(
         STDERR,
         sprintf(
-            'This version of PHPCPD is supported on PHP 5.6, PHP 7.0, and PHP 7.1.' . PHP_EOL .
+            'This version of PHPCPD requires PHP 7.3 (or later).' . PHP_EOL .
             'You are using PHP %s%s.' . PHP_EOL,
             PHP_VERSION,
             defined('PHP_BINARY') ? ' (' . PHP_BINARY . ')' : ''

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHP Copy/Paste Detector (PHPCPD).
  *
@@ -61,7 +61,7 @@ abstract class AbstractXmlLogger
     /**
      * Checks a string for UTF-8 encoding.
      */
-    protected function isUtf8(string $string): string
+    protected function isUtf8(string $string): bool
     {
         $length = \strlen($string);
 

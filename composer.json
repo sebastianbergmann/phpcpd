@@ -15,18 +15,19 @@
     },
     "config": {
         "platform": {
-            "php": "7.1.0"
+            "php": "7.3.0"
         },
         "optimize-autoloader": true,
         "sort-packages": true
     },
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.1",
+        "php": "^7.3",
         "ext-dom": "*",
-        "sebastian/finder-facade": "^1.1",
-        "sebastian/version": "^1.0|^2.0",
-        "symfony/console": "^2.7|^3.0|^4.0",
+        "sebastian/finder-facade": "^2.0",
+        "sebastian/version": "^2.0",
+        "symfony/console": "^4.0",
         "phpunit/php-timer": "^2.0"
     },
     "autoload": {
@@ -39,7 +40,7 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0-dev"
+            "dev-master": "5.0-dev"
         }
     }
 }

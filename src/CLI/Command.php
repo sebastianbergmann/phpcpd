@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHP Copy/Paste Detector (PHPCPD).
  *
@@ -103,7 +103,7 @@ final class Command extends AbstractCommand
     /**
      * Executes the current command.
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $finder = new FinderFacade(
             $input->getArgument('values'),

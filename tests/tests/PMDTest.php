@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHP Copy/Paste Detector (PHPCPD).
  *
@@ -42,13 +42,13 @@ class PMDTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->testFile1 = __DIR__ . '/_files/with_ascii_escape.php';
-        $this->testFile2 = __DIR__ . '/_files/with_ascii_escape2.php';
+        $this->testFile1 = __DIR__ . '/../fixture/with_ascii_escape.php';
+        $this->testFile2 = __DIR__ . '/../fixture/with_ascii_escape2.php';
 
         $this->pmdLogFile = \tempnam(\sys_get_temp_dir(), 'pmd');
 
         $this->expectedPmdLogFile = \tempnam(\sys_get_temp_dir(), 'pmd');
-        $expectedPmdLogTemplate   = __DIR__ . '/_files/pmd_expected.xml';
+        $expectedPmdLogTemplate   = __DIR__ . '/../fixture/pmd_expected.xml';
         $expectedPmdLogContents   = \strtr(
             \file_get_contents($expectedPmdLogTemplate),
             [
