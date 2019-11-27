@@ -103,7 +103,7 @@ final class Command extends AbstractCommand
     /**
      * Executes the current command.
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $finder = new FinderFacade(
             $input->getArgument('values'),
@@ -117,7 +117,7 @@ final class Command extends AbstractCommand
 
         if (empty($files)) {
             $output->writeln('No files found to scan');
-            exit(0);
+            return 0;
         }
 
         $progressBar = null;
@@ -162,8 +162,10 @@ final class Command extends AbstractCommand
         }
 
         if (\count($clones) > 0) {
-            exit(1);
+            return 1;
         }
+
+        return 0;
     }
 
     private function handleCSVOption(InputInterface $input, string $option): array
