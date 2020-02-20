@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianBergmann\PHPCPD\Detector;
 
 use PHPUnit\Framework\TestCase;
@@ -30,7 +31,7 @@ class DetectorTest extends TestCase
         $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          [__DIR__ . '/../fixture/Math.php']
+            [__DIR__ . '/../fixture/Math.php']
         );
 
         $clones = $clones->getClones();
@@ -48,7 +49,7 @@ class DetectorTest extends TestCase
         $this->assertEquals(136, $clones[0]->getTokens());
 
         $this->assertEquals(
-          '    public function div($v1, $v2)
+            '    public function div($v1, $v2)
     {
         $v3 = $v1 / ($v2 + $v1);
         if ($v3 > 14)
@@ -108,7 +109,7 @@ class DetectorTest extends TestCase
 
         return $v8;
 ',
-          $clones[0]->getLines()
+            $clones[0]->getLines()
         );
     }
 
@@ -148,13 +149,13 @@ class DetectorTest extends TestCase
         $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          [
-              __DIR__ . '/../fixture/a.php',
-              __DIR__ . '/../fixture/b.php',
-              __DIR__ . '/../fixture/c.php',
-          ],
-          20,
-          60
+            [
+                __DIR__ . '/../fixture/a.php',
+                __DIR__ . '/../fixture/b.php',
+                __DIR__ . '/../fixture/c.php',
+            ],
+            20,
+            60
         );
 
         $clones = $clones->getClones();
@@ -186,12 +187,12 @@ class DetectorTest extends TestCase
         $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          [
-              __DIR__ . '/../fixture/a.php',
-              __DIR__ . '/../fixture/b.php',
-          ],
-          20,
-          61
+            [
+                __DIR__ . '/../fixture/a.php',
+                __DIR__ . '/../fixture/b.php',
+            ],
+            20,
+            61
         );
 
         $this->assertCount(0, $clones->getClones());
@@ -205,12 +206,12 @@ class DetectorTest extends TestCase
         $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          [
-              __DIR__ . '/../fixture/a.php',
-              __DIR__ . '/../fixture/b.php',
-          ],
-          21,
-          60
+            [
+                __DIR__ . '/../fixture/a.php',
+                __DIR__ . '/../fixture/b.php',
+            ],
+            21,
+            60
         );
 
         $this->assertCount(0, $clones->getClones());
@@ -224,13 +225,13 @@ class DetectorTest extends TestCase
         $detector = new Detector(new $strategy);
 
         $clones = $detector->copyPasteDetection(
-          [
-              __DIR__ . '/../fixture/a.php',
-              __DIR__ . '/../fixture/d.php',
-          ],
-          5,
-          20,
-          true
+            [
+                __DIR__ . '/../fixture/a.php',
+                __DIR__ . '/../fixture/d.php',
+            ],
+            5,
+            20,
+            true
         );
 
         $clones = $clones->getClones();

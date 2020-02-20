@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianBergmann\PHPCPD\CLI;
 
 use SebastianBergmann\FinderFacade\FinderFacade;
@@ -117,6 +118,7 @@ final class Command extends AbstractCommand
 
         if (empty($files)) {
             $output->writeln('No files found to scan');
+
             return 0;
         }
 

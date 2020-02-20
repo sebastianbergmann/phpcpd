@@ -14,7 +14,7 @@
     </target>
 
     <target name="install-dependencies" unless="dependencies-installed" depends="-dependencies-installed" description="Install dependencies with Composer">
-        <exec executable="composer" taskname="composer">
+        <exec executable="${basedir}/tools/composer" taskname="composer">
             <arg value="update"/>
             <arg value="--no-interaction"/>
             <arg value="--no-progress"/>
@@ -23,14 +23,15 @@
         </exec>
     </target>
 
-    <target name="install-tools" unless="tools-installed" depends="-tools-installed" description="Install tools using phive">
-        <exec executable="phive" taskname="phive">
-            <arg value="install"/>
+    <target name="update-tools">
+        <exec executable="phive">
+            <arg value="--no-progress"/>
+            <arg value="update"/>
         </exec>
-    </target>
 
-    <target name="test" depends="install-dependencies,install-tools" description="Run tests with PHPUnit">
-        <exec executable="${basedir}/tools/phpunit" failonerror="true"/>
+        <exec executable="${basedir}/tools/composer">
+            <arg value="self-update"/>
+        </exec>
     </target>
 
     <target name="signed-phar" description="Create signed PHAR archive of PHPCPD and all its dependencies (release)" depends="phar">
@@ -113,9 +114,5 @@
 
     <target name="-dependencies-installed">
         <available file="${basedir}/vendor" property="dependencies-installed" type="dir"/>
-    </target>
-
-    <target name="-tools-installed">
-        <available file="${basedir}/tools" property="tools-installed" type="dir"/>
     </target>
 </project>

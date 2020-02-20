@@ -1,6 +1,5 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/sebastian/phpcpd.svg?style=flat-square)](https://packagist.org/packages/sebastian/phpcpd)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square)](https://php.net/)
-[![Build Status](https://img.shields.io/travis/sebastianbergmann/phpcpd/master.svg?style=flat-square)](https://travis-ci.org/sebastianbergmann/phpcpd)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg?style=flat-square)](https://php.net/)
 
 # PHP Copy/Paste Detector (PHPCPD)
 
@@ -39,7 +38,7 @@ You can then invoke it using the `vendor/bin/phpcpd` executable.
 
 ```
 $ phpcpd --fuzzy wordpress-4.9.8
-phpcpd 4.1.0 by Sebastian Bergmann.
+phpcpd 5.0.0 by Sebastian Bergmann.
 
 Found 66 clones with 3014 duplicated lines in 40 files:
 
