@@ -2,7 +2,7 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [5.0.0] - 2019-MM-DD
+## [5.0.0] - 2020-02-20
 
 ### Removed
 
