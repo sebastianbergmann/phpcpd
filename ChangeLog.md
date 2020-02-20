@@ -2,6 +2,12 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [5.0.1] - 2020-02-20
+
+### Fixed
+
+* Fixed [#181](https://github.com/sebastianbergmann/phpcpd/issues/181): `--min-lines`, `--min-tokens`, and `--fuzzy` commandline options do not work
+
 ## [5.0.0] - 2020-02-20
 
 ### Removed
@@ -46,6 +52,7 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 5.6
 
+[5.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/5.0.0...5.0.1
 [5.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/4.1.0...5.0.0
 [4.1.0]: https://github.com/sebastianbergmann/phpcpd/compare/4.0.0...4.1.0
 [4.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/3.0.1...4.0.0
