@@ -136,8 +136,8 @@ final class Command extends AbstractCommand
         $clones = $detector->copyPasteDetection(
             $files,
             (int) $input->getOption('min-lines'),
-            $input->getOption('min-tokens'),
-            $input->getOption('fuzzy')
+            (int) $input->getOption('min-tokens'),
+            (bool) $input->getOption('fuzzy')
         );
 
         if ($input->getOption('progress')) {
