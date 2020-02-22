@@ -2,6 +2,12 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [5.0.2] - 2020-02-22
+
+### Changed
+
+* Require `sebastian/version` version 3 and `phpunit/php-timer` version 3 to allow Composer-based installation alongside `phploc/phploc` version 6 and `phpunit/phpunit` version 9 
+
 ## [5.0.1] - 2020-02-20
 
 ### Fixed
@@ -52,6 +58,7 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 5.6
 
+[5.0.2]: https://github.com/sebastianbergmann/phpcpd/compare/5.0.1...5.0.2
 [5.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/5.0.0...5.0.1
 [5.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/4.1.0...5.0.0
 [4.1.0]: https://github.com/sebastianbergmann/phpcpd/compare/4.0.0...4.1.0
