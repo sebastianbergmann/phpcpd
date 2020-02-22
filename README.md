@@ -7,37 +7,22 @@
 
 ## Installation
 
-### PHP Archive (PHAR)
+The recommended way to use this tool is a [PHP Archive (PHAR)](https://php.net/phar):
 
-The easiest way to obtain PHPCPD is to download a [PHP Archive (PHAR)](http://php.net/phar) that has all required dependencies of PHPCPD bundled in a single file:
-
-```
+```bash
 $ wget https://phar.phpunit.de/phpcpd.phar
-$ chmod +x phpcpd.phar
-$ mv phpcpd.phar /usr/local/bin/phpcpd
+
+$ php phpcpd.phar --version
 ```
 
-You can also immediately use the PHAR after you have downloaded it, of course:
+Furthermore, it is recommended to use [Phive](https://phar.io/) for installing and updating the tool dependencies of your project.
 
-```
-$ wget https://phar.phpunit.de/phpcpd.phar
-$ php phpcpd.phar
-```
-
-### Composer
-
-You can add this tool as a local, per-project, development-time dependency to your project using [Composer](https://getcomposer.org/):
-
-```
-$ composer require --dev sebastian/phpcpd
-```
-
-You can then invoke it using the `vendor/bin/phpcpd` executable.
+Alternatively, you may use [Composer](https://getcomposer.org/) to download and install PHPCPD as well as its dependencies. [This is not recommended, though.](https://twitter.com/s_bergmann/status/999635212723212288)
 
 ## Usage Example
 
 ```
-$ phpcpd --fuzzy wordpress-4.9.8
+$ php phpcpd.phar --fuzzy wordpress-4.9.8
 phpcpd 5.0.0 by Sebastian Bergmann.
 
 Found 66 clones with 3014 duplicated lines in 40 files:
@@ -55,4 +40,3 @@ Average size of duplication is 45 lines, largest clone has 350 of lines
 
 Time: 1.79 seconds, Memory: 272.00MB
 ```
-
