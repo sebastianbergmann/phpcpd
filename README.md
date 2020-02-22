@@ -17,7 +17,7 @@ $ php phpcpd.phar --version
 
 Furthermore, it is recommended to use [Phive](https://phar.io/) for installing and updating the tool dependencies of your project.
 
-Alternatively, you may use [Composer](https://getcomposer.org/) to download and install PHPCPD as well as its dependencies. [This is not recommended, though.](https://twitter.com/s_bergmann/status/999635212723212288)
+Alternatively, you may use [Composer](https://getcomposer.org/) to download and install this tool as well as its dependencies. [This is not recommended, though.](https://twitter.com/s_bergmann/status/999635212723212288)
 
 ## Usage Example
 
