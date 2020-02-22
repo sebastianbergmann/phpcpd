@@ -1,6 +1,3 @@
-[![Latest Stable Version](https://img.shields.io/packagist/v/sebastian/phpcpd.svg?style=flat-square)](https://packagist.org/packages/sebastian/phpcpd)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg?style=flat-square)](https://php.net/)
-
 # PHP Copy/Paste Detector (PHPCPD)
 
 `phpcpd` is a Copy/Paste Detector (CPD) for PHP code.
