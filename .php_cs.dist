@@ -11,7 +11,7 @@ EOF;
 $finder = PhpCsFixer\Finder::create()
     ->files()
     ->in(__DIR__ . '/src')
-    ->in(__DIR__ . '/tests/tests');
+    ->in(__DIR__ . '/tests/unit');
 
 return PhpCsFixer\Config::create()
     ->setFinder($finder)
