@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="3.11.4@58e1d8e68e5098bf4fbfdfb420c38d563f882549">
+  <file src="src/CLI/Command.php">
+    <PossiblyInvalidArgument occurrences="4">
+      <code>$input-&gt;getArgument('values')</code>
+      <code>$input-&gt;getOption('exclude')</code>
+      <code>$logPmd</code>
+      <code>$result</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>finish</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/CodeClone.php">
+    <MissingParamType occurrences="1">
+      <code>$indent</code>
+    </MissingParamType>
+    <MixedOperand occurrences="1">
+      <code>$indent</code>
+    </MixedOperand>
+  </file>
+  <file src="src/Detector/Detector.php">
+    <MixedArgument occurrences="1">
+      <code>$file</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$file</code>
+    </MixedAssignment>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$progressBar</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;progressBar !== null</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Detector/Strategy/AbstractStrategy.php">
+    <InvalidPropertyAssignmentValue occurrences="1"/>
+  </file>
+  <file src="src/Detector/Strategy/DefaultStrategy.php">
+    <MixedAssignment occurrences="3">
+      <code>$currentTokenPositions[$tokenNr]</code>
+      <code>$line</code>
+      <code>$firstLine</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
+      <code>$currentTokenPositions[$tokenNr - 1]</code>
+    </MixedOperand>
+    <PossiblyUndefinedVariable occurrences="1">
+      <code>$firstHash</code>
+    </PossiblyUndefinedVariable>
+    <RedundantCondition occurrences="1">
+      <code>$firstLine === 0</code>
+    </RedundantCondition>
+    <TypeDoesNotContainType occurrences="2">
+      <code>$found</code>
+      <code>$found</code>
+    </TypeDoesNotContainType>
+    <UndefinedVariable occurrences="1">
+      <code>$firstHash</code>
+    </UndefinedVariable>
+  </file>
+  <file src="src/Log/AbstractXmlLogger.php">
+    <MissingReturnType occurrences="1">
+      <code>processClones</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="1">
+      <code>$this-&gt;filename</code>
+    </MixedArgument>
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;filename</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="1">
+      <code>$this-&gt;filename</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+</files>
