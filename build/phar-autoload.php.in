@@ -14,6 +14,12 @@ if (version_compare('7.3.0', PHP_VERSION, '>')) {
     die(1);
 }
 
+// @see https://github.com/sebastianbergmann/phpcpd/issues/18
+ini_set('mbstring.func_overload', 0);
+if (ini_get('mbstring.internal_encoding')) {
+    ini_set('mbstring.internal_encoding', NULL);
+}
+
 if ($_SERVER['SCRIPT_NAME'] != '-') {
     $phar = realpath($_SERVER['SCRIPT_NAME']);
 } else {
