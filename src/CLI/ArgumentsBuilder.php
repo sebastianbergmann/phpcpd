@@ -30,6 +30,7 @@ final class ArgumentsBuilder
                     'fuzzy',
                     'min-lines=',
                     'min-tokens=',
+                    'verbose',
                     'help',
                     'version',
                 ]
