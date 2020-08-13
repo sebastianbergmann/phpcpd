@@ -28,6 +28,11 @@ abstract class AbstractXmlLogger
      */
     protected $document;
 
+    /**
+     * @var string
+     */
+    private $filename;
+
     public function __construct(string $filename)
     {
         $this->document               = new DOMDocument('1.0', 'UTF-8');

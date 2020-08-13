@@ -11,24 +11,19 @@ namespace SebastianBergmann\PHPCPD\Log;
 
 use const PHP_EOL;
 use function count;
-use function sprintf;
+use function printf;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
-use Symfony\Component\Console\Output\OutputInterface;
 
 final class Text
 {
-    public function printResult(OutputInterface $output, CodeCloneMap $clones): void
+    public function printResult(CodeCloneMap $clones, bool $verbose): void
     {
-        $verbose = $output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL;
-
         if (count($clones) > 0) {
-            $output->write(
-                sprintf(
-                    'Found %d clones with %d duplicated lines in %d files:' . PHP_EOL . PHP_EOL,
-                    count($clones),
-                    $clones->numberOfDuplicatedLines(),
-                    $clones->numberOfFilesWithClones()
-                )
+            printf(
+                'Found %d clones with %d duplicated lines in %d files:' . PHP_EOL . PHP_EOL,
+                count($clones),
+                $clones->numberOfDuplicatedLines(),
+                $clones->numberOfFilesWithClones()
             );
         }
 
@@ -36,42 +31,38 @@ final class Text
             $firstOccurrence = true;
 
             foreach ($clone->files() as $file) {
-                $output->writeln(
-                    sprintf(
-                        '  %s%s:%d-%d%s',
-                        $firstOccurrence ? '- ' : '  ',
-                        $file->name(),
-                        $file->startLine(),
-                        $file->startLine() + $clone->numberOfLines(),
-                        $firstOccurrence ? ' (' . $clone->numberOfLines() . ' lines)' : ''
-                    )
+                printf(
+                    '  %s%s:%d-%d%s' . PHP_EOL,
+                    $firstOccurrence ? '- ' : '  ',
+                    $file->name(),
+                    $file->startLine(),
+                    $file->startLine() + $clone->numberOfLines(),
+                    $firstOccurrence ? ' (' . $clone->numberOfLines() . ' lines)' : ''
                 );
 
                 $firstOccurrence = false;
             }
 
             if ($verbose) {
-                $output->write(PHP_EOL . $clone->lines('    '));
+                print PHP_EOL . $clone->lines('    ');
             }
 
-            $output->writeln('');
+            print PHP_EOL;
         }
 
         if ($clones->isEmpty()) {
-            $output->write("No clones found.\n\n");
+            print 'No clones found.' . PHP_EOL . PHP_EOL;
 
             return;
         }
 
-        $output->write(
-            sprintf(
-                "%s duplicated lines out of %d total lines of code.\n" .
-                "Average size of duplication is %d lines, largest clone has %d of lines\n\n",
-                $clones->percentage(),
-                $clones->numberOfLines(),
-                $clones->averageSize(),
-                $clones->largestSize()
-            )
+        printf(
+            '%s duplicated lines out of %d total lines of code.' . PHP_EOL .
+            'Average size of duplication is %d lines, largest clone has %d of lines' . PHP_EOL . PHP_EOL,
+            $clones->percentage(),
+            $clones->numberOfLines(),
+            $clones->averageSize(),
+            $clones->largestSize()
         );
     }
 }

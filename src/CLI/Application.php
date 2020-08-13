@@ -7,99 +7,129 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace SebastianBergmann\PHPCPD\CLI;
+namespace SebastianBergmann\PHPCPD;
 
-use function dirname;
-use function extension_loaded;
+use const PHP_EOL;
+use function count;
+use function ini_get;
 use function ini_set;
-use function sprintf;
-use function xdebug_disable;
+use function printf;
+use SebastianBergmann\FileIterator\Facade;
+use SebastianBergmann\PHPCPD\Detector\Detector;
+use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
+use SebastianBergmann\PHPCPD\Log\PMD;
+use SebastianBergmann\PHPCPD\Log\Text;
+use SebastianBergmann\Timer\ResourceUsageFormatter;
+use SebastianBergmann\Timer\Timer;
 use SebastianBergmann\Version;
-use Symfony\Component\Console\Application as AbstractApplication;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-final class Application extends AbstractApplication
+final class Application
 {
-    public function __construct()
-    {
-        $version = new Version('6.0', dirname(__DIR__, 2));
+    private const VERSION = '6.0';
 
-        parent::__construct('phpcpd', $version->getVersion());
+    public function run(array $argv): int
+    {
+        $this->disableMbstringFunctionOverloading();
+        $this->printVersion();
+
+        try {
+            $arguments = (new ArgumentsBuilder)->build($argv);
+        } catch (Exception $e) {
+            print PHP_EOL . $e->getMessage() . PHP_EOL;
+
+            return 1;
+        }
+
+        if ($arguments->version()) {
+            return 0;
+        }
+
+        print PHP_EOL;
+
+        if ($arguments->help()) {
+            $this->help();
+
+            return 0;
+        }
+
+        $files = (new Facade)->getFilesAsArray(
+            $arguments->directories(),
+            $arguments->suffixes(),
+            $arguments->exclude()
+        );
+
+        if (empty($files)) {
+            print 'No files found to scan' . PHP_EOL;
+
+            return 1;
+        }
+
+        $strategy = new DefaultStrategy;
+
+        $timer = new Timer;
+        $timer->start();
+
+        $clones = (new Detector($strategy))->copyPasteDetection(
+            $files,
+            $arguments->linesThreshold(),
+            $arguments->tokensThreshold(),
+            $arguments->fuzzy()
+        );
+
+        (new Text)->printResult($clones, $arguments->verbose());
+
+        if ($arguments->pmdCpdXmlLogfile()) {
+            (new PMD($arguments->pmdCpdXmlLogfile()))->processClones($clones);
+        }
+
+        print (new ResourceUsageFormatter)->resourceUsage($timer->stop()) . PHP_EOL;
+
+        return count($clones) > 0 ? 1 : 0;
+    }
+
+    private function printVersion(): void
+    {
+        printf(
+            'phpcpd %s by Sebastian Bergmann.' . PHP_EOL,
+            (new Version(self::VERSION, dirname(__DIR__)))->getVersion()
+        );
     }
 
     /**
-     * Overridden so that the application doesn't expect the command
-     * name to be the first argument.
+     * @see https://github.com/sebastianbergmann/phpcpd/issues/18
      */
-    public function getDefinition()
+    private function disableMbstringFunctionOverloading(): void
     {
-        $inputDefinition = parent::getDefinition();
-        $inputDefinition->setArguments();
+        ini_set('mbstring.func_overload', '0');
 
-        return $inputDefinition;
+        if (ini_get('mbstring.internal_encoding')) {
+            ini_set('mbstring.internal_encoding', null);
+        }
     }
 
-    /**
-     * Runs the current application.
-     */
-    public function doRun(InputInterface $input, OutputInterface $output): int
+    private function help(): void
     {
-        $this->disableXdebug();
+        print <<<'EOT'
+Usage:
+  phpcpd [options] <directory>
 
-        if (!$input->hasParameterOption('--quiet')) {
-            $output->write(
-                sprintf(
-                    "phpcpd %s by Sebastian Bergmann.\n\n",
-                    $this->getVersion()
-                )
-            );
-        }
+Options for selecting files:
 
-        if ($input->hasParameterOption('--version') ||
-            $input->hasParameterOption('-V')) {
-            exit;
-        }
+  --suffix <suffix> Include files with names ending in <suffix> in the analysis
+                    (default: .php; can be given multiple times)
+  --exclude <path>  Exclude files with <path> in their path from the analysis
+                    (can be given multiple times)
 
-        if (!$input->getFirstArgument()) {
-            $input = new ArrayInput(['--help']);
-        }
+Options for analysing files:
 
-        return (int) parent::doRun($input, $output);
-    }
+  --fuzzy           Fuzz variable names
+  --min-lines <N>   Minimum number of identical lines (default: 5)
+  --min-tokens <N>  Minimum number of identical tokens (default: 70)
 
-    /**
-     * Gets the name of the command based on input.
-     */
-    protected function getCommandName(InputInterface $input): string
-    {
-        return 'phpcpd';
-    }
+Options for report generation:
 
-    /**
-     * Gets the default commands that should always be available.
-     */
-    protected function getDefaultCommands(): array
-    {
-        $defaultCommands = parent::getDefaultCommands();
+  --log-pmd <file>  Write log in PMD-CPD XML format to <file>
 
-        $defaultCommands[] = new Command;
-
-        return $defaultCommands;
-    }
-
-    private function disableXdebug(): void
-    {
-        if (!extension_loaded('xdebug')) {
-            return;
-        }
-
-        ini_set('xdebug.scream', '0');
-        ini_set('xdebug.max_nesting_level', '8192');
-        ini_set('xdebug.show_exception_trace', '0');
-        ini_set('xdebug.show_error_trace', '0');
-
-        xdebug_disable();
+EOT;
     }
 }

@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="3.13.1@afd8874a9e4562eac42a02de90e42e430c3a1db1">
-  <file src="src/CLI/Command.php">
-    <PossiblyInvalidArgument occurrences="4">
-      <code>$input-&gt;getArgument('values')</code>
-      <code>$input-&gt;getOption('exclude')</code>
-      <code>$logPmd</code>
-      <code>$result</code>
-    </PossiblyInvalidArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>finish</code>
-    </PossiblyNullReference>
+  <file src="src/CLI/Application.php">
+    <NullArgument occurrences="1">
+      <code>null</code>
+    </NullArgument>
+  </file>
+  <file src="src/CLI/Arguments.php">
+    <MixedPropertyTypeCoercion occurrences="3">
+      <code>$directories</code>
+      <code>$suffixes</code>
+      <code>$exclude</code>
+    </MixedPropertyTypeCoercion>
+  </file>
+  <file src="src/CLI/ArgumentsBuilder.php">
+    <MixedArgument occurrences="2">
+      <code>$directories</code>
+      <code>$pmdCpdXmlLogfile</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="6">
+      <code>$option[0]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="5">
+      <code>$directories</code>
+      <code>$option</code>
+      <code>$suffixes[]</code>
+      <code>$exclude[]</code>
+      <code>$pmdCpdXmlLogfile</code>
+    </MixedAssignment>
   </file>
   <file src="src/CodeClone.php">
     <MissingParamType occurrences="1">
@@ -26,12 +48,6 @@
     <MixedAssignment occurrences="1">
       <code>$file</code>
     </MixedAssignment>
-    <PossiblyNullPropertyAssignmentValue occurrences="1">
-      <code>$progressBar</code>
-    </PossiblyNullPropertyAssignmentValue>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>$this-&gt;progressBar !== null</code>
-    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Detector/Strategy/DefaultStrategy.php">
     <MixedArgument occurrences="1">
@@ -62,14 +78,5 @@
     <MissingReturnType occurrences="1">
       <code>processClones</code>
     </MissingReturnType>
-    <MixedArgument occurrences="1">
-      <code>$this-&gt;filename</code>
-    </MixedArgument>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;filename</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;filename</code>
-    </UndefinedThisPropertyFetch>
   </file>
 </files>

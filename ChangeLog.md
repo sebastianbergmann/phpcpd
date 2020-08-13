@@ -4,6 +4,13 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 ## [6.0.0] - 2020-MM-DD
 
+### Removed
+
+* The `--names` CLI option has been removed; use the `--suffix` CLI option instead
+* The `--names-exclude` CLI option has been removed; use the `--exclude` CLI option instead
+* The `--regexps-exclude` CLI option has been removed
+* The `--progress` CLI option has been removed
+
 ## [5.0.2] - 2020-02-22
 
 ### Changed

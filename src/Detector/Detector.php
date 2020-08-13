@@ -11,7 +11,6 @@ namespace SebastianBergmann\PHPCPD\Detector;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
-use Symfony\Component\Console\Helper\ProgressBar;
 
 final class Detector
 {
@@ -20,15 +19,9 @@ final class Detector
      */
     private $strategy;
 
-    /**
-     * @var ProgressBar
-     */
-    private $progressBar;
-
-    public function __construct(AbstractStrategy $strategy, ProgressBar $progressBar = null)
+    public function __construct(AbstractStrategy $strategy)
     {
-        $this->strategy    = $strategy;
-        $this->progressBar = $progressBar;
+        $this->strategy = $strategy;
     }
 
     public function copyPasteDetection(iterable $files, int $minLines = 5, int $minTokens = 70, bool $fuzzy = false): CodeCloneMap
@@ -47,10 +40,6 @@ final class Detector
                 $result,
                 $fuzzy
             );
-
-            if ($this->progressBar !== null) {
-                $this->progressBar->advance();
-            }
         }
 
         return $result;
