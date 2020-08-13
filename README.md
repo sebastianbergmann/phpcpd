@@ -19,21 +19,21 @@ Using [Phive](https://phar.io/) is the recommended way for managing the tool dep
 ## Usage Example
 
 ```
-$ php phpcpd.phar --fuzzy wordpress-4.9.8
-phpcpd 5.0.0 by Sebastian Bergmann.
+$ php phpcpd.phar --fuzzy wordpress-5.5
+phpcpd 6.0.0 by Sebastian Bergmann.
 
-Found 66 clones with 3014 duplicated lines in 40 files:
+Found 121 clones with 8137 duplicated lines in 69 files:
 
-  - /home/sb/wordpress-4.9.8/wp-includes/Requests/IRI.php:358-708 (350 lines)
-    /home/sb/wordpress-4.9.8/wp-includes/SimplePie/IRI.php:404-754
+  - /home/sb/wordpress-5.5/wp-includes/sodium_compat/src/Core/Curve25519/H.php:19-1466 (1447 lines)
+    /home/sb/wordpress-5.5/wp-includes/sodium_compat/src/Core32/Curve25519/H.php:19-1466
 .
 .
 .
-  - /home/sb/wordpress-4.9.8/wp-includes/SimplePie/File.php:133-144 (11 lines)
-    /home/sb/wordpress-4.9.8/wp-includes/SimplePie/File.php:215-226
+  - /home/sb/wordpress-5.5/wp-includes/sodium_compat/src/Core32/Curve25519.php:879-889 (10 lines)
+    /home/sb/wordpress-5.5/wp-includes/sodium_compat/src/Core32/Curve25519.php:1072-1082
 
-0.86% duplicated lines out of 349460 total lines of code.
-Average size of duplication is 45 lines, largest clone has 350 of lines
+1.82% duplicated lines out of 446676 total lines of code.
+Average size of duplication is 67 lines, largest clone has 1447 of lines
 
-Time: 1.79 seconds, Memory: 272.00MB
+Time: 00:02.980, Memory: 318.00 MB
 ```

@@ -24,7 +24,7 @@ final class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('5.0.2', dirname(__DIR__, 2));
+        $version = new Version('6.0', dirname(__DIR__, 2));
 
         parent::__construct('phpcpd', $version->getVersion());
     }
