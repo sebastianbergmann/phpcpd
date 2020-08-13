@@ -2,6 +2,12 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [6.0.1] - 2020-08-13
+
+### Fixed
+
+* The `--verbose` CLI option had no effect
+
 ## [6.0.0] - 2020-08-13
 
 ### Removed
@@ -67,6 +73,7 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 5.6
 
+[6.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.0...6.0.1
 [6.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/5.0.2...6.0.0
 [5.0.2]: https://github.com/sebastianbergmann/phpcpd/compare/5.0.1...5.0.2
 [5.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/5.0.0...5.0.1
