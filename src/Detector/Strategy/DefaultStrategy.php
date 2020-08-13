@@ -9,32 +9,42 @@
  */
 namespace SebastianBergmann\PHPCPD\Detector\Strategy;
 
+use const T_VARIABLE;
+use function array_keys;
+use function chr;
+use function count;
+use function crc32;
+use function file_get_contents;
+use function is_array;
+use function md5;
+use function pack;
+use function substr;
+use function substr_count;
+use function token_get_all;
 use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 
-class DefaultStrategy extends AbstractStrategy
+final class DefaultStrategy extends AbstractStrategy
 {
     public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void
     {
-        $buffer                    = \file_get_contents($file);
+        $buffer                    = file_get_contents($file);
         $currentTokenPositions     = [];
         $currentTokenRealPositions = [];
         $currentSignature          = '';
-        $tokens                    = \token_get_all($buffer);
+        $tokens                    = token_get_all($buffer);
         $tokenNr                   = 0;
         $lastTokenLine             = 0;
 
-        $result->setNumLines(
-            $result->getNumLines() + \substr_count($buffer, "\n")
-        );
+        $result->addToNumberOfLines(substr_count($buffer, "\n"));
 
         unset($buffer);
 
-        foreach (\array_keys($tokens) as $key) {
+        foreach (array_keys($tokens) as $key) {
             $token = $tokens[$key];
 
-            if (\is_array($token)) {
+            if (is_array($token)) {
                 if (!isset($this->tokensIgnoreList[$token[0]])) {
                     if ($tokenNr === 0) {
                         $currentTokenPositions[$tokenNr] = $token[2] - $lastTokenLine;
@@ -45,19 +55,19 @@ class DefaultStrategy extends AbstractStrategy
 
                     $currentTokenRealPositions[$tokenNr++] = $token[2];
 
-                    if ($fuzzy && $token[0] === \T_VARIABLE) {
+                    if ($fuzzy && $token[0] === T_VARIABLE) {
                         $token[1] = 'variable';
                     }
 
-                    $currentSignature .= \chr($token[0] & 255) .
-                                         \pack('N*', \crc32($token[1]));
+                    $currentSignature .= chr($token[0] & 255) .
+                                         pack('N*', crc32($token[1]));
                 }
 
                 $lastTokenLine = $token[2];
             }
         }
 
-        $count         = \count($currentTokenPositions);
+        $count         = count($currentTokenPositions);
         $firstLine     = 0;
         $firstRealLine = 0;
         $found         = false;
@@ -67,9 +77,9 @@ class DefaultStrategy extends AbstractStrategy
             $line     = $currentTokenPositions[$tokenNr];
             $realLine = $currentTokenRealPositions[$tokenNr];
 
-            $hash = \substr(
-                \md5(
-                    \substr(
+            $hash = substr(
+                md5(
+                    substr(
                         $currentSignature,
                         $tokenNr * 5,
                         $minTokens * 5
@@ -102,7 +112,7 @@ class DefaultStrategy extends AbstractStrategy
                     if ($numLines >= $minLines &&
                         ($fileA !== $file ||
                          $firstLineA !== $firstRealLine)) {
-                        $result->addClone(
+                        $result->add(
                             new CodeClone(
                                 new CodeCloneFile($fileA, $firstLineA),
                                 new CodeCloneFile($file, $firstRealLine),
@@ -133,7 +143,7 @@ class DefaultStrategy extends AbstractStrategy
 
             if ($numLines >= $minLines &&
                 ($fileA !== $file || $firstLineA !== $firstRealLine)) {
-                $result->addClone(
+                $result->add(
                     new CodeClone(
                         new CodeCloneFile($fileA, $firstLineA),
                         new CodeCloneFile($file, $firstRealLine),

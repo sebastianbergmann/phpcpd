@@ -9,46 +9,53 @@
  */
 namespace SebastianBergmann\PHPCPD;
 
+use function array_map;
+use function array_slice;
+use function current;
+use function file;
+use function implode;
+use function md5;
+
 final class CodeClone
 {
     /**
-     * @var int Size of the clone (lines)
+     * @var int
      */
-    private $size;
+    private $numberOfLines;
 
     /**
-     * @var int Size of the clone (tokens)
+     * @var int
      */
-    private $tokens;
+    private $numberOfTokens;
 
     /**
-     * @var CodeCloneFile[] Files with this code clone
+     * @var CodeCloneFile[]
      */
     private $files = [];
 
     /**
-     * @var string Unique ID of Code Duplicate Fragment
+     * @var string
      */
     private $id;
 
     /**
-     * @var string Lines of the clone
+     * @var string
      */
     private $lines = '';
 
-    public function __construct(CodeCloneFile $fileA, CodeCloneFile $fileB, int $size, int $tokens)
+    public function __construct(CodeCloneFile $fileA, CodeCloneFile $fileB, int $numberOfLines, int $numberOfTokens)
     {
-        $this->addFile($fileA);
-        $this->addFile($fileB);
+        $this->add($fileA);
+        $this->add($fileB);
 
-        $this->size   = $size;
-        $this->tokens = $tokens;
-        $this->id     = \md5($this->getLines());
+        $this->numberOfLines  = $numberOfLines;
+        $this->numberOfTokens = $numberOfTokens;
+        $this->id             = md5($this->lines());
     }
 
-    public function addFile(CodeCloneFile $file): void
+    public function add(CodeCloneFile $file): void
     {
-        $id = $file->getId();
+        $id = $file->id();
 
         if (!isset($this->files[$id])) {
             $this->files[$id] = $file;
@@ -58,26 +65,26 @@ final class CodeClone
     /**
      * @return CodeCloneFile[]
      */
-    public function getFiles(): array
+    public function files(): array
     {
         return $this->files;
     }
 
-    public function getLines($indent = ''): string
+    public function lines($indent = ''): string
     {
         if (empty($this->lines)) {
-            $file = \current($this->files);
+            $file = current($this->files);
 
-            $this->lines = \implode(
+            $this->lines = implode(
                 '',
-                \array_map(
+                array_map(
                     function ($line) use ($indent) {
                         return $indent . $line;
                     },
-                    \array_slice(
-                        \file($file->getName()),
-                        $file->getStartLine() - 1,
-                        $this->size
+                    array_slice(
+                        file($file->name()),
+                        $file->startLine() - 1,
+                        $this->numberOfLines
                     )
                 )
             );
@@ -86,18 +93,18 @@ final class CodeClone
         return $this->lines;
     }
 
-    public function getId(): string
+    public function id(): string
     {
         return $this->id;
     }
 
-    public function getSize(): int
+    public function numberOfLines(): int
     {
-        return $this->size;
+        return $this->numberOfLines;
     }
 
-    public function getTokens(): int
+    public function numberOfTokens(): int
     {
-        return $this->tokens;
+        return $this->numberOfTokens;
     }
 }

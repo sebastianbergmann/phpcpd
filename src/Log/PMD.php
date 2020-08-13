@@ -13,12 +13,11 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
 
 final class PMD extends AbstractXmlLogger
 {
-    /**
-     * Processes a list of clones.
-     */
+    /** @noinspection UnusedFunctionResultInspection */
     public function processClones(CodeCloneMap $clones): void
     {
         $cpd = $this->document->createElement('pmd-cpd');
+
         $this->document->appendChild($cpd);
 
         foreach ($clones as $clone) {
@@ -26,22 +25,22 @@ final class PMD extends AbstractXmlLogger
                 $this->document->createElement('duplication')
             );
 
-            $duplication->setAttribute('lines', (string) $clone->getSize());
-            $duplication->setAttribute('tokens', (string) $clone->getTokens());
+            $duplication->setAttribute('lines', (string) $clone->numberOfLines());
+            $duplication->setAttribute('tokens', (string) $clone->numberOfTokens());
 
-            foreach ($clone->getFiles() as $codeCloneFile) {
+            foreach ($clone->files() as $codeCloneFile) {
                 $file = $duplication->appendChild(
                     $this->document->createElement('file')
                 );
 
-                $file->setAttribute('path', $codeCloneFile->getName());
-                $file->setAttribute('line', (string) $codeCloneFile->getStartLine());
+                $file->setAttribute('path', $codeCloneFile->name());
+                $file->setAttribute('line', (string) $codeCloneFile->startLine());
             }
 
             $duplication->appendChild(
                 $this->document->createElement(
                     'codefragment',
-                    $this->escapeForXml($clone->getLines())
+                    $this->escapeForXml($clone->lines())
                 )
             );
         }

@@ -9,6 +9,11 @@
  */
 namespace SebastianBergmann\PHPCPD\CLI;
 
+use function dirname;
+use function extension_loaded;
+use function ini_set;
+use function sprintf;
+use function xdebug_disable;
 use SebastianBergmann\Version;
 use Symfony\Component\Console\Application as AbstractApplication;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -19,7 +24,7 @@ final class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('5.0.2', \dirname(__DIR__, 2));
+        $version = new Version('5.0.2', dirname(__DIR__, 2));
 
         parent::__construct('phpcpd', $version->getVersion());
     }
@@ -45,7 +50,7 @@ final class Application extends AbstractApplication
 
         if (!$input->hasParameterOption('--quiet')) {
             $output->write(
-                \sprintf(
+                sprintf(
                     "phpcpd %s by Sebastian Bergmann.\n\n",
                     $this->getVersion()
                 )
@@ -86,15 +91,15 @@ final class Application extends AbstractApplication
 
     private function disableXdebug(): void
     {
-        if (!\extension_loaded('xdebug')) {
+        if (!extension_loaded('xdebug')) {
             return;
         }
 
-        \ini_set('xdebug.scream', '0');
-        \ini_set('xdebug.max_nesting_level', '8192');
-        \ini_set('xdebug.show_exception_trace', '0');
-        \ini_set('xdebug.show_error_trace', '0');
+        ini_set('xdebug.scream', '0');
+        ini_set('xdebug.max_nesting_level', '8192');
+        ini_set('xdebug.show_exception_trace', '0');
+        ini_set('xdebug.show_error_trace', '0');
 
-        \xdebug_disable();
+        xdebug_disable();
     }
 }

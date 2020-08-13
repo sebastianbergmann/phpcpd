@@ -16,12 +16,12 @@ use Symfony\Component\Console\Helper\ProgressBar;
 final class Detector
 {
     /**
-     * @var \SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy
+     * @var AbstractStrategy
      */
     private $strategy;
 
     /**
-     * @var \Symfony\Component\Console\Helper\ProgressBar
+     * @var ProgressBar
      */
     private $progressBar;
 

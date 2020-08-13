@@ -33,13 +33,7 @@
       <code>$this-&gt;progressBar !== null</code>
     </RedundantConditionGivenDocblockType>
   </file>
-  <file src="src/Detector/Strategy/AbstractStrategy.php">
-    <InvalidPropertyAssignmentValue occurrences="1"/>
-  </file>
   <file src="src/Detector/Strategy/DefaultStrategy.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$this-&gt;hashes</code>
-    </InvalidPropertyAssignmentValue>
     <MixedArgument occurrences="1">
       <code>$lastToken + 1 - $firstToken</code>
     </MixedArgument>
@@ -57,9 +51,6 @@
       <code>$currentTokenPositions[$tokenNr - 1]</code>
       <code>$lastLine</code>
     </MixedOperand>
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$firstLineA</code>
-    </PossiblyInvalidArgument>
     <PossiblyUndefinedVariable occurrences="4">
       <code>$firstHash</code>
       <code>$firstHash</code>

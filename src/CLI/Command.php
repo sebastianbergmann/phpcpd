@@ -9,6 +9,10 @@
  */
 namespace SebastianBergmann\PHPCPD\CLI;
 
+use function array_map;
+use function count;
+use function explode;
+use function is_array;
 use SebastianBergmann\FinderFacade\FinderFacade;
 use SebastianBergmann\PHPCPD\Detector\Detector;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
@@ -124,7 +128,7 @@ final class Command extends AbstractCommand
         $progressBar = null;
 
         if ($input->getOption('progress')) {
-            $progressBar = new ProgressBar($output, \count($files));
+            $progressBar = new ProgressBar($output, count($files));
             $progressBar->start();
         }
 
@@ -162,7 +166,7 @@ final class Command extends AbstractCommand
             print Timer::resourceUsage() . "\n";
         }
 
-        if (\count($clones) > 0) {
+        if (count($clones) > 0) {
             return 1;
         }
 
@@ -173,10 +177,10 @@ final class Command extends AbstractCommand
     {
         $result = $input->getOption($option);
 
-        if (!\is_array($result)) {
-            $result = \explode(',', $result);
+        if (!is_array($result)) {
+            $result = explode(',', $result);
 
-            \array_map('trim', $result);
+            array_map('trim', $result);
         }
 
         return $result;

@@ -9,7 +9,12 @@
  */
 namespace SebastianBergmann\PHPCPD;
 
-final class CodeCloneMapIterator implements \Iterator
+use function array_reverse;
+use function count;
+use function usort;
+use Iterator;
+
+final class CodeCloneMapIterator implements Iterator
 {
     /**
      * @var CodeClone[]
@@ -23,16 +28,16 @@ final class CodeCloneMapIterator implements \Iterator
 
     public function __construct(CodeCloneMap $clones)
     {
-        $this->clones = $clones->getClones();
+        $this->clones = $clones->clones();
 
-        \usort(
+        usort(
             $this->clones,
-            function (CodeClone $a, CodeClone $b): int {
-                return $a->getSize() <=> $b->getSize();
+            static function (CodeClone $a, CodeClone $b): int {
+                return $a->numberOfLines() <=> $b->numberOfLines();
             }
         );
 
-        $this->clones = \array_reverse($this->clones);
+        $this->clones = array_reverse($this->clones);
     }
 
     public function rewind(): void
@@ -42,7 +47,7 @@ final class CodeCloneMapIterator implements \Iterator
 
     public function valid(): bool
     {
-        return $this->position < \count($this->clones);
+        return $this->position < count($this->clones);
     }
 
     public function key(): int

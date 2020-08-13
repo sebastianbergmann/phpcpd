@@ -9,6 +9,9 @@
  */
 namespace SebastianBergmann\PHPCPD\Detector;
 
+use function current;
+use function next;
+use function sort;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
 
@@ -20,34 +23,34 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
  * @uses \SebastianBergmann\PHPCPD\CodeCloneFile
  * @uses \SebastianBergmann\PHPCPD\CodeCloneMap
  */
-class DetectorTest extends TestCase
+final class DetectorTest extends TestCase
 {
     /**
      * @dataProvider strategyProvider
+     *
+     * @psalm-param class-string $strategy
      */
-    public function testDetectingSimpleClonesWorks($strategy): void
+    public function testDetectingSimpleClonesWorks(string $strategy): void
     {
-        $detector = new Detector(new $strategy);
-
-        $clones = $detector->copyPasteDetection(
+        $clones = (new Detector(new $strategy))->copyPasteDetection(
             [__DIR__ . '/../fixture/Math.php']
         );
 
-        $clones = $clones->getClones();
-        $files  = $clones[0]->getFiles();
-        $file   = \current($files);
+        $clones = $clones->clones();
+        $files  = $clones[0]->files();
+        $file   = current($files);
 
-        $this->assertEquals(__DIR__ . '/../fixture/Math.php', $file->getName());
-        $this->assertEquals(75, $file->getStartLine());
+        $this->assertSame(__DIR__ . '/../fixture/Math.php', $file->name());
+        $this->assertSame(75, $file->startLine());
 
-        $file = \next($files);
+        $file = next($files);
 
-        $this->assertEquals(__DIR__ . '/../fixture/Math.php', $file->getName());
-        $this->assertEquals(139, $file->getStartLine());
-        $this->assertEquals(59, $clones[0]->getSize());
-        $this->assertEquals(136, $clones[0]->getTokens());
+        $this->assertSame(__DIR__ . '/../fixture/Math.php', $file->name());
+        $this->assertSame(139, $file->startLine());
+        $this->assertSame(59, $clones[0]->numberOfLines());
+        $this->assertSame(136, $clones[0]->numberOfTokens());
 
-        $this->assertEquals(
+        $this->assertSame(
             '    public function div($v1, $v2)
     {
         $v3 = $v1 / ($v2 + $v1);
@@ -108,46 +111,50 @@ class DetectorTest extends TestCase
 
         return $v8;
 ',
-            $clones[0]->getLines()
+            $clones[0]->lines()
         );
     }
 
     /**
      * @dataProvider strategyProvider
+     *
+     * @psalm-param class-string $strategy
      */
-    public function testDetectingExactDuplicateFilesWorks($strategy): void
+    public function testDetectingExactDuplicateFilesWorks(string $strategy): void
     {
-        $detector = new Detector(new $strategy);
+        $clones = (new Detector(new $strategy))->copyPasteDetection(
+            [
+                __DIR__ . '/../fixture/a.php',
+                __DIR__ . '/../fixture/b.php',
+            ],
+            20,
+            60
+        );
 
-        $clones = $detector->copyPasteDetection([
-            __DIR__ . '/../fixture/a.php',
-            __DIR__ . '/../fixture/b.php',
-        ], 20, 60);
-
-        $clones = $clones->getClones();
-        $files  = $clones[0]->getFiles();
-        $file   = \current($files);
+        $clones = $clones->clones();
+        $files  = $clones[0]->files();
+        $file   = current($files);
 
         $this->assertCount(1, $clones);
-        $this->assertEquals(__DIR__ . '/../fixture/a.php', $file->getName());
-        $this->assertEquals(4, $file->getStartLine());
+        $this->assertSame(__DIR__ . '/../fixture/a.php', $file->name());
+        $this->assertSame(4, $file->startLine());
 
-        $file = \next($files);
+        $file = next($files);
 
-        $this->assertEquals(__DIR__ . '/../fixture/b.php', $file->getName());
-        $this->assertEquals(4, $file->getStartLine());
-        $this->assertEquals(20, $clones[0]->getSize());
-        $this->assertEquals(60, $clones[0]->getTokens());
+        $this->assertSame(__DIR__ . '/../fixture/b.php', $file->name());
+        $this->assertSame(4, $file->startLine());
+        $this->assertSame(20, $clones[0]->numberOfLines());
+        $this->assertSame(60, $clones[0]->numberOfTokens());
     }
 
     /**
      * @dataProvider strategyProvider
+     *
+     * @psalm-param class-string $strategy
      */
-    public function testDetectingClonesInMoreThanTwoFiles($strategy): void
+    public function testDetectingClonesInMoreThanTwoFiles(string $strategy): void
     {
-        $detector = new Detector(new $strategy);
-
-        $clones = $detector->copyPasteDetection(
+        $clones = (new Detector(new $strategy))->copyPasteDetection(
             [
                 __DIR__ . '/../fixture/a.php',
                 __DIR__ . '/../fixture/b.php',
@@ -157,35 +164,35 @@ class DetectorTest extends TestCase
             60
         );
 
-        $clones = $clones->getClones();
-        $files  = $clones[0]->getFiles();
-        \sort($files);
+        $clones = $clones->clones();
+        $files  = $clones[0]->files();
+        sort($files);
 
-        $file = \current($files);
+        $file = current($files);
 
         $this->assertCount(1, $clones);
-        $this->assertEquals(__DIR__ . '/../fixture/a.php', $file->getName());
-        $this->assertEquals(4, $file->getStartLine());
+        $this->assertSame(__DIR__ . '/../fixture/a.php', $file->name());
+        $this->assertSame(4, $file->startLine());
 
-        $file = \next($files);
+        $file = next($files);
 
-        $this->assertEquals(__DIR__ . '/../fixture/b.php', $file->getName());
-        $this->assertEquals(4, $file->getStartLine());
+        $this->assertSame(__DIR__ . '/../fixture/b.php', $file->name());
+        $this->assertSame(4, $file->startLine());
 
-        $file = \next($files);
+        $file = next($files);
 
-        $this->assertEquals(__DIR__ . '/../fixture/c.php', $file->getName());
-        $this->assertEquals(4, $file->getStartLine());
+        $this->assertSame(__DIR__ . '/../fixture/c.php', $file->name());
+        $this->assertSame(4, $file->startLine());
     }
 
     /**
      * @dataProvider strategyProvider
+     *
+     * @psalm-param class-string $strategy
      */
-    public function testClonesAreIgnoredIfTheySpanLessTokensThanMinTokens($strategy): void
+    public function testClonesAreIgnoredIfTheySpanLessTokensThanMinTokens(string $strategy): void
     {
-        $detector = new Detector(new $strategy);
-
-        $clones = $detector->copyPasteDetection(
+        $clones = (new Detector(new $strategy))->copyPasteDetection(
             [
                 __DIR__ . '/../fixture/a.php',
                 __DIR__ . '/../fixture/b.php',
@@ -194,17 +201,17 @@ class DetectorTest extends TestCase
             61
         );
 
-        $this->assertCount(0, $clones->getClones());
+        $this->assertCount(0, $clones->clones());
     }
 
     /**
      * @dataProvider strategyProvider
+     *
+     * @psalm-param class-string $strategy
      */
-    public function testClonesAreIgnoredIfTheySpanLessLinesThanMinLines($strategy): void
+    public function testClonesAreIgnoredIfTheySpanLessLinesThanMinLines(string $strategy): void
     {
-        $detector = new Detector(new $strategy);
-
-        $clones = $detector->copyPasteDetection(
+        $clones = (new Detector(new $strategy))->copyPasteDetection(
             [
                 __DIR__ . '/../fixture/a.php',
                 __DIR__ . '/../fixture/b.php',
@@ -213,17 +220,17 @@ class DetectorTest extends TestCase
             60
         );
 
-        $this->assertCount(0, $clones->getClones());
+        $this->assertCount(0, $clones->clones());
     }
 
     /**
      * @dataProvider strategyProvider
+     *
+     * @psalm-param class-string $strategy
      */
-    public function testFuzzyClonesAreFound($strategy): void
+    public function testFuzzyClonesAreFound(string $strategy): void
     {
-        $detector = new Detector(new $strategy);
-
-        $clones = $detector->copyPasteDetection(
+        $clones = (new Detector(new $strategy))->copyPasteDetection(
             [
                 __DIR__ . '/../fixture/a.php',
                 __DIR__ . '/../fixture/d.php',
@@ -233,18 +240,19 @@ class DetectorTest extends TestCase
             true
         );
 
-        $clones = $clones->getClones();
-
-        $this->assertCount(1, $clones);
+        $this->assertCount(1, $clones->clones());
     }
 
     /**
      * @dataProvider strategyProvider
+     *
+     * @psalm-param class-string $strategy
      */
-    public function testStripComments($strategy): void
+    public function testStripComments(string $strategy): void
     {
         $detector = new Detector(new $strategy);
-        $clones   = $detector->copyPasteDetection(
+
+        $clones = $detector->copyPasteDetection(
             [
                 __DIR__ . '/../fixture/e.php',
                 __DIR__ . '/../fixture/f.php',
@@ -253,8 +261,8 @@ class DetectorTest extends TestCase
             10,
             true
         );
-        $clones = $clones->getClones();
-        $this->assertCount(0, $clones);
+
+        $this->assertCount(0, $clones->clones());
 
         $clones = $detector->copyPasteDetection(
             [
@@ -265,11 +273,14 @@ class DetectorTest extends TestCase
             10,
             true
         );
-        $clones = $clones->getClones();
-        $this->assertCount(1, $clones);
+
+        $this->assertCount(1, $clones->clones());
     }
 
-    public function strategyProvider()
+    /**
+     * @psalm-return list<class-string>
+     */
+    public function strategyProvider(): array
     {
         return [
             [DefaultStrategy::class],
