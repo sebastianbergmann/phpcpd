@@ -27,7 +27,7 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 ### Fixed
 
-* Fixed [#181](https://github.com/sebastianbergmann/phpcpd/issues/181): `--min-lines`, `--min-tokens`, and `--fuzzy` commandline options do not work
+* [#181](https://github.com/sebastianbergmann/phpcpd/issues/181): `--min-lines`, `--min-tokens`, and `--fuzzy` commandline options do not work
 
 ## [5.0.0] - 2020-02-20
 
@@ -55,15 +55,15 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 ### Fixed
 
-* Fixed [#147](https://github.com/sebastianbergmann/phpcpd/issues/147): Wrong exit code when no files were found to be scanned
-* Fixed [#152](https://github.com/sebastianbergmann/phpcpd/issues/152): Version requirement for `sebastian/version` is too strict
+* [#147](https://github.com/sebastianbergmann/phpcpd/issues/147): Wrong exit code when no files were found to be scanned
+* [#152](https://github.com/sebastianbergmann/phpcpd/issues/152): Version requirement for `sebastian/version` is too strict
 
 ## [3.0.0] - 2017-02-05
 
 ### Added
 
-* Merged [#90](https://github.com/sebastianbergmann/phpcpd/pull/90): The PMD logger now replaces all characters that are invalid XML with `U+FFFD`
-* Merged [#100](https://github.com/sebastianbergmann/phpcpd/pull/100): Added the `--regexps-exclude` option
+* [#90](https://github.com/sebastianbergmann/phpcpd/pull/90): The PMD logger now replaces all characters that are invalid XML with `U+FFFD`
+* [#100](https://github.com/sebastianbergmann/phpcpd/pull/100): Added the `--regexps-exclude` option
 
 ### Changed
 
