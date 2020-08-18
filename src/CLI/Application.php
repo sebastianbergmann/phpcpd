@@ -55,6 +55,7 @@ final class Application
         $files = (new Facade)->getFilesAsArray(
             $arguments->directories(),
             $arguments->suffixes(),
+            '',
             $arguments->exclude()
         );
 
