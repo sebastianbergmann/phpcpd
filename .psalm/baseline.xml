@@ -17,6 +17,9 @@
       <code>$directories</code>
       <code>$pmdCpdXmlLogfile</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$argv</code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="6">
       <code>$option[0]</code>
       <code>$option[1]</code>
