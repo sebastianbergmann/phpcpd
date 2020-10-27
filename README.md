@@ -12,7 +12,13 @@ $ wget https://phar.phpunit.de/phpcpd.phar
 $ php phpcpd.phar --version
 ```
 
-Using [Phive](https://phar.io/) is the recommended way for managing the tool dependencies of your project.
+Using [Phive](https://phar.io/) is the recommended way for managing the tool dependencies of your project:
+
+```bash
+$ phive install phpcpd
+
+$ ./tools/phpcpd --version
+```
 
 **[It is not recommended to use Composer to download and install this tool.](https://twitter.com/s_bergmann/status/999635212723212288)**
 
