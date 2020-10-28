@@ -28,10 +28,6 @@
             <arg value="--no-progress"/>
             <arg value="update"/>
         </exec>
-
-        <exec executable="${basedir}/tools/composer">
-            <arg value="self-update"/>
-        </exec>
     </target>
 
     <target name="signed-phar" description="Create signed PHAR archive of PHPCPD and all its dependencies (release)" depends="phar">
