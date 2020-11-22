@@ -11,8 +11,6 @@ namespace SebastianBergmann\PHPCPD;
 
 use const PHP_EOL;
 use function count;
-use function ini_get;
-use function ini_set;
 use function printf;
 use SebastianBergmann\FileIterator\Facade;
 use SebastianBergmann\PHPCPD\Detector\Detector;
