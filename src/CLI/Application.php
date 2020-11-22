@@ -29,7 +29,6 @@ final class Application
 
     public function run(array $argv): int
     {
-        $this->disableMbstringFunctionOverloading();
         $this->printVersion();
 
         try {
@@ -94,18 +93,6 @@ final class Application
             'phpcpd %s by Sebastian Bergmann.' . PHP_EOL,
             (new Version(self::VERSION, dirname(__DIR__)))->getVersion()
         );
-    }
-
-    /**
-     * @see https://github.com/sebastianbergmann/phpcpd/issues/18
-     */
-    private function disableMbstringFunctionOverloading(): void
-    {
-        ini_set('mbstring.func_overload', '0');
-
-        if (ini_get('mbstring.internal_encoding')) {
-            ini_set('mbstring.internal_encoding', null);
-        }
     }
 
     private function help(): void
