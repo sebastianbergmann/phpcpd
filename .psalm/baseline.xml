@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.13.1@afd8874a9e4562eac42a02de90e42e430c3a1db1">
-  <file src="src/CLI/Application.php">
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
-  </file>
+<files psalm-version="3.18.2@19aa905f7c3c7350569999a93c40ae91ae4e1626">
   <file src="src/CLI/Arguments.php">
     <MixedPropertyTypeCoercion occurrences="3">
       <code>$directories</code>
-      <code>$suffixes</code>
       <code>$exclude</code>
+      <code>$suffixes</code>
     </MixedPropertyTypeCoercion>
   </file>
   <file src="src/CLI/ArgumentsBuilder.php">
@@ -30,10 +25,10 @@
     </MixedArrayAccess>
     <MixedAssignment occurrences="5">
       <code>$directories</code>
-      <code>$option</code>
-      <code>$suffixes[]</code>
       <code>$exclude[]</code>
+      <code>$option</code>
       <code>$pmdCpdXmlLogfile</code>
+      <code>$suffixes[]</code>
     </MixedAssignment>
   </file>
   <file src="src/CodeClone.php">
@@ -59,22 +54,11 @@
     <MixedArrayOffset occurrences="1">
       <code>$this-&gt;hashes[$firstHash]</code>
     </MixedArrayOffset>
-    <MixedAssignment occurrences="5">
-      <code>$currentTokenPositions[$tokenNr]</code>
-      <code>$line</code>
-      <code>$firstLine</code>
-      <code>$lastLine</code>
-      <code>$numLines</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="2">
-      <code>$currentTokenPositions[$tokenNr - 1]</code>
-      <code>$lastLine</code>
-    </MixedOperand>
     <PossiblyUndefinedVariable occurrences="4">
       <code>$firstHash</code>
       <code>$firstHash</code>
-      <code>$firstToken</code>
       <code>$firstHash</code>
+      <code>$firstToken</code>
     </PossiblyUndefinedVariable>
   </file>
   <file src="src/Log/AbstractXmlLogger.php">
