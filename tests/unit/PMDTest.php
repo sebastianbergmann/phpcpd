@@ -22,8 +22,8 @@ use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 
 /**
- * @covers \SebastianBergmann\PHPCPD\Log\PMD
  * @covers \SebastianBergmann\PHPCPD\Log\AbstractXmlLogger
+ * @covers \SebastianBergmann\PHPCPD\Log\PMD
  *
  * @uses \SebastianBergmann\PHPCPD\CodeClone
  * @uses \SebastianBergmann\PHPCPD\CodeCloneFile
