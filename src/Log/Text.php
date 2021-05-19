@@ -20,7 +20,7 @@ final class Text
     {
         if (count($clones) > 0) {
             printf(
-                'Found %d clones with %d duplicated lines in %d files:' . PHP_EOL . PHP_EOL,
+                'Found %d code clones with %d duplicated lines in %d files:' . PHP_EOL . PHP_EOL,
                 count($clones),
                 $clones->numberOfDuplicatedLines(),
                 $clones->numberOfFilesWithClones()
@@ -51,14 +51,14 @@ final class Text
         }
 
         if ($clones->isEmpty()) {
-            print 'No clones found.' . PHP_EOL . PHP_EOL;
+            print 'No code clones found.' . PHP_EOL . PHP_EOL;
 
             return;
         }
 
         printf(
             '%s duplicated lines out of %d total lines of code.' . PHP_EOL .
-            'Average size of duplication is %d lines, largest clone has %d of lines' . PHP_EOL . PHP_EOL,
+            'Average code clone size is %d lines, the largest code clone has %d lines' . PHP_EOL . PHP_EOL,
             $clones->percentage(),
             $clones->numberOfLines(),
             $clones->averageSize(),
