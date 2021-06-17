@@ -43,4 +43,6 @@ abstract class AbstractStrategy
     protected $hashes = [];
 
     abstract public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void;
+
+    public function postProcess(): void { }
 }
