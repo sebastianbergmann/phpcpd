@@ -61,7 +61,12 @@ final class Arguments
      */
     private $version;
 
-    public function __construct(array $directories, array $suffixes, array $exclude, ?string $pmdCpdXmlLogfile, int $linesThreshold, int $tokensThreshold, bool $fuzzy, bool $verbose, bool $help, bool $version)
+    /**
+     * @var ?string
+     */
+    private $algorithm;
+
+    public function __construct(array $directories, array $suffixes, array $exclude, ?string $pmdCpdXmlLogfile, int $linesThreshold, int $tokensThreshold, bool $fuzzy, bool $verbose, bool $help, bool $version, ?string $algorithm)
     {
         $this->directories      = $directories;
         $this->suffixes         = $suffixes;
@@ -73,6 +78,7 @@ final class Arguments
         $this->verbose          = $verbose;
         $this->help             = $help;
         $this->version          = $version;
+        $this->algorithm        = $algorithm;
     }
 
     /**
@@ -132,5 +138,10 @@ final class Arguments
     public function version(): bool
     {
         return $this->version;
+    }
+
+    public function algorithm(): ?string
+    {
+        return $this->algorithm;
     }
 }

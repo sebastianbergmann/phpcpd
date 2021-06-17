@@ -33,6 +33,7 @@ final class ArgumentsBuilder
                     'verbose',
                     'help',
                     'version',
+                    'algorithm=',
                 ]
             );
         } catch (CliParserException $e) {
@@ -53,6 +54,7 @@ final class ArgumentsBuilder
         $verbose          = false;
         $help             = false;
         $version          = false;
+        $algorithm        = 'rabin-karp';
 
         foreach ($options[0] as $option) {
             switch ($option[0]) {
@@ -102,6 +104,11 @@ final class ArgumentsBuilder
                     $version = true;
 
                     break;
+
+                case '--algorithm':
+                    $algorithm = $option[1];
+
+                    break;
             }
         }
 
@@ -122,6 +129,7 @@ final class ArgumentsBuilder
             $verbose,
             $help,
             $version,
+            $algorithm
         );
     }
 }
