@@ -12,9 +12,12 @@ namespace SebastianBergmann\PHPCPD;
 use const PHP_EOL;
 use function count;
 use function printf;
+use Exception;
 use SebastianBergmann\FileIterator\Facade;
 use SebastianBergmann\PHPCPD\Detector\Detector;
+use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTreeStrategy;
 use SebastianBergmann\PHPCPD\Log\PMD;
 use SebastianBergmann\PHPCPD\Log\Text;
 use SebastianBergmann\Timer\ResourceUsageFormatter;
@@ -62,7 +65,7 @@ final class Application
             return 1;
         }
 
-        $strategy = new DefaultStrategy;
+        $strategy = $this->pickStrategy($arguments->algorithm());
 
         $timer = new Timer;
         $timer->start();
@@ -91,6 +94,24 @@ final class Application
             'phpcpd %s by Sebastian Bergmann.' . PHP_EOL,
             (new Version(self::VERSION, dirname(__DIR__)))->getVersion()
         );
+    }
+
+    private function pickStrategy(?string $algorithm): AbstractStrategy
+    {
+        switch ($algorithm) {
+            case null:
+            case 'rabin-karp':
+                return new DefaultStrategy();
+
+                break;
+
+            case 'suffixtree':
+                return new SuffixTreeStrategy();
+
+                break;
+            default:
+                throw new Exception('Unsupported algorithm: ' . $algorithm);
+        }
     }
 
     private function help(): void

@@ -164,7 +164,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
                 foreach ($existingClones as $ci) {
                     // length = number of tokens
                     // TODO: min token length
-                    if ($ci->length > 25) {
+                    if ($ci->length > $minLength) {
                         /** @var CloneInfo */
                         $previousCi = $map[$ci->token->line] ?? null;
                         if ($previousCi == null) {
@@ -186,52 +186,8 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
 
         /** @var CloneInfo[] */
         $values = array_values($map);
-        return $values;
-
-        // TODO: Below moved to SuffixTreeStrategy class.
         usort($values, function ($a, $b) { return $b->length - $a->length;});
-        printf(
-            "\nFound %d clones with %d duplicated lines in %d files:\n\n",
-            count($values),
-            0,  // TODO: Fix
-            0
-        );
-        // TODO: Filter overlapping clones.
-        for ($i = 0; $i < count($values); $i++) {
-            /** @var CloneInfo */
-            $ci = $values[$i];
-            try {
-                /** @var PhpToken */
-                $lastToken = $this->word[$ci->position + $ci->length];
-                $lines = $lastToken->line - $ci->token->line;
-                printf(
-                    "  - %s:%d-%d (%d lines)\n",
-                    $ci->token->file,
-                    $ci->token->line,
-                    $ci->token->line + $lines - 1,
-                    $lines
-                );
-            } catch(IndexOutOfBoundsException $e) {
-                printf("index out of bounds, ci.position = %d, ci.length = %d", $ci->position, $ci->length);
-            }
-            /** @var int[] */
-            $others = $ci->otherClones->extractFirstList();
-            for ($j = 0; $j < count($others); $j++) {
-                $otherStart = $others[$j];
-                /** @var PhpToken */
-                $t = $this->word[$otherStart];
-                /** @var PhpToken */
-                $lastToken = $this->word[$ci->position + $ci->length];
-                $lines = $lastToken->line - $ci->token->line;
-                printf(
-                        "    %s:%d-%d\n",
-                        $t->file,
-                        $t->line,
-                        $t->line + $lines - 1
-                );
-            }
-            print("\n");
-        }
+        return $values;
 	}
 
 	/**
