@@ -42,6 +42,8 @@ final class Detector
             );
         }
 
+        $this->strategy->postProcess();
+
         return $result;
     }
 }

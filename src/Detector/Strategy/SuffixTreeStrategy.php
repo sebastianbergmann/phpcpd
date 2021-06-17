@@ -16,24 +16,30 @@ use function token_get_all;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetectingSuffixTree;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\PhpToken;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\CloneInfo;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Sentinel;
 use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 
 final class SuffixTreeStrategy extends AbstractStrategy
 {
+    /**
+     * @var PhpToken[]
+     */
+    private $word = [];
+
     public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void
     {
+        echo 'Process file ' . $file . PHP_EOL;
         $content = file_get_contents($file);
         $tokens = token_get_all($content);
-        $word = [];
 
         foreach (array_keys($tokens) as $key) {
             $token = $tokens[$key];
 
             if (is_array($token)) {
                 if (!isset($this->tokensIgnoreList[$token[0]])) {
-                    $word[] = new PhpToken(
+                    $this->word[] = new PhpToken(
                         $token[0],
                         token_name($token[0]),
                         $token[2],
@@ -43,12 +49,23 @@ final class SuffixTreeStrategy extends AbstractStrategy
                 }
             }
         }
-        unset($tokens);
-        $tree = new ApproximateCloneDetectingSuffixTree($word);
-        $editDistance = 10;
+
+        $this->minLines = $minLines;
+        $this->minTokens = $minTokens;
+        $this->result = $result;
+    }
+
+    public function postProcess(): void
+    {
+        // Sentinel = End of word
+        $this->word[] = new Sentinel();
+        echo 'Total word length: ' . count($this->word) . PHP_EOL;
+
+        $tree = new ApproximateCloneDetectingSuffixTree($this->word);
+        $editDistance = 5;
         $headEquality = 10;
         /** @var CloneInfo[] */
-        $cloneInfos = $tree->findClones($minTokens, $editDistance, $headEquality);
+        $cloneInfos = $tree->findClones($this->minTokens, $editDistance, $headEquality);
 
         foreach ($cloneInfos as $cloneInfo) {
             /** @var int[] */
@@ -56,11 +73,11 @@ final class SuffixTreeStrategy extends AbstractStrategy
             for ($j = 0; $j < count($others); $j++) {
                 $otherStart = $others[$j];
                 /** @var PhpToken */
-                $t = $word[$otherStart];
+                $t = $this->word[$otherStart];
                 /** @var PhpToken */
-                $lastToken = $word[$cloneInfo->position + $cloneInfo->length];
+                $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length];
                 $lines = $lastToken->line - $cloneInfo->token->line;
-                $result->add(
+                $this->result->add(
                     new CodeClone(
                         new CodeCloneFile($cloneInfo->token->file, $cloneInfo->token->line),
                         new CodeCloneFile($t->file, $t->line),
