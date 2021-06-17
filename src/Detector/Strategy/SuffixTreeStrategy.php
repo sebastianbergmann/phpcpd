@@ -43,6 +43,7 @@ final class SuffixTreeStrategy extends AbstractStrategy
                 }
             }
         }
+        unset($tokens);
         $tree = new ApproximateCloneDetectingSuffixTree($word);
         $editDistance = 10;
         $headEquality = 10;
