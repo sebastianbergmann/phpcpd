@@ -50,18 +50,6 @@ final class SuffixTreeStrategy extends AbstractStrategy
         $cloneInfos = $tree->findClones($minTokens, $editDistance, $headEquality);
 
         foreach ($cloneInfos as $cloneInfo) {
-            /** @var PhpToken */
-            $lastToken = $word[$cloneInfo->position + $cloneInfo->length];
-            $lines = $lastToken->line - $cloneInfo->token->line;
-            /*
-            printf(
-                "  - %s:%d-%d (%d lines)\n",
-                $cloneInfo->token->file,
-                $cloneInfo->token->line,
-                $cloneInfo->token->line + $lines - 1,
-                $lines
-            );
-             */
             /** @var int[] */
             $others = $cloneInfo->otherClones->extractFirstList();
             for ($j = 0; $j < count($others); $j++) {
@@ -76,17 +64,10 @@ final class SuffixTreeStrategy extends AbstractStrategy
                         new CodeCloneFile($cloneInfo->token->file, $cloneInfo->token->line),
                         new CodeCloneFile($t->file, $t->line),
                         $lines,
-                        0
+                        // TODO: Double check this
+                        $otherStart + 1 - $cloneInfo->position
                     )
                 );
-                /*
-                printf(
-                    "    %s:%d-%d\n",
-                    $t->file,
-                    $t->line,
-                    $t->line + $lines - 1
-                );
-                 */
             }
         }
     }
