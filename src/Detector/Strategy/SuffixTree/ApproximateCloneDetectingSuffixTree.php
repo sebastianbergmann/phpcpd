@@ -158,6 +158,8 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
 			}
 		}
 
+        $map = [];
+
 		for ($index = 0; $index <= count($this->word); ++$index) {
 			$existingClones = $this->cloneInfos[$index] ?? null;
 			if ($existingClones != null) {

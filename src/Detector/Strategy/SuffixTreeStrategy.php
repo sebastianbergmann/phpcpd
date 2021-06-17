@@ -13,8 +13,12 @@ use function is_array;
 use function array_keys;
 use function file_get_contents;
 use function token_get_all;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetectingSuffixTree;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\PhpToken;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\CloneInfo;
+use SebastianBergmann\PHPCPD\CodeClone;
+use SebastianBergmann\PHPCPD\CodeCloneFile;
+use SebastianBergmann\PHPCPD\CodeCloneMap;
 
 final class SuffixTreeStrategy extends AbstractStrategy
 {
@@ -40,14 +44,14 @@ final class SuffixTreeStrategy extends AbstractStrategy
             }
         }
         $tree = new ApproximateCloneDetectingSuffixTree($word);
-        $editDistance = 5;
+        $editDistance = 10;
         $headEquality = 10;
         /** @var CloneInfo[] */
         $cloneInfos = $tree->findClones($minTokens, $editDistance, $headEquality);
 
         foreach ($cloneInfos as $cloneInfo) {
             /** @var PhpToken */
-            $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length];
+            $lastToken = $word[$cloneInfo->position + $cloneInfo->length];
             $lines = $lastToken->line - $cloneInfo->token->line;
             /*
             printf(
@@ -58,23 +62,23 @@ final class SuffixTreeStrategy extends AbstractStrategy
                 $lines
             );
              */
-            $result->add(
-                new CodeClone(
-                    new CodeCloneFile($cloneInfo->token->file, $cloneInfo->token->line),
-                    new CodeCloneFile($t->file, $t->line),
-                    $lines,
-                    0
-                )
-            );
             /** @var int[] */
             $others = $cloneInfo->otherClones->extractFirstList();
             for ($j = 0; $j < count($others); $j++) {
                 $otherStart = $others[$j];
                 /** @var PhpToken */
-                $t = $this->word[$otherStart];
+                $t = $word[$otherStart];
                 /** @var PhpToken */
-                $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length];
+                $lastToken = $word[$cloneInfo->position + $cloneInfo->length];
                 $lines = $lastToken->line - $cloneInfo->token->line;
+                $result->add(
+                    new CodeClone(
+                        new CodeCloneFile($cloneInfo->token->file, $cloneInfo->token->line),
+                        new CodeCloneFile($t->file, $t->line),
+                        $lines,
+                        0
+                    )
+                );
                 /*
                 printf(
                     "    %s:%d-%d\n",
