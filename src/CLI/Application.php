@@ -129,9 +129,10 @@ Options for selecting files:
 
 Options for analysing files:
 
-  --fuzzy           Fuzz variable names
-  --min-lines <N>   Minimum number of identical lines (default: 5)
-  --min-tokens <N>  Minimum number of identical tokens (default: 70)
+  --fuzzy            Fuzz variable names
+  --min-lines <N>    Minimum number of identical lines (default: 5)
+  --min-tokens <N>   Minimum number of identical tokens (default: 70)
+  --algorithm <name> Select which algorithm to use ('rabin-karp' (default) or 'suffixtree')
 
 Options for report generation:
 
