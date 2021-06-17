@@ -25,6 +25,18 @@ use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 
+/**
+ *  This is a Rabin-Karp with an additional normalization steps before
+ *  the hashing happens.
+ *
+ *  1. Tokenization
+ *  2. Deletion of logic neutral tokens like T_CLOSE_TAG;T_COMMENT;
+ *      T_DOC_COMMENT; T_INLINE_HTML; T_NS_SEPARATOR; T_OPEN_TAG;
+ *      T_OPEN_TAG_WITH_ECHO; T_USE; T_WHITESPACE;
+ *  3. If needed deletion of variable names
+ *  4. Normalization of token + value using crc32
+ *  5. Now the classic Rabin-Karp hashing takes place
+ */
 final class DefaultStrategy extends AbstractStrategy
 {
     public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void
