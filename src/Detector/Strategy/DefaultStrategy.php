@@ -39,6 +39,11 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
  */
 final class DefaultStrategy extends AbstractStrategy
 {
+    /**
+     * @psalm-var array<string,array{0: string, 1: int}>
+     */
+    protected $hashes = [];
+
     public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void
     {
         $buffer                    = file_get_contents($file);
