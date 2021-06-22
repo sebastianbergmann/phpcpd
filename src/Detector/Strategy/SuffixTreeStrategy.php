@@ -84,7 +84,7 @@ final class SuffixTreeStrategy extends AbstractStrategy
                 /** @var PhpToken */
                 $t = $this->word[$otherStart];
                 /** @var PhpToken */
-                $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length];
+                $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length - 1];
                 $lines = $lastToken->line - $cloneInfo->token->line;
                 $this->result->add(
                     new CodeClone(
