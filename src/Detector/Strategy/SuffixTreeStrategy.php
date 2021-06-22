@@ -85,6 +85,10 @@ final class SuffixTreeStrategy extends AbstractStrategy
                 $t = $this->word[$otherStart];
                 /** @var PhpToken */
                 $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length - 1];
+                // If we stumbled upon the Sentinel, rewind one step.
+                if ($lastToken instanceof Sentinel) {
+                    $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length - 2];
+                }
                 $lines = $lastToken->line - $cloneInfo->token->line;
                 $this->result->add(
                     new CodeClone(
