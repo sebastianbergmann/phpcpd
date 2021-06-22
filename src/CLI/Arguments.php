@@ -66,7 +66,17 @@ final class Arguments
      */
     private $algorithm;
 
-    public function __construct(array $directories, array $suffixes, array $exclude, ?string $pmdCpdXmlLogfile, int $linesThreshold, int $tokensThreshold, bool $fuzzy, bool $verbose, bool $help, bool $version, ?string $algorithm)
+    /**
+     * @var int
+     */
+    private $editDistance;
+
+    /**
+     * @var int
+     */
+    private $headEquality;
+
+    public function __construct(array $directories, array $suffixes, array $exclude, ?string $pmdCpdXmlLogfile, int $linesThreshold, int $tokensThreshold, bool $fuzzy, bool $verbose, bool $help, bool $version, ?string $algorithm, int $editDistance, int $headEquality)
     {
         $this->directories      = $directories;
         $this->suffixes         = $suffixes;
@@ -79,6 +89,8 @@ final class Arguments
         $this->help             = $help;
         $this->version          = $version;
         $this->algorithm        = $algorithm;
+        $this->editDistance     = $editDistance;
+        $this->headEquality     = $headEquality;
     }
 
     /**
@@ -143,5 +155,15 @@ final class Arguments
     public function algorithm(): ?string
     {
         return $this->algorithm;
+    }
+
+    public function editDistance(): int
+    {
+        return $this->editDistance;
+    }
+
+    public function headEquality(): int
+    {
+        return $this->headEquality;
     }
 }

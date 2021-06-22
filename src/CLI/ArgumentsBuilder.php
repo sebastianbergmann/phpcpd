@@ -30,6 +30,8 @@ final class ArgumentsBuilder
                     'fuzzy',
                     'min-lines=',
                     'min-tokens=',
+                    'head-equality=',
+                    'edit-distance=',
                     'verbose',
                     'help',
                     'version',
@@ -50,6 +52,8 @@ final class ArgumentsBuilder
         $pmdCpdXmlLogfile = null;
         $linesThreshold   = 5;
         $tokensThreshold  = 70;
+        $editDistance     = 5;
+        $headEquality     = 10;
         $fuzzy            = false;
         $verbose          = false;
         $help             = false;
@@ -85,6 +89,16 @@ final class ArgumentsBuilder
 
                 case '--min-tokens':
                     $tokensThreshold = (int) $option[1];
+
+                    break;
+
+                case '--head-equality':
+                    $headEquality = (int) $option[1];
+
+                    break;
+
+                case '--edit-distance':
+                    $editDistance = (int) $option[1];
 
                     break;
 
@@ -129,7 +143,9 @@ final class ArgumentsBuilder
             $verbose,
             $help,
             $version,
-            $algorithm
+            $algorithm,
+            $editDistance,
+            $headEquality
         );
     }
 }

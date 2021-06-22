@@ -18,6 +18,7 @@ use SebastianBergmann\PHPCPD\Detector\Detector;
 use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTreeStrategy;
+use SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration;
 use SebastianBergmann\PHPCPD\Log\PMD;
 use SebastianBergmann\PHPCPD\Log\Text;
 use SebastianBergmann\Timer\ResourceUsageFormatter;
@@ -65,6 +66,8 @@ final class Application
             return 1;
         }
 
+        $config = new StrategyConfiguration($arguments);
+
         $strategy = $this->pickStrategy($arguments->algorithm());
 
         $timer = new Timer;
@@ -72,9 +75,7 @@ final class Application
 
         $clones = (new Detector($strategy))->copyPasteDetection(
             $files,
-            $arguments->linesThreshold(),
-            $arguments->tokensThreshold(),
-            $arguments->fuzzy()
+            $config
         );
 
         (new Text)->printResult($clones, $arguments->verbose());
@@ -129,10 +130,12 @@ Options for selecting files:
 
 Options for analysing files:
 
-  --fuzzy            Fuzz variable names
-  --min-lines <N>    Minimum number of identical lines (default: 5)
-  --min-tokens <N>   Minimum number of identical tokens (default: 70)
-  --algorithm <name> Select which algorithm to use ('rabin-karp' (default) or 'suffixtree')
+  --fuzzy             Fuzz variable names
+  --min-lines <N>     Minimum number of identical lines (default: 5)
+  --min-tokens <N>    Minimum number of identical tokens (default: 70)
+  --algorithm <name>  Select which algorithm to use ('rabin-karp' (default) or 'suffixtree')
+  --edit-distance <N> Distance in number of edits between two clones (only for suffixtree; default: 5)
+  --head-equality <N> Minimum equality at start of clone (only for suffixtree; default 10)
 
 Options for report generation:
 

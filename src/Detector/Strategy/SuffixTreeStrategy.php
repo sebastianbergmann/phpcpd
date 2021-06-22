@@ -28,9 +28,19 @@ final class SuffixTreeStrategy extends AbstractStrategy
      */
     private $word = [];
 
-    public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void
+    /**
+     * @var StrategyConfiguration
+     */
+    private $config;
+
+    /**
+     * @param string $file
+     * @param CodeCloneMap $result
+     * @return void
+     */
+    public function processFile(string $file, CodeCloneMap $result, StrategyConfiguration $config): void
     {
-        echo 'Process file ' . $file . PHP_EOL;
+        $this->config = $config;
         $content = file_get_contents($file);
         $tokens = token_get_all($content);
 
@@ -50,8 +60,6 @@ final class SuffixTreeStrategy extends AbstractStrategy
             }
         }
 
-        $this->minLines = $minLines;
-        $this->minTokens = $minTokens;
         $this->result = $result;
     }
 
@@ -59,13 +67,10 @@ final class SuffixTreeStrategy extends AbstractStrategy
     {
         // Sentinel = End of word
         $this->word[] = new Sentinel();
-        echo 'Total word length: ' . count($this->word) . PHP_EOL;
 
         $tree = new ApproximateCloneDetectingSuffixTree($this->word);
-        $editDistance = 5;
-        $headEquality = 10;
         /** @var CloneInfo[] */
-        $cloneInfos = $tree->findClones($this->minTokens, $editDistance, $headEquality);
+        $cloneInfos = $tree->findClones($this->config->minTokens(), $this->config->getEditDistance(), $this->config->getHeadEquality());
 
         foreach ($cloneInfos as $cloneInfo) {
             /** @var int[] */

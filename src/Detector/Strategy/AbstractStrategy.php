@@ -37,7 +37,7 @@ abstract class AbstractStrategy
         T_NS_SEPARATOR       => true,
     ];
 
-    abstract public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void;
+    abstract public function processFile(string $file, CodeCloneMap $result, StrategyConfiguration $config): void;
 
     public function postProcess(): void { }
 }
