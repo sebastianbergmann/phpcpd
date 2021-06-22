@@ -55,11 +55,11 @@ final class StrategyConfiguration
      */
     public function __construct(Arguments $arguments)
     {
-        $this->minLines     = $arguments->linesThreshold;
-        $this->minTokens    = $arguments->tokensThreshold;
-        $this->fuzzy        = $arguments->fuzzy;
-        $this->editDistance = $arguments->editDistance;
-        $this->headEquality = $arguments->headEquality;
+        $this->minLines     = $arguments->linesThreshold();
+        $this->minTokens    = $arguments->tokensThreshold();
+        $this->fuzzy        = $arguments->fuzzy();
+        $this->editDistance = $arguments->editDistance();
+        $this->headEquality = $arguments->headEquality();
     }
 
     public function getMinLines(): int
@@ -72,6 +72,11 @@ final class StrategyConfiguration
         return $this->minTokens;
     }
 
+    public function getFuzzy(): bool
+    {
+        return $this->fuzzy;
+    }
+
     public function getHeadEquality(): int
     {
         return $this->headEquality;
@@ -81,15 +86,4 @@ final class StrategyConfiguration
     {
         return $this->editDistance;
     }
-
-    public function getFuzzy(): bool
-    {
-        return $this->fuzzy;
-    }
-
-    public function getMinLines()
-    {
-        return $this->minLines;
-    }
-
 }
