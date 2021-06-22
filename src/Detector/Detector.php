@@ -11,6 +11,7 @@ namespace SebastianBergmann\PHPCPD\Detector;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
+use SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration;
 
 final class Detector
 {
@@ -19,12 +20,20 @@ final class Detector
      */
     private $strategy;
 
+    /**
+     * @param AbstractStrategy $strategy
+     */
     public function __construct(AbstractStrategy $strategy)
     {
         $this->strategy = $strategy;
     }
 
-    public function copyPasteDetection(iterable $files, int $minLines = 5, int $minTokens = 70, bool $fuzzy = false): CodeCloneMap
+    /**
+     * @param iterable $files
+     * @param StrategyConfiguration $config
+     * @return CodeCloneMap
+     */
+    public function copyPasteDetection(iterable $files, StrategyConfiguration $config): CodeCloneMap
     {
         $result = new CodeCloneMap;
 
@@ -35,10 +44,8 @@ final class Detector
 
             $this->strategy->processFile(
                 $file,
-                $minLines,
-                $minTokens,
                 $result,
-                $fuzzy
+                $config
             );
         }
 

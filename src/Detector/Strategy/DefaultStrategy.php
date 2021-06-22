@@ -44,7 +44,12 @@ final class DefaultStrategy extends AbstractStrategy
      */
     protected $hashes = [];
 
-    public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void
+    /**
+     * @param string $file
+     * @param CodeCloneMap $result
+     * @return void
+     */
+    public function processFile(string $file, CodeCloneMap $result, StrategyConfiguration $config): void
     {
         $buffer                    = file_get_contents($file);
         $currentTokenPositions     = [];
@@ -72,7 +77,7 @@ final class DefaultStrategy extends AbstractStrategy
 
                     $currentTokenRealPositions[$tokenNr++] = $token[2];
 
-                    if ($fuzzy && $token[0] === T_VARIABLE) {
+                    if ($config->getFuzzy() && $token[0] === T_VARIABLE) {
                         $token[1] = 'variable';
                     }
 
@@ -90,7 +95,7 @@ final class DefaultStrategy extends AbstractStrategy
         $found         = false;
         $tokenNr       = 0;
 
-        while ($tokenNr <= $count - $minTokens) {
+        while ($tokenNr <= $count - $config->getMinTokens()) {
             $line     = $currentTokenPositions[$tokenNr];
             $realLine = $currentTokenRealPositions[$tokenNr];
 
@@ -99,7 +104,7 @@ final class DefaultStrategy extends AbstractStrategy
                     substr(
                         $currentSignature,
                         $tokenNr * 5,
-                        $minTokens * 5
+                        $config->getMinTokens() * 5
                     ),
                     true
                 ),
@@ -120,13 +125,13 @@ final class DefaultStrategy extends AbstractStrategy
                 if ($found) {
                     $fileA        = $this->hashes[$firstHash][0];
                     $firstLineA   = $this->hashes[$firstHash][1];
-                    $lastToken    = ($tokenNr - 1) + $minTokens - 1;
+                    $lastToken    = ($tokenNr - 1) + $config->getMinTokens() - 1;
                     $lastLine     = $currentTokenPositions[$lastToken];
                     $lastRealLine = $currentTokenRealPositions[$lastToken];
                     $numLines     = $lastLine + 1 - $firstLine;
                     $realNumLines = $lastRealLine + 1 - $firstRealLine;
 
-                    if ($numLines >= $minLines &&
+                    if ($numLines >= $config->getMinLines() &&
                         ($fileA !== $file ||
                          $firstLineA !== $firstRealLine)) {
                         $result->add(
@@ -152,13 +157,13 @@ final class DefaultStrategy extends AbstractStrategy
         if ($found) {
             $fileA        = $this->hashes[$firstHash][0];
             $firstLineA   = $this->hashes[$firstHash][1];
-            $lastToken    = ($tokenNr - 1) + $minTokens - 1;
+            $lastToken    = ($tokenNr - 1) + $config->getMinTokens() - 1;
             $lastLine     = $currentTokenPositions[$lastToken];
             $lastRealLine = $currentTokenRealPositions[$lastToken];
             $numLines     = $lastLine + 1 - $firstLine;
             $realNumLines = $lastRealLine + 1 - $firstRealLine;
 
-            if ($numLines >= $minLines &&
+            if ($numLines >= $config->getMinLines() &&
                 ($fileA !== $file || $firstLineA !== $firstRealLine)) {
                 $result->add(
                     new CodeClone(
