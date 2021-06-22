@@ -104,12 +104,9 @@ final class Application
             case 'rabin-karp':
                 return new DefaultStrategy();
 
-                break;
-
             case 'suffixtree':
                 return new SuffixTreeStrategy();
 
-                break;
             default:
                 throw new Exception('Unsupported algorithm: ' . $algorithm);
         }
