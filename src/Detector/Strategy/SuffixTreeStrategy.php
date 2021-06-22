@@ -70,7 +70,11 @@ final class SuffixTreeStrategy extends AbstractStrategy
 
         $tree = new ApproximateCloneDetectingSuffixTree($this->word);
         /** @var CloneInfo[] */
-        $cloneInfos = $tree->findClones($this->config->minTokens(), $this->config->getEditDistance(), $this->config->getHeadEquality());
+        $cloneInfos = $tree->findClones(
+            $this->config->getMinTokens(),
+            $this->config->getEditDistance(),
+            $this->config->getHeadEquality()
+        );
 
         foreach ($cloneInfos as $cloneInfo) {
             /** @var int[] */
