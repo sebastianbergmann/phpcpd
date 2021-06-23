@@ -15,7 +15,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
  * it to the suffix tree. For the sentinel equality and object identity are
  * the same!
  */
-class Sentinel implements JavaObjectInterface
+class Sentinel extends AbstractToken
 {
     /** The hash value used. */
     private $hash;

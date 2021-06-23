@@ -120,7 +120,7 @@ final class ArgumentsBuilder
                     break;
 
                 case '--algorithm':
-                    $algorithm = $option[1];
+                    $algorithm = (string) $option[1];
 
                     break;
             }

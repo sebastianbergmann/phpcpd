@@ -19,14 +19,14 @@ use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetectingSuffixTree;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\CloneInfo;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\PhpToken;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\AbstractToken;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Token;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Sentinel;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\JavaObjectInterface;
 
 final class SuffixTreeStrategy extends AbstractStrategy
 {
     /**
-     * @var Token[]
+     * @var AbstractToken[]
      */
     private $word = [];
 

@@ -9,18 +9,8 @@
  */
 namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
 
-class PhpToken implements JavaObjectInterface
+class PhpToken extends AbstractToken
 {
-    public $tokenCode;
-
-    public $line;
-
-    public $file;
-
-    public $tokenName;
-
-    public $content;
-
     public function __construct(
         int $tokenCode,
         string $tokenName,
@@ -80,13 +70,5 @@ class PhpToken implements JavaObjectInterface
     public function equals(JavaObjectInterface $token): bool
     {
         return $token->hashCode() === $this->hashCode();
-    }
-
-    /**
-     * @return string
-     */
-    public function toString()
-    {
-        return $this->tokenName;
     }
 }
