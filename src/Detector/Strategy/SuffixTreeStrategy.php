@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHP Copy/Paste Detector (PHPCPD).
  *
@@ -9,17 +9,17 @@
  */
 namespace SebastianBergmann\PHPCPD\Detector\Strategy;
 
-use function is_array;
 use function array_keys;
 use function file_get_contents;
+use function is_array;
 use function token_get_all;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetectingSuffixTree;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\PhpToken;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\CloneInfo;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Sentinel;
 use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetectingSuffixTree;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\CloneInfo;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\PhpToken;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Sentinel;
 
 final class SuffixTreeStrategy extends AbstractStrategy
 {
@@ -33,16 +33,11 @@ final class SuffixTreeStrategy extends AbstractStrategy
      */
     private $config;
 
-    /**
-     * @param string $file
-     * @param CodeCloneMap $result
-     * @return void
-     */
     public function processFile(string $file, CodeCloneMap $result, StrategyConfiguration $config): void
     {
         $this->config = $config;
-        $content = file_get_contents($file);
-        $tokens = token_get_all($content);
+        $content      = file_get_contents($file);
+        $tokens       = token_get_all($content);
 
         foreach (array_keys($tokens) as $key) {
             $token = $tokens[$key];
@@ -79,6 +74,7 @@ final class SuffixTreeStrategy extends AbstractStrategy
         foreach ($cloneInfos as $cloneInfo) {
             /** @var int[] */
             $others = $cloneInfo->otherClones->extractFirstList();
+
             for ($j = 0; $j < count($others); $j++) {
                 $otherStart = $others[$j];
                 /** @var PhpToken */

@@ -39,5 +39,7 @@ abstract class AbstractStrategy
 
     abstract public function processFile(string $file, CodeCloneMap $result, StrategyConfiguration $config): void;
 
-    public function postProcess(): void { }
+    public function postProcess(): void
+    {
+    }
 }

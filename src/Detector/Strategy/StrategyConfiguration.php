@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHP Copy/Paste Detector (PHPCPD).
  *
@@ -18,41 +18,43 @@ use SebastianBergmann\PHPCPD\Arguments;
 final class StrategyConfiguration
 {
     /**
-     * Minimum lines to consider
+     * Minimum lines to consider.
+     *
      * @var int
      */
     private $minLines = 5;
 
     /**
      * Minimum tokens to consider in a clone.
+     *
      * @var int
      */
     private $minTokens = 70;
 
     /**
      * Edit distance to consider when comparing two clones
-     * Only available for the suffix-tree algorithm
+     * Only available for the suffix-tree algorithm.
+     *
      * @var int
      */
     private $editDistance = 5;
 
     /**
      * Tokens that must be equal to consider a clone
-     * Only available for the suffix-tree algorithm
+     * Only available for the suffix-tree algorithm.
+     *
      * @var int
      */
     private $headEquality = 10;
 
     /**
      * Fuzz variable names
-     * suffixtree always makes variables and functions fuzzy
+     * suffixtree always makes variables and functions fuzzy.
+     *
      * @var bool
      */
     private $fuzzy = false;
 
-    /**
-     * @param Arguments $arguments
-     */
     public function __construct(Arguments $arguments)
     {
         $this->minLines     = $arguments->linesThreshold();

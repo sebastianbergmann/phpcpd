@@ -20,19 +20,11 @@ final class Detector
      */
     private $strategy;
 
-    /**
-     * @param AbstractStrategy $strategy
-     */
     public function __construct(AbstractStrategy $strategy)
     {
         $this->strategy = $strategy;
     }
 
-    /**
-     * @param iterable $files
-     * @param StrategyConfiguration $config
-     * @return CodeCloneMap
-     */
     public function copyPasteDetection(iterable $files, StrategyConfiguration $config): CodeCloneMap
     {
         $result = new CodeCloneMap;

@@ -1,13 +1,24 @@
-<?php
-
+<?php declare(strict_types=1);
+/*
+ * This file is part of PHP Copy/Paste Detector (PHPCPD).
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
 
 class PhpToken implements JavaObjectInterface
 {
     public $tokenCode;
+
     public $line;
+
     public $file;
+
     public $tokenName;
+
     public $content;
 
     public function __construct(
@@ -19,14 +30,16 @@ class PhpToken implements JavaObjectInterface
     ) {
         $this->tokenCode = $tokenCode;
         $this->tokenName = $tokenName;
-        $this->line = $line;
-        $this->content = $content;
-        $this->file = $file;
+        $this->line      = $line;
+        $this->content   = $content;
+        $this->file      = $file;
     }
 
-    /**
-     * @return int
-     */
+    public function __toString()
+    {
+        return $this->tokenName;
+    }
+
     public function hashCode(): int
     {
         return (int) crc32($this->content);
@@ -64,21 +77,16 @@ class PhpToken implements JavaObjectInterface
         //return $tokenCode;
     }
 
-    /**
-     * @return boolean
-     */
-    public function equals(JavaObjectInterface $token): bool {
+    public function equals(JavaObjectInterface $token): bool
+    {
         return $token->hashCode() === $this->hashCode();
     }
 
     /**
      * @return string
      */
-    public function toString() {
-        return $this->tokenName;
-    }
-
-    public function __tostring() {
+    public function toString()
+    {
         return $this->tokenName;
     }
 }
