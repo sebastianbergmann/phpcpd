@@ -25,14 +25,14 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      *
      * @var int
      */
-    protected $minLength;
+    protected $minLength = 70;
 
     /**
      * The number of leaves reachable from the given node (1 for leaves).
      *
      * @var int[]
      * */
-    private $leafCount;
+    private $leafCount = [];
 
     /**
      * This is the distance between two entries in the {@link #cloneInfos} map.
@@ -69,7 +69,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      *
      * @var int
      */
-    private $headEquality;
+    private $headEquality = 10;
 
     /**
      * Create a new suffix tree from a given word. The word given as parameter
@@ -106,10 +106,9 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      * @param int $minLength    the minimal length of a clone in tokens (not lines)
      * @param int $maxErrors    the maximal number of errors/gaps allowed
      * @param int $headEquality the number of elements which have to be the same at the beginning of a clone
-     *
-     * @throws ConQATException
+     * @return CloneInfo[]
      */
-    public function findClones(int $minLength, int $maxErrors, int $headEquality)
+    public function findClones(int $minLength, int $maxErrors, int $headEquality): array
     {
         $this->minLength    = $minLength;
         $this->headEquality = $headEquality;
@@ -235,8 +234,6 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      * @param int $nodeWordLength the length of the word found along the nodes (this may be
      *                            different from the length along the input word due to gaps)
      * @param int $maxErrors      the number of errors still allowed
-     *
-     * @throws ConQATException
      *
      * @return bool whether some clone was reported
      */
@@ -451,7 +448,6 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
     }
 
     /**
-     * @throws ConQATException
      */
     private function reportClone(
         int $wordBegin,

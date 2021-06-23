@@ -48,7 +48,7 @@ class SuffixTree
     protected $INFTY;
 
     /** The word we are working on.
-     * @var array */
+     * @var AbstractToken[] */
     protected $word;
 
     /** The number of nodes created so far.
@@ -94,7 +94,7 @@ class SuffixTree
      *
      * @var int[]
      */
-    protected $nodeChildFirst;
+    protected $nodeChildFirst = [];
 
     /**
      * This array gives the next index of the child list or -1 if this is the
@@ -104,7 +104,7 @@ class SuffixTree
      *
      * @var int[]
      */
-    protected $nodeChildNext;
+    protected $nodeChildNext = [];
 
     /**
      * This array stores the actual name (=number) of the mode in the child
@@ -114,7 +114,7 @@ class SuffixTree
      *
      * @var int[]
      */
-    protected $nodeChildNode;
+    protected $nodeChildNode = [];
 
     /**
      * The node we are currently at as a "global" variable (as it is always

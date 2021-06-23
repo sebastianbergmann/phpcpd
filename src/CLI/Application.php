@@ -68,7 +68,7 @@ final class Application
 
         $config = new StrategyConfiguration($arguments);
 
-        $strategy = $this->pickStrategy($arguments->algorithm());
+        $strategy = $this->pickStrategy($arguments->algorithm(), $config);
 
         $timer = new Timer;
         $timer->start();
@@ -97,15 +97,15 @@ final class Application
         );
     }
 
-    private function pickStrategy(?string $algorithm): AbstractStrategy
+    private function pickStrategy(?string $algorithm, StrategyConfiguration $config): AbstractStrategy
     {
         switch ($algorithm) {
             case null:
             case 'rabin-karp':
-                return new DefaultStrategy();
+                return new DefaultStrategy($config);
 
             case 'suffixtree':
-                return new SuffixTreeStrategy();
+                return new SuffixTreeStrategy($config);
 
             default:
                 throw new Exception('Unsupported algorithm: ' . $algorithm);

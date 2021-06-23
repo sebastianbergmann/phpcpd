@@ -36,8 +36,7 @@ final class Detector
 
             $this->strategy->processFile(
                 $file,
-                $result,
-                $config
+                $result
             );
         }
 

@@ -15,8 +15,10 @@
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$argv</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="6">
+    <MixedArrayAccess occurrences="9">
       <code>$option[0]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
       <code>$option[1]</code>
       <code>$option[1]</code>
       <code>$option[1]</code>
