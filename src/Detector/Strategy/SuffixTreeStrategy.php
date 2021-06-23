@@ -13,6 +13,7 @@ use function array_keys;
 use function file_get_contents;
 use function is_array;
 use function token_get_all;
+use Exception;
 use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
@@ -20,22 +21,22 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetect
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\CloneInfo;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\PhpToken;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Sentinel;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\JavaObjectInterface;
 
 final class SuffixTreeStrategy extends AbstractStrategy
 {
     /**
-     * @var PhpToken[]
+     * @var Token[]
      */
     private $word = [];
 
     /**
-     * @var StrategyConfiguration
+     * @var ?CodeCloneMap
      */
-    private $config;
+    private $result;
 
-    public function processFile(string $file, CodeCloneMap $result, StrategyConfiguration $config): void
+    public function processFile(string $file, CodeCloneMap $result): void
     {
-        $this->config = $config;
         $content      = file_get_contents($file);
         $tokens       = token_get_all($content);
 
@@ -60,6 +61,10 @@ final class SuffixTreeStrategy extends AbstractStrategy
 
     public function postProcess(): void
     {
+        if (empty($this->result)) {
+            throw new Exception('Missing result');
+        }
+
         // Sentinel = End of word
         $this->word[] = new Sentinel();
 
@@ -77,9 +82,7 @@ final class SuffixTreeStrategy extends AbstractStrategy
 
             for ($j = 0; $j < count($others); $j++) {
                 $otherStart = $others[$j];
-                /** @var PhpToken */
                 $t = $this->word[$otherStart];
-                /** @var PhpToken */
                 $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length - 1];
                 // If we stumbled upon the Sentinel, rewind one step.
                 if ($lastToken instanceof Sentinel) {

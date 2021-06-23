@@ -20,6 +20,12 @@ class Sentinel implements JavaObjectInterface
     /** The hash value used. */
     private $hash;
 
+    /** @var int Needed for compatiblity with PhpToken */
+    public $line = -1;
+
+    /** @var string Needed for compatiblity with PhpToken */
+    public $file = "<no file>"
+
     public function __construct()
     {
         $this->hash = (int) rand(0, PHP_INT_MAX);

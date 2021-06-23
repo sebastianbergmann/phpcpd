@@ -37,7 +37,14 @@ abstract class AbstractStrategy
         T_NS_SEPARATOR       => true,
     ];
 
-    abstract public function processFile(string $file, CodeCloneMap $result, StrategyConfiguration $config): void;
+    protected $config;
+
+    public function __construct(StrategyConfiguration $config)
+    {
+        $this->config = $config;
+    }
+
+    abstract public function processFile(string $file, CodeCloneMap $result): void;
 
     public function postProcess(): void
     {
