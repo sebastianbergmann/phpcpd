@@ -44,11 +44,6 @@ final class DefaultStrategy extends AbstractStrategy
      */
     protected $hashes = [];
 
-    /**
-     * @param string $file
-     * @param CodeCloneMap $result
-     * @return void
-     */
     public function processFile(string $file, CodeCloneMap $result, StrategyConfiguration $config): void
     {
         $buffer                    = file_get_contents($file);
