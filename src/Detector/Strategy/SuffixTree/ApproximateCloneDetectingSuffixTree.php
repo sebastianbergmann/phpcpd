@@ -46,7 +46,6 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      *
      * @var array<int, CloneInfo>
      */
-    //private final ListMap<Integer, CloneInfo> cloneInfos = new ListMap<Integer, CloneInfo>();
     private $cloneInfos = [];
 
     /**
@@ -79,14 +78,14 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      * This only word correctly if the given word is closed using a sentinel
      * character.
      *
-     * @param array $word List of tokens to analyze
+     * @param AbstractToken[] $word List of tokens to analyze
      */
     public function __construct(array $word)
     {
+        parent::__construct($word);
+
         $arr            = array_fill(0, $this->MAX_LENGTH, 0);
         $this->edBuffer = array_fill(0, $this->MAX_LENGTH, $arr);
-
-        parent::__construct($word);
         $this->ensureChildLists();
         $this->leafCount = array_fill(0, $this->numNodes, 0);
         $this->initLeafCount(0);
@@ -147,9 +146,10 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
         $map = [];
 
         for ($index = 0; $index <= count($this->word); $index++) {
+            /** @var AbstractToken|null */
             $existingClones = $this->cloneInfos[$index] ?? null;
 
-            if ($existingClones != null) {
+            if ($existingClones !== null) {
                 foreach ($existingClones as $ci) {
                     // length = number of tokens
                     // TODO: min token length

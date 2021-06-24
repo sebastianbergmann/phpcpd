@@ -36,7 +36,7 @@ class Sentinel extends AbstractToken
         return $obj instanceof self;
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
         return '$';
     }
