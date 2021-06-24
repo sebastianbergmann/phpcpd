@@ -13,15 +13,22 @@ abstract class AbstractToken
 {
     /** @var int */
     public $tokenCode;
+
     /** @var int */
     public $line;
+
     /** @var string */
     public $file;
+
     /** @var string */
     public $tokenName;
+
     /** @var string */
     public $content;
-    abstract public function hashCode(): int;
-    abstract public function equals(AbstractToken $obj): bool;
+
     abstract public function __toString(): string;
+
+    abstract public function hashCode(): int;
+
+    abstract public function equals(self $obj): bool;
 }

@@ -22,12 +22,17 @@ class Sentinel extends AbstractToken
 
     public function __construct()
     {
-        $this->hash = rand(0, PHP_INT_MAX);
+        $this->hash      = rand(0, PHP_INT_MAX);
         $this->tokenCode = -1;
-        $this->line = -1;
-        $this->file = '<no file>';
+        $this->line      = -1;
+        $this->file      = '<no file>';
         $this->tokenName = '<no token name>';
-        $this->content = '<no token content>';
+        $this->content   = '<no token content>';
+    }
+
+    public function __toString(): string
+    {
+        return '$';
     }
 
     public function hashCode(): int
@@ -39,10 +44,5 @@ class Sentinel extends AbstractToken
     {
         // Original code uses physical object equality, not present in PHP.
         return $obj instanceof self;
-    }
-
-    public function __toString(): string
-    {
-        return '$';
     }
 }

@@ -54,7 +54,7 @@ class SuffixTreeHashTable
     /**
      * Storage space for the character part of the key.
      *
-     * @var array<AbstractToken|null>
+     * @var array<null|AbstractToken>
      */
     private $keyChars;
 
@@ -147,11 +147,11 @@ class SuffixTreeHashTable
      * {@link SuffixTree} class.
      *
      * @param int[] $nodeFirstIndex an array giving for each node the index where the first child
-     *            will be stored (or -1 if it has no children)
-     * @param int[] $nodeNextIndex this array gives the next index of the child list or -1 if
-     *            this is the last one
-     * @param int[] $nodeChild this array stores the actual name (=number) of the mode in the
-     *            child list
+     *                              will be stored (or -1 if it has no children)
+     * @param int[] $nodeNextIndex  this array gives the next index of the child list or -1 if
+     *                              this is the last one
+     * @param int[] $nodeChild      this array stores the actual name (=number) of the mode in the
+     *                              child list
      */
     public function extractChildLists(array &$nodeFirstIndex, array &$nodeNextIndex, array &$nodeChild): void
     {
@@ -178,8 +178,8 @@ class SuffixTreeHashTable
     private function hashFind(int $keyNode, AbstractToken $keyChar): int
     {
         $this->_numFind++;
-        $hash = $keyChar->hashCode();
-        $pos = $this->posMod($this->primaryHash($keyNode, $hash));
+        $hash      = $keyChar->hashCode();
+        $pos       = $this->posMod($this->primaryHash($keyNode, $hash));
         $secondary = $this->secondaryHash($keyNode, $hash);
 
         while ($this->keyChars[$pos] !== null) {
