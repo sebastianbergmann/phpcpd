@@ -167,7 +167,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
 
                         for ($j = 0; $j < count($others); $j++) {
                             $otherStart = $others[$j];
-                            /** @var PhpToken */
+                            /** @var AbstractToken */
                             $t = $this->word[$otherStart];
                         }
                     }
@@ -188,9 +188,9 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      * This should return true, if the provided character is not allowed to
      * match with anything else (e.g. is a sentinel).
      */
-    protected function mayNotMatch(JavaObjectInterface $character)
+    protected function mayNotMatch(AbstractToken $token)
     {
-        return $character instanceof Sentinel;
+        return $token instanceof Sentinel;
     }
 
     /**
@@ -477,7 +477,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
         $occurrences = 1 + $otherClones->size();
 
         // check whether we may start from here
-        /** @var PhpToken */
+        /** @var AbstractToken */
         $t = $this->word[$wordBegin];
         /** @var CloneInfo */
         $newInfo = new CloneInfo($length, $wordBegin, $occurrences, $t, $otherClones);
@@ -501,7 +501,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
         for ($i = $wordBegin; $i < $wordEnd; $i += $this->INDEX_SPREAD) {
             $this->cloneInfos[$i][] = new CloneInfo($length - ($i - $wordBegin), $wordBegin, $occurrences, $t, $otherClones);
         }
-        /** @var PhpToken */
+        /** @var AbstractToken */
         $t = $this->word[$wordBegin];
 
         for ($clone = 0; $clone < $otherClones->size(); $clone++) {
@@ -509,7 +509,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
             $otherLength = $otherClones->getSecond($clone);
 
             for ($j = 0; $j < $otherLength; $j++) {
-                /** @var PhpToken */
+                /** @var AbstractToken */
                 $r = $this->word[$j + $start];
             }
 
@@ -532,9 +532,9 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      */
     private function fillEDBuffer(int $i, int $j, int $iOffset, int $jOffset)
     {
-        /** @var JavaObjectInterface */
+        /** @var AbstractToken */
         $iChar = $this->word[$iOffset + $i - 1];
-        /** @var JavaObjectInterface */
+        /** @var AbstractToken */
         $jChar = $this->word[$jOffset + $j - 1];
 
         $insertDelete = 1 + min($this->edBuffer[$i - 1][$j], $this->edBuffer[$i][$j - 1]);

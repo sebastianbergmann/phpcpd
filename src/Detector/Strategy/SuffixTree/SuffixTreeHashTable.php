@@ -110,7 +110,7 @@ class SuffixTreeHashTable
      * Returns the next node for the given (node, character) key pair or a
      * negative value if no next node is stored for this key.
      */
-    public function get(int $keyNode, JavaObjectInterface $keyChar): int
+    public function get(int $keyNode, AbstractToken $keyChar): int
     {
         $pos = $this->hashFind($keyNode, $keyChar);
 
@@ -124,7 +124,7 @@ class SuffixTreeHashTable
     /**
      * Inserts the given result node for the (node, character) key pair.
      */
-    public function put(int $keyNode, JavaObjectInterface $keyChar, int $resultNode): void
+    public function put(int $keyNode, AbstractToken $keyChar, int $resultNode): void
     {
         $pos = $this->hashFind($keyNode, $keyChar);
 
@@ -179,7 +179,7 @@ class SuffixTreeHashTable
      *
      * @return int
      */
-    private function hashFind(int $keyNode, JavaObjectInterface $keyChar)
+    private function hashFind(int $keyNode, AbstractToken $keyChar)
     {
         $this->_numFind++;
         /** @var int */

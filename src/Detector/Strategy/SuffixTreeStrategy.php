@@ -45,7 +45,7 @@ final class SuffixTreeStrategy extends AbstractStrategy
 
             if (is_array($token)) {
                 if (!isset($this->tokensIgnoreList[$token[0]])) {
-                    $this->word[] = new PhpToken(
+                    $this->word[] = new Token(
                         $token[0],
                         token_name($token[0]),
                         $token[2],

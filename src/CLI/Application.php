@@ -73,10 +73,7 @@ final class Application
         $timer = new Timer;
         $timer->start();
 
-        $clones = (new Detector($strategy))->copyPasteDetection(
-            $files,
-            $config
-        );
+        $clones = (new Detector($strategy))->copyPasteDetection($files);
 
         (new Text)->printResult($clones, $arguments->verbose());
 

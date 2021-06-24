@@ -258,12 +258,8 @@ class SuffixTree
      * explicit if it not already is and this is not the end-point. It returns
      * true if the end-point was reached. The newly created (or reached)
      * explicit node is returned in the "global" variable.
-     *
-     * @param object $nextCharacter
-     *
-     * @return bool
      */
-    private function testAndSplit(int $refWordEnd, JavaObjectInterface $nextCharacter)
+    private function testAndSplit(int $refWordEnd, AbstractToken $nextCharacter): bool
     {
         if ($this->currentNode < 0) {
             // trap state is always end state
