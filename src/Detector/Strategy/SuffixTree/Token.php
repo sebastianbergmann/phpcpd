@@ -25,7 +25,7 @@ class Token extends AbstractToken
         $this->file      = $file;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->tokenName;
     }
