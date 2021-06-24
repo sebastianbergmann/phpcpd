@@ -17,12 +17,17 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
  */
 class Sentinel extends AbstractToken
 {
-    /** The hash value used. */
+    /** @var int The hash value used. */
     private $hash;
 
     public function __construct()
     {
-        $this->hash = (int) rand(0, PHP_INT_MAX);
+        $this->hash = rand(0, PHP_INT_MAX);
+        $this->tokenCode = -1;
+        $this->line = -1;
+        $this->file = '<no file>';
+        $this->tokenName = '<no token name>';
+        $this->content = '<no token content>';
     }
 
     public function hashCode(): int

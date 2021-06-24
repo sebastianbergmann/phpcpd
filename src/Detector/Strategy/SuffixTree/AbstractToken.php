@@ -11,7 +11,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
 
 abstract class AbstractToken
 {
-    /** @var string */
+    /** @var int */
     public $tokenCode;
     /** @var int */
     public $line;
