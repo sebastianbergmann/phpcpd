@@ -56,7 +56,7 @@ class PairList
      * @param S $firstType
      * @param T $secondType
      */
-    public function __construct(int $initialCapacity = 16, $firstType, $secondType)
+    public function __construct(int $initialCapacity, $firstType, $secondType)
     {
         if ($initialCapacity < 1) {
             $initialCapacity = 1;
@@ -141,6 +141,7 @@ class PairList
 
     /**
      * Sets the first element at given index.
+     *
      * @param T $value
      */
     public function setSecond(int $i, $value): void

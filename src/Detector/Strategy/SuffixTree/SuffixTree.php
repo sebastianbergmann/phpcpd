@@ -42,18 +42,21 @@ class SuffixTree
 {
     /**
      * Infinity in this context.
+     *
      * @var int
      */
     protected $INFTY;
 
     /**
      * The word we are working on.
+     *
      * @var AbstractToken[]
      */
     protected $word;
 
     /**
      * The number of nodes created so far.
+     *
      * @var int
      */
     protected $numNodes = 0;

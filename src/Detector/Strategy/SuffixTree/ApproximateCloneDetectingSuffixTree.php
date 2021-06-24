@@ -105,6 +105,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      * @param int $minLength    the minimal length of a clone in tokens (not lines)
      * @param int $maxErrors    the maximal number of errors/gaps allowed
      * @param int $headEquality the number of elements which have to be the same at the beginning of a clone
+     *
      * @return CloneInfo[]
      */
     public function findClones(int $minLength, int $maxErrors, int $headEquality): array
@@ -369,8 +370,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
         int $node,
         int $maxErrors,
         int $currentNodeWordLength
-    )
-    {
+    ) {
         $this->edBuffer[0][0] = 0;
         $currentLength        = 1;
 
@@ -397,11 +397,11 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
                 $best = min(
                     $best,
                     $this->fillEDBuffer(
-                            $k,
-                            $currentLength,
-                            $wordPosition,
-                            $this->nodeWordBegin[$node]
-                        )
+                        $k,
+                        $currentLength,
+                        $wordPosition,
+                        $this->nodeWordBegin[$node]
+                    )
                 );
             }
 
@@ -409,21 +409,21 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
                 $best = min(
                     $best,
                     $this->fillEDBuffer(
-                            $currentLength,
-                            $k,
-                            $wordPosition,
-                            $this->nodeWordBegin[$node]
-                        )
+                        $currentLength,
+                        $k,
+                        $wordPosition,
+                        $this->nodeWordBegin[$node]
+                    )
                 );
             }
             $best = min(
                 $best,
                 $this->fillEDBuffer(
-                        $currentLength,
-                        $currentLength,
-                        $wordPosition,
-                        $this->nodeWordBegin[$node]
-                    )
+                    $currentLength,
+                    $currentLength,
+                    $wordPosition,
+                    $this->nodeWordBegin[$node]
+                )
             );
 
             if ($best > $maxErrors ||
@@ -437,16 +437,13 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
         return $currentLength;
     }
 
-    /**
-     */
     private function reportClone(
         int $wordBegin,
         int $wordEnd,
         int $currentNode,
         int $nodeWordPos,
         int $nodeWordLength
-    ): void
-    {
+    ): void {
         $length = $wordEnd - $wordBegin;
 
         if ($length < $this->minLength || $nodeWordLength < $this->minLength) {
@@ -466,7 +463,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
         $occurrences = 1 + $otherClones->size();
 
         // check whether we may start from here
-        $t = $this->word[$wordBegin];
+        $t       = $this->word[$wordBegin];
         $newInfo = new CloneInfo($length, $wordBegin, $occurrences, $t, $otherClones);
 
         for ($index = max(0, $wordBegin - $this->INDEX_SPREAD + 1); $index <= $wordBegin; $index++) {
@@ -492,6 +489,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
         for ($clone = 0; $clone < $otherClones->size(); $clone++) {
             $start       = $otherClones->getFirst($clone);
             $otherLength = $otherClones->getSecond($clone);
+
             for ($i = 0; $i < $otherLength; $i += $this->INDEX_SPREAD) {
                 $this->cloneInfos[$start + $i][] = new CloneInfo($otherLength - $i, $wordBegin, $occurrences, $t, $otherClones);
             }
@@ -535,8 +533,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
         int $currentNode,
         int $distance,
         int $wordStart
-    ): void
-    {
+    ): void {
         for ($nextNode = $this->nodeChildFirst[$currentNode]; $nextNode >= 0; $nextNode = $this->nodeChildNext[$nextNode]) {
             $node = $this->nodeChildNode[$nextNode];
             $this->findRemainingClones($clonePositions, $nodeWordLength, $node, $distance

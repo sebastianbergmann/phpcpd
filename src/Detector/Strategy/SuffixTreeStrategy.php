@@ -17,11 +17,10 @@ use Exception;
 use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetectingSuffixTree;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\CloneInfo;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\AbstractToken;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Token;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetectingSuffixTree;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Sentinel;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Token;
 
 final class SuffixTreeStrategy extends AbstractStrategy
 {
@@ -37,8 +36,8 @@ final class SuffixTreeStrategy extends AbstractStrategy
 
     public function processFile(string $file, CodeCloneMap $result): void
     {
-        $content      = file_get_contents($file);
-        $tokens       = token_get_all($content);
+        $content = file_get_contents($file);
+        $tokens  = token_get_all($content);
 
         foreach (array_keys($tokens) as $key) {
             $token = $tokens[$key];
@@ -68,7 +67,7 @@ final class SuffixTreeStrategy extends AbstractStrategy
         // Sentinel = End of word
         $this->word[] = new Sentinel();
 
-        $tree = new ApproximateCloneDetectingSuffixTree($this->word);
+        $tree       = new ApproximateCloneDetectingSuffixTree($this->word);
         $cloneInfos = $tree->findClones(
             $this->config->getMinTokens(),
             $this->config->getEditDistance(),
@@ -81,8 +80,8 @@ final class SuffixTreeStrategy extends AbstractStrategy
 
             for ($j = 0; $j < count($others); $j++) {
                 $otherStart = $others[$j];
-                $t = $this->word[$otherStart];
-                $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length - 1];
+                $t          = $this->word[$otherStart];
+                $lastToken  = $this->word[$cloneInfo->position + $cloneInfo->length - 1];
                 // If we stumbled upon the Sentinel, rewind one step.
                 if ($lastToken instanceof Sentinel) {
                     $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length - 2];

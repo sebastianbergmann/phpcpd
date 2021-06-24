@@ -11,7 +11,6 @@ namespace SebastianBergmann\PHPCPD\Detector;
 
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
-use SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration;
 
 final class Detector
 {
