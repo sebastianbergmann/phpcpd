@@ -20,12 +20,6 @@ class Sentinel extends AbstractToken
     /** The hash value used. */
     private $hash;
 
-    /** @var int Needed for compatiblity with PhpToken */
-    public $line = -1;
-
-    /** @var string Needed for compatiblity with PhpToken */
-    public $file = "<no file>"
-
     public function __construct()
     {
         $this->hash = (int) rand(0, PHP_INT_MAX);
@@ -36,7 +30,7 @@ class Sentinel extends AbstractToken
         return $this->hash;
     }
 
-    public function equals(JavaObjectInterface $obj): bool
+    public function equals(AbstractToken $obj): bool
     {
         // Original code uses physical object equality, not present in PHP.
         return $obj instanceof self;

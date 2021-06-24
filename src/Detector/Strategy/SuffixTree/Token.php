@@ -9,7 +9,7 @@
  */
 namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
 
-class PhpToken extends AbstractToken
+class Token extends AbstractToken
 {
     public function __construct(
         int $tokenCode,
@@ -67,7 +67,7 @@ class PhpToken extends AbstractToken
         //return $tokenCode;
     }
 
-    public function equals(JavaObjectInterface $token): bool
+    public function equals(AbstractToken $token): bool
     {
         return $token->hashCode() === $this->hashCode();
     }
