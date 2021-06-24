@@ -54,7 +54,7 @@ class SuffixTreeHashTable
     /**
      * Storage space for the character part of the key.
      *
-     * @var object[]
+     * @var array<AbstractToken|null>
      */
     private $keyChars;
 
@@ -146,19 +146,17 @@ class SuffixTreeHashTable
      * The method is package visible, as it is tighly coupled to the
      * {@link SuffixTree} class.
      *
-     * @param int[] nodeFirstIndex an array giving for each node the index where the first child
+     * @param int[] $nodeFirstIndex an array giving for each node the index where the first child
      *            will be stored (or -1 if it has no children)
-     * @param int[] nodeNextIndex this array gives the next index of the child list or -1 if
+     * @param int[] $nodeNextIndex this array gives the next index of the child list or -1 if
      *            this is the last one
-     * @param int[] nodeChild this array stores the actual name (=number) of the mode in the
+     * @param int[] $nodeChild this array stores the actual name (=number) of the mode in the
      *            child list
-     *
-     * @throws ArrayIndexOutOfBoundsException if any of the given arrays was too small
      */
     public function extractChildLists(array &$nodeFirstIndex, array &$nodeNextIndex, array &$nodeChild): void
     {
         // Instead of Arrays.fill($nodeFirstIndex, -1);
-        foreach ($nodeFirstIndex as $k => $v) {
+        foreach (array_keys($nodeFirstIndex) as $k) {
             $nodeFirstIndex[$k] = -1;
         }
         $free = 0;
@@ -176,17 +174,12 @@ class SuffixTreeHashTable
     /**
      * Returns the position of the (node,char) key in the hash map or the
      * position to insert it into if it is not yet in.
-     *
-     * @return int
      */
-    private function hashFind(int $keyNode, AbstractToken $keyChar)
+    private function hashFind(int $keyNode, AbstractToken $keyChar): int
     {
         $this->_numFind++;
-        /** @var int */
         $hash = $keyChar->hashCode();
-        /** @var int */
         $pos = $this->posMod($this->primaryHash($keyNode, $hash));
-        /** @var int */
         $secondary = $this->secondaryHash($keyNode, $hash);
 
         while ($this->keyChars[$pos] !== null) {
@@ -202,20 +195,16 @@ class SuffixTreeHashTable
 
     /**
      * Returns the primary hash value for a (node, character) key pair.
-     *
-     * @return int
      */
-    private function primaryHash(int $keyNode, int $keyCharHash)
+    private function primaryHash(int $keyNode, int $keyCharHash): int
     {
         return $keyCharHash ^ (13 * $keyNode);
     }
 
     /**
      * Returns the secondary hash value for a (node, character) key pair.
-     *
-     * @return int
      */
-    private function secondaryHash(int $keyNode, int $keyCharHash)
+    private function secondaryHash(int $keyNode, int $keyCharHash): int
     {
         $result = $this->posMod(($keyCharHash ^ (1025 * $keyNode)));
 
@@ -229,10 +218,8 @@ class SuffixTreeHashTable
     /**
      * Returns the smallest non-negative number congruent to x modulo
      * {@link #tableSize}.
-     *
-     * @return int
      */
-    private function posMod(int $x)
+    private function posMod(int $x): int
     {
         $x %= $this->tableSize;
 

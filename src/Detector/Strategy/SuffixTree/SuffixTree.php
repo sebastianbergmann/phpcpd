@@ -42,17 +42,20 @@ class SuffixTree
 {
     /**
      * Infinity in this context.
-     *
      * @var int
      */
     protected $INFTY;
 
-    /** The word we are working on.
-     * @var AbstractToken[] */
+    /**
+     * The word we are working on.
+     * @var AbstractToken[]
+     */
     protected $word;
 
-    /** The number of nodes created so far.
-     * @var int */
+    /**
+     * The number of nodes created so far.
+     * @var int
+     */
     protected $numNodes = 0;
 
     /**
@@ -139,14 +142,16 @@ class SuffixTree
      *
      * @var int
      */
-    private $explicitNode;
+    private $explicitNode = 0;
 
     /**
      * Create a new suffix tree from a given word. The word given as parameter
      * is used internally and should not be modified anymore, so copy it before
      * if required.
+     *
+     * @param AbstractToken[] $word
      */
-    public function __construct(array $word)
+    public function __construct($word)
     {
         $this->word  = $word;
         $size        = count($word);
@@ -164,36 +169,6 @@ class SuffixTree
             $this->update($i);
             $this->canonize($i + 1);
         }
-    }
-
-    /**
-     * Returns whether the given word is contained in the string given at
-     * construction time.
-     *
-     * @return bool
-     */
-    public function containsWord(array $find)
-    {
-        $node     = 0;
-        $findSize = count($find);
-
-        for ($i = 0; $i < $findSize;) {
-            /** @var int */
-            $next = $this->nextNode->get($node, $find[$i]);
-
-            if ($next < 0) {
-                return false;
-            }
-
-            for ($j = $this->nodeWordBegin[$next]; $j < $this->nodeWordEnd[$next] && $i < $findSize; ++$i, ++$j) {
-                if (!$this->word[$j]->equals($find[$i])) {
-                    return false;
-                }
-            }
-            $node = $next;
-        }
-
-        return true;
     }
 
     /**
@@ -276,7 +251,6 @@ class SuffixTree
             return true;
         }
 
-        /** @var int */
         $next = $this->nextNode->get($this->currentNode, $this->word[$this->refWordBegin]);
 
         if ($nextCharacter->equals($this->word[$this->nodeWordBegin[$next] + $refWordEnd - $this->refWordBegin])) {
@@ -317,7 +291,6 @@ class SuffixTree
             return;
         }
 
-        /** @var int */
         $next = $this->nextNode->get(
             $this->currentNode,
             $this->word[$this->refWordBegin]

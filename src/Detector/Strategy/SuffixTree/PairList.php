@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
 
+use Exception;
+
 /**
  * A list for storing pairs in a specific order.
  *
@@ -16,6 +18,9 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
  *
  * @version $Rev: 51770 $
  * @ConQAT.Rating GREEN Hash: 7459D6D0F59028B37DD23DD091BDCEEA
+ *
+ * @template T
+ * @template S
  */
 class PairList
 {
@@ -36,18 +41,22 @@ class PairList
     /**
      * The array used for storing the S.
      *
-     * @var object[]
+     * @var S[]
      */
     private $firstElements;
 
     /**
      * The array used for storing the T.
      *
-     * @var object[]
+     * @var T[]
      */
     private $secondElements;
 
-    public function __construct(int $initialCapacity = 16)
+    /**
+     * @param S $firstType
+     * @param T $secondType
+     */
+    public function __construct(int $initialCapacity = 16, $firstType, $secondType)
     {
         if ($initialCapacity < 1) {
             $initialCapacity = 1;
@@ -70,6 +79,9 @@ class PairList
 
     /**
      * Add the given pair to the list.
+     *
+     * @param S $first
+     * @param T $second
      */
     public function add($first, $second): void
     {
@@ -92,7 +104,11 @@ class PairList
         }
     }
 
-    /** Returns the first element at given index. */
+    /**
+     * Returns the first element at given index.
+     *
+     * @return S
+     */
     public function getFirst(int $i)
     {
         $this->checkWithinBounds($i);
@@ -100,14 +116,22 @@ class PairList
         return $this->firstElements[$i];
     }
 
-    /** Sets the first element at given index. */
+    /**
+     * Sets the first element at given index.
+     *
+     * @param S $value
+     */
     public function setFirst(int $i, $value): void
     {
         $this->checkWithinBounds($i);
         $this->firstElements[$i] = $value;
     }
 
-    /** Returns the second element at given index. */
+    /**
+     * Returns the second element at given index.
+     *
+     * @return T
+     */
     public function getSecond(int $i)
     {
         $this->checkWithinBounds($i);
@@ -115,17 +139,23 @@ class PairList
         return $this->secondElements[$i];
     }
 
-    /** Sets the first element at given index. */
+    /**
+     * Sets the first element at given index.
+     * @param T $value
+     */
     public function setSecond(int $i, $value): void
     {
         $this->checkWithinBounds($i);
         $this->secondElements[$i] = $value;
     }
 
-    /** Creates a new list containing all first elements. */
+    /**
+     * Creates a new list containing all first elements.
+     *
+     * @return S[]
+     */
     public function extractFirstList(): array
     {
-        //array $result = new ArrayList<S>($this->size + 1);
         $result = [];
 
         for ($i = 0; $i < $this->size; $i++) {
@@ -135,10 +165,13 @@ class PairList
         return $result;
     }
 
-    /** Creates a new list containing all second elements. */
+    /**
+     * Creates a new list containing all second elements.
+     *
+     * @return T[]
+     */
     public function extractSecondList(): array
     {
-        //$result = new ArrayList<T>($this->size + 1);
         $result = [];
 
         for ($i = 0; $i < $this->size; $i++) {
@@ -146,17 +179,6 @@ class PairList
         }
 
         return $result;
-    }
-
-    /**
-     * Swaps the pairs of this list. Is S and T are different types, this will
-     * be extremely dangerous.
-     */
-    public function swapPairs(): void
-    {
-        $temp                 = $this->firstElements;
-        $this->firstElements  = $this->secondElements;
-        $this->secondElements = $temp;
     }
 
     /** Swaps the entries located at indexes $i and $j. */
@@ -182,26 +204,6 @@ class PairList
         $this->size--;
     }
 
-    public function toString(): string
-    {
-        $result = '';
-        $result += ('[');
-
-        for ($i = 0; $i < $this->size; $i++) {
-            if ($i != 0) {
-                $result .= ',';
-            }
-            $result .= '(';
-            $result .= (string) $this->firstElements[$i];
-            $result .= ',';
-            $result .= (string) $this->secondElements[$i];
-            $result .= ')';
-        }
-        $result .= ']';
-
-        return $result;
-    }
-
     public function hashCode(): int
     {
         $prime = 31;
@@ -211,49 +213,6 @@ class PairList
         return $prime * $hash + crc32(serialize($this->secondElements));
     }
 
-    public function equals(self $obj): bool
-    {
-        // TODO: Doesn't work in PHP
-        if ($this === $obj) {
-            return true;
-        }
-
-        if (!($obj instanceof self)) {
-            return false;
-        }
-
-        $other = $obj;
-
-        if ($this->size !== $other->size) {
-            return false;
-        }
-
-        for ($i = 0; $i < $this->size; $i++) {
-            if (!($this->firstElements[$i] == $other->firstElements[$i]) ||
-                    !($this->secondElements[$i] != $this->secondElements[$i])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /** Make sure there is space for at least the given amount of elements. */
-    protected function ensureSpace(int $space): void
-    {
-        if ($space <= count($this->firstElements)) {
-            return;
-        }
-
-        $oldFirst  = $this->firstElements;
-        $oldSecond = $this->secondElements;
-        $newSize   = count($this->firstElements) * 2;
-
-        while ($newSize < $space) {
-            $newSize *= 2;
-        }
-    }
-
     /**
      * Checks whether the given <code>$i</code> is within the bounds. Throws an
      * exception otherwise.
@@ -261,7 +220,7 @@ class PairList
     private function checkWithinBounds(int $i): void
     {
         if ($i < 0 || $i >= $this->size) {
-            throw new Exception('Out of bounds: ' + $i);
+            throw new Exception('Out of bounds: ' . $i);
         }
     }
 }
