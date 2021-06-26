@@ -17,7 +17,6 @@ use SebastianBergmann\PHPCPD\ArgumentsBuilder;
 use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
 use SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration;
-use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTreeStrategy;
 
 /**
  * @covers \SebastianBergmann\PHPCPD\Detector\Detector
@@ -299,7 +298,7 @@ final class DetectorTest extends TestCase
         $config    = new StrategyConfiguration($arguments);
 
         return [
-            [new DefaultStrategy($config)]
+            [new DefaultStrategy($config)],
         ];
     }
 }

@@ -9,12 +9,8 @@
  */
 namespace SebastianBergmann\PHPCPD\Detector;
 
-use function current;
-use function next;
-use function sort;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\PHPCPD\ArgumentsBuilder;
-use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
 use SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTreeStrategy;
@@ -35,12 +31,12 @@ final class EditDistanceTest extends TestCase
         $argv      = [1 => '.', '--min-tokens', '60'];
         $arguments = (new ArgumentsBuilder)->build($argv);
         $config    = new StrategyConfiguration($arguments);
-        $strategy = new SuffixTreeStrategy($config);
+        $strategy  = new SuffixTreeStrategy($config);
 
         $clones = (new Detector($strategy))->copyPasteDetection(
             [
                 __DIR__ . '/../fixture/editdistance1.php',
-                __DIR__ . '/../fixture/editdistance2.php'
+                __DIR__ . '/../fixture/editdistance2.php',
             ],
         );
 
@@ -53,12 +49,12 @@ final class EditDistanceTest extends TestCase
         $argv      = [1 => '.', '--min-tokens', '60'];
         $arguments = (new ArgumentsBuilder)->build($argv);
         $config    = new StrategyConfiguration($arguments);
-        $strategy = new DefaultStrategy($config);
+        $strategy  = new DefaultStrategy($config);
 
         $clones = (new Detector($strategy))->copyPasteDetection(
             [
                 __DIR__ . '/../fixture/editdistance1.php',
-                __DIR__ . '/../fixture/editdistance2.php'
+                __DIR__ . '/../fixture/editdistance2.php',
             ],
         );
 
