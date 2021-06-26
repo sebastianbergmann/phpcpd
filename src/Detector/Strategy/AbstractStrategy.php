@@ -44,6 +44,11 @@ abstract class AbstractStrategy
         $this->config = $config;
     }
 
+    public function setConfig(StrategyConfiguration $config)
+    {
+        $this->config = $config;
+    }
+
     abstract public function processFile(string $file, CodeCloneMap $result): void;
 
     public function postProcess(): void

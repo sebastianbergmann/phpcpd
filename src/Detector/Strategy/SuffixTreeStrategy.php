@@ -81,7 +81,7 @@ final class SuffixTreeStrategy extends AbstractStrategy
             for ($j = 0; $j < count($others); $j++) {
                 $otherStart = $others[$j];
                 $t          = $this->word[$otherStart];
-                $lastToken  = $this->word[$cloneInfo->position + $cloneInfo->length - 1];
+                $lastToken  = $this->word[$cloneInfo->position + $cloneInfo->length];
                 // If we stumbled upon the Sentinel, rewind one step.
                 if ($lastToken instanceof Sentinel) {
                     $lastToken = $this->word[$cloneInfo->position + $cloneInfo->length - 2];
