@@ -22,6 +22,9 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetect
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Sentinel;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Token;
 
+/**
+ * For the design of the algorithm, all credits go to the authors of "Do Code Clones Matter?".
+ */
 final class SuffixTreeStrategy extends AbstractStrategy
 {
     /**
