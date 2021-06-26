@@ -44,7 +44,7 @@ abstract class AbstractStrategy
         $this->config = $config;
     }
 
-    public function setConfig(StrategyConfiguration $config)
+    public function setConfig(StrategyConfiguration $config): void
     {
         $this->config = $config;
     }
