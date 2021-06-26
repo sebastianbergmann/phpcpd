@@ -299,8 +299,7 @@ final class DetectorTest extends TestCase
         $config    = new StrategyConfiguration($arguments);
 
         return [
-            //[new DefaultStrategy($config)],
-            [new SuffixTreeStrategy($config)],
+            [new DefaultStrategy($config)]
         ];
     }
 }
