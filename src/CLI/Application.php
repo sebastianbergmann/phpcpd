@@ -12,9 +12,13 @@ namespace SebastianBergmann\PHPCPD;
 use const PHP_EOL;
 use function count;
 use function printf;
+use Exception;
 use SebastianBergmann\FileIterator\Facade;
 use SebastianBergmann\PHPCPD\Detector\Detector;
+use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
+use SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration;
+use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTreeStrategy;
 use SebastianBergmann\PHPCPD\Log\PMD;
 use SebastianBergmann\PHPCPD\Log\Text;
 use SebastianBergmann\Timer\ResourceUsageFormatter;
@@ -62,17 +66,14 @@ final class Application
             return 1;
         }
 
-        $strategy = new DefaultStrategy;
+        $config = new StrategyConfiguration($arguments);
+
+        $strategy = $this->pickStrategy($arguments->algorithm(), $config);
 
         $timer = new Timer;
         $timer->start();
 
-        $clones = (new Detector($strategy))->copyPasteDetection(
-            $files,
-            $arguments->linesThreshold(),
-            $arguments->tokensThreshold(),
-            $arguments->fuzzy()
-        );
+        $clones = (new Detector($strategy))->copyPasteDetection($files);
 
         (new Text)->printResult($clones, $arguments->verbose());
 
@@ -93,6 +94,21 @@ final class Application
         );
     }
 
+    private function pickStrategy(?string $algorithm, StrategyConfiguration $config): AbstractStrategy
+    {
+        switch ($algorithm) {
+            case null:
+            case 'rabin-karp':
+                return new DefaultStrategy($config);
+
+            case 'suffixtree':
+                return new SuffixTreeStrategy($config);
+
+            default:
+                throw new Exception('Unsupported algorithm: ' . $algorithm);
+        }
+    }
+
     private function help(): void
     {
         print <<<'EOT'
@@ -108,9 +124,12 @@ Options for selecting files:
 
 Options for analysing files:
 
-  --fuzzy           Fuzz variable names
-  --min-lines <N>   Minimum number of identical lines (default: 5)
-  --min-tokens <N>  Minimum number of identical tokens (default: 70)
+  --fuzzy             Fuzz variable names
+  --min-lines <N>     Minimum number of identical lines (default: 5)
+  --min-tokens <N>    Minimum number of identical tokens (default: 70)
+  --algorithm <name>  Select which algorithm to use ('rabin-karp' (default) or 'suffixtree')
+  --edit-distance <N> Distance in number of edits between two clones (only for suffixtree; default: 5)
+  --head-equality <N> Minimum equality at start of clone (only for suffixtree; default 10)
 
 Options for report generation:
 

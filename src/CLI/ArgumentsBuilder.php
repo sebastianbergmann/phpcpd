@@ -30,9 +30,12 @@ final class ArgumentsBuilder
                     'fuzzy',
                     'min-lines=',
                     'min-tokens=',
+                    'head-equality=',
+                    'edit-distance=',
                     'verbose',
                     'help',
                     'version',
+                    'algorithm=',
                 ]
             );
         } catch (CliParserException $e) {
@@ -49,10 +52,13 @@ final class ArgumentsBuilder
         $pmdCpdXmlLogfile = null;
         $linesThreshold   = 5;
         $tokensThreshold  = 70;
+        $editDistance     = 5;
+        $headEquality     = 10;
         $fuzzy            = false;
         $verbose          = false;
         $help             = false;
         $version          = false;
+        $algorithm        = 'rabin-karp';
 
         foreach ($options[0] as $option) {
             switch ($option[0]) {
@@ -86,6 +92,16 @@ final class ArgumentsBuilder
 
                     break;
 
+                case '--head-equality':
+                    $headEquality = (int) $option[1];
+
+                    break;
+
+                case '--edit-distance':
+                    $editDistance = (int) $option[1];
+
+                    break;
+
                 case '--verbose':
                     $verbose = true;
 
@@ -100,6 +116,11 @@ final class ArgumentsBuilder
                 case 'v':
                 case '--version':
                     $version = true;
+
+                    break;
+
+                case '--algorithm':
+                    $algorithm = (string) $option[1];
 
                     break;
             }
@@ -122,6 +143,9 @@ final class ArgumentsBuilder
             $verbose,
             $help,
             $version,
+            $algorithm,
+            $editDistance,
+            $headEquality
         );
     }
 }

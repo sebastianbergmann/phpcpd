@@ -25,9 +25,26 @@ use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 
+/**
+ *  This is a Rabin-Karp with an additional normalization steps before
+ *  the hashing happens.
+ *
+ *  1. Tokenization
+ *  2. Deletion of logic neutral tokens like T_CLOSE_TAG;T_COMMENT;
+ *      T_DOC_COMMENT; T_INLINE_HTML; T_NS_SEPARATOR; T_OPEN_TAG;
+ *      T_OPEN_TAG_WITH_ECHO; T_USE; T_WHITESPACE;
+ *  3. If needed deletion of variable names
+ *  4. Normalization of token + value using crc32
+ *  5. Now the classic Rabin-Karp hashing takes place
+ */
 final class DefaultStrategy extends AbstractStrategy
 {
-    public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void
+    /**
+     * @psalm-var array<string,array{0: string, 1: int}>
+     */
+    protected $hashes = [];
+
+    public function processFile(string $file, CodeCloneMap $result): void
     {
         $buffer                    = file_get_contents($file);
         $currentTokenPositions     = [];
@@ -55,7 +72,7 @@ final class DefaultStrategy extends AbstractStrategy
 
                     $currentTokenRealPositions[$tokenNr++] = $token[2];
 
-                    if ($fuzzy && $token[0] === T_VARIABLE) {
+                    if ($this->config->getFuzzy() && $token[0] === T_VARIABLE) {
                         $token[1] = 'variable';
                     }
 
@@ -73,7 +90,7 @@ final class DefaultStrategy extends AbstractStrategy
         $found         = false;
         $tokenNr       = 0;
 
-        while ($tokenNr <= $count - $minTokens) {
+        while ($tokenNr <= $count - $this->config->getMinTokens()) {
             $line     = $currentTokenPositions[$tokenNr];
             $realLine = $currentTokenRealPositions[$tokenNr];
 
@@ -82,7 +99,7 @@ final class DefaultStrategy extends AbstractStrategy
                     substr(
                         $currentSignature,
                         $tokenNr * 5,
-                        $minTokens * 5
+                        $this->config->getMinTokens() * 5
                     ),
                     true
                 ),
@@ -103,13 +120,13 @@ final class DefaultStrategy extends AbstractStrategy
                 if ($found) {
                     $fileA        = $this->hashes[$firstHash][0];
                     $firstLineA   = $this->hashes[$firstHash][1];
-                    $lastToken    = ($tokenNr - 1) + $minTokens - 1;
+                    $lastToken    = ($tokenNr - 1) + $this->config->getMinTokens() - 1;
                     $lastLine     = $currentTokenPositions[$lastToken];
                     $lastRealLine = $currentTokenRealPositions[$lastToken];
                     $numLines     = $lastLine + 1 - $firstLine;
                     $realNumLines = $lastRealLine + 1 - $firstRealLine;
 
-                    if ($numLines >= $minLines &&
+                    if ($numLines >= $this->config->getMinLines() &&
                         ($fileA !== $file ||
                          $firstLineA !== $firstRealLine)) {
                         $result->add(
@@ -135,13 +152,13 @@ final class DefaultStrategy extends AbstractStrategy
         if ($found) {
             $fileA        = $this->hashes[$firstHash][0];
             $firstLineA   = $this->hashes[$firstHash][1];
-            $lastToken    = ($tokenNr - 1) + $minTokens - 1;
+            $lastToken    = ($tokenNr - 1) + $this->config->getMinTokens() - 1;
             $lastLine     = $currentTokenPositions[$lastToken];
             $lastRealLine = $currentTokenRealPositions[$lastToken];
             $numLines     = $lastLine + 1 - $firstLine;
             $realNumLines = $lastRealLine + 1 - $firstRealLine;
 
-            if ($numLines >= $minLines &&
+            if ($numLines >= $this->config->getMinLines() &&
                 ($fileA !== $file || $firstLineA !== $firstRealLine)) {
                 $result->add(
                     new CodeClone(

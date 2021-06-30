@@ -24,7 +24,7 @@ final class Detector
         $this->strategy = $strategy;
     }
 
-    public function copyPasteDetection(iterable $files, int $minLines = 5, int $minTokens = 70, bool $fuzzy = false): CodeCloneMap
+    public function copyPasteDetection(iterable $files): CodeCloneMap
     {
         $result = new CodeCloneMap;
 
@@ -35,12 +35,11 @@ final class Detector
 
             $this->strategy->processFile(
                 $file,
-                $minLines,
-                $minTokens,
-                $result,
-                $fuzzy
+                $result
             );
         }
+
+        $this->strategy->postProcess();
 
         return $result;
     }

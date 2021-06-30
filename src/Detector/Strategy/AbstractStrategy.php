@@ -37,10 +37,21 @@ abstract class AbstractStrategy
         T_NS_SEPARATOR       => true,
     ];
 
-    /**
-     * @psalm-var array<string,array{0: string, 1: int}>
-     */
-    protected $hashes = [];
+    protected $config;
 
-    abstract public function processFile(string $file, int $minLines, int $minTokens, CodeCloneMap $result, bool $fuzzy = false): void;
+    public function __construct(StrategyConfiguration $config)
+    {
+        $this->config = $config;
+    }
+
+    public function setConfig(StrategyConfiguration $config): void
+    {
+        $this->config = $config;
+    }
+
+    abstract public function processFile(string $file, CodeCloneMap $result): void;
+
+    public function postProcess(): void
+    {
+    }
 }
