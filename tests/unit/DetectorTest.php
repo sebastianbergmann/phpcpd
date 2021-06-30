@@ -21,6 +21,10 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration;
 /**
  * @covers \SebastianBergmann\PHPCPD\Detector\Detector
  * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy
+ * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration
+ * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy
+ * @covers \SebastianBergmann\PHPCPD\Arguments
+ * @covers \SebastianBergmann\PHPCPD\ArgumentsBuilder
  *
  * @uses \SebastianBergmann\PHPCPD\CodeClone
  * @uses \SebastianBergmann\PHPCPD\CodeCloneFile
