@@ -16,11 +16,12 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTreeStrategy;
 
 /**
+ * @covers \SebastianBergmann\PHPCPD\Arguments
+ * @covers \SebastianBergmann\PHPCPD\ArgumentsBuilder
  * @covers \SebastianBergmann\PHPCPD\Detector\Detector
- * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy
- * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTreeStrategy
- * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration
  * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy
+ * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy
+ * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\StrategyConfiguration
  * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetectingSuffixTree
  * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\CloneInfo
  * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\PairList
@@ -28,8 +29,7 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTreeStrategy;
  * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\SuffixTree
  * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\SuffixTreeHashTable
  * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Token
- * @covers \SebastianBergmann\PHPCPD\Arguments
- * @covers \SebastianBergmann\PHPCPD\ArgumentsBuilder
+ * @covers \SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTreeStrategy
  *
  * @uses \SebastianBergmann\PHPCPD\CodeClone
  * @uses \SebastianBergmann\PHPCPD\CodeCloneFile
