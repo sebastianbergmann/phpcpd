@@ -69,15 +69,20 @@ final class CodeCloneMap implements Countable, IteratorAggregate
         return $this->clones;
     }
 
-    public function percentage(): string
+    public function percentage(): float
     {
         if ($this->numberOfLines > 0) {
-            $percent = ($this->numberOfDuplicatedLines / $this->numberOfLines) * 100;
+            $percentage = ($this->numberOfDuplicatedLines / $this->numberOfLines) * 100;
         } else {
-            $percent = 100;
+            $percentage = 100;
         }
 
-        return sprintf('%01.2F%%', $percent);
+        return $percentage;
+    }
+
+    public function percentageRounded(): string
+    {
+        return sprintf('%01.2F%%', $this->percentage());
     }
 
     public function numberOfLines(): int

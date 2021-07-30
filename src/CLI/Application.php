@@ -10,7 +10,6 @@
 namespace SebastianBergmann\PHPCPD;
 
 use const PHP_EOL;
-use function count;
 use function printf;
 use SebastianBergmann\FileIterator\Facade;
 use SebastianBergmann\PHPCPD\Detector\Detector;
@@ -88,7 +87,11 @@ final class Application
 
         print (new ResourceUsageFormatter)->resourceUsage($timer->stop()) . PHP_EOL;
 
-        return count($clones) > 0 ? 1 : 0;
+        if ($clones->percentage() > $arguments->maxPercentage()) {
+            return 1;
+        }
+
+        return 0;
     }
 
     private function printVersion(): void
@@ -136,6 +139,10 @@ Options for analysing files:
 Options for report generation:
 
   --log-pmd <file>  Write log in PMD-CPD XML format to <file>
+
+Options for Continuous Integration checking:
+
+  --max-percentage <N> Maximum percentage of duplicated code allowed (default: 0)
 
 EOT;
     }

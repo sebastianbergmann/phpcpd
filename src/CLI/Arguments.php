@@ -32,6 +32,8 @@ final class Arguments
 
     private int $tokensThreshold;
 
+    private float $maxPercentage;
+
     private bool $fuzzy;
 
     private bool $verbose;
@@ -46,7 +48,7 @@ final class Arguments
 
     private int $headEquality;
 
-    public function __construct(array $directories, array $suffixes, array $exclude, ?string $pmdCpdXmlLogfile, int $linesThreshold, int $tokensThreshold, bool $fuzzy, bool $verbose, bool $help, bool $version, ?string $algorithm, int $editDistance, int $headEquality)
+    public function __construct(array $directories, array $suffixes, array $exclude, ?string $pmdCpdXmlLogfile, int $linesThreshold, int $tokensThreshold, float $maxPercentage, bool $fuzzy, bool $verbose, bool $help, bool $version, ?string $algorithm, int $editDistance, int $headEquality)
     {
         $this->directories      = $directories;
         $this->suffixes         = $suffixes;
@@ -54,6 +56,7 @@ final class Arguments
         $this->pmdCpdXmlLogfile = $pmdCpdXmlLogfile;
         $this->linesThreshold   = $linesThreshold;
         $this->tokensThreshold  = $tokensThreshold;
+        $this->maxPercentage    = $maxPercentage;
         $this->fuzzy            = $fuzzy;
         $this->verbose          = $verbose;
         $this->help             = $help;
@@ -100,6 +103,11 @@ final class Arguments
     public function tokensThreshold(): int
     {
         return $this->tokensThreshold;
+    }
+
+    public function maxPercentage(): float
+    {
+        return $this->maxPercentage;
     }
 
     public function fuzzy(): bool

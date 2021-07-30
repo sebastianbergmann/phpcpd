@@ -59,7 +59,7 @@ final class Text
         printf(
             '%s duplicated lines out of %d total lines of code.' . PHP_EOL .
             'Average code clone size is %d lines, the largest code clone has %d lines' . PHP_EOL . PHP_EOL,
-            $clones->percentage(),
+            $clones->percentageRounded(),
             $clones->numberOfLines(),
             $clones->averageSize(),
             $clones->largestSize()

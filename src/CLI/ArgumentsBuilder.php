@@ -32,6 +32,7 @@ final class ArgumentsBuilder
                     'min-tokens=',
                     'head-equality=',
                     'edit-distance=',
+                    'max-percentage=',
                     'verbose',
                     'help',
                     'version',
@@ -54,6 +55,7 @@ final class ArgumentsBuilder
         $tokensThreshold  = 70;
         $editDistance     = 5;
         $headEquality     = 10;
+        $maxPercentage    = 0;
         $fuzzy            = false;
         $verbose          = false;
         $help             = false;
@@ -100,6 +102,15 @@ final class ArgumentsBuilder
                 case '--edit-distance':
                     $editDistance = (int) $option[1];
 
+                case '--max-percentage':
+                    $maxPercentage = (float) $option[1];
+
+                    if ($maxPercentage < 0 || $maxPercentage > 100) {
+                        throw new ArgumentsBuilderException(
+                            'Maximum percentage allowed must be between 0 and 100'
+                        );
+                    }
+
                     break;
 
                 case '--verbose':
@@ -139,6 +150,7 @@ final class ArgumentsBuilder
             $pmdCpdXmlLogfile,
             $linesThreshold,
             $tokensThreshold,
+            $maxPercentage,
             $fuzzy,
             $verbose,
             $help,
