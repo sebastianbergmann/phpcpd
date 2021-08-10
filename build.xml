@@ -91,6 +91,8 @@
         <exec executable="${basedir}/tools/phpab">
             <arg value="--all" />
             <arg value="--phar" />
+            <arg value="--hash" />
+            <arg value="SHA-512" />
             <arg value="--output" />
             <arg path="${basedir}/build/phpcpd-${version}.phar" />
             <arg value="--template" />
