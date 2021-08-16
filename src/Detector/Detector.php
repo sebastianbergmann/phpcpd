@@ -14,10 +14,7 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
 
 final class Detector
 {
-    /**
-     * @var AbstractStrategy
-     */
-    private $strategy;
+    private AbstractStrategy $strategy;
 
     public function __construct(AbstractStrategy $strategy)
     {

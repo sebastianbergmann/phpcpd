@@ -19,12 +19,9 @@ final class CodeCloneMapIterator implements Iterator
     /**
      * @var CodeClone[]
      */
-    private $clones = [];
+    private array $clones;
 
-    /**
-     * @var int
-     */
-    private $position = 0;
+    private int $position = 0;
 
     public function __construct(CodeCloneMap $clones)
     {

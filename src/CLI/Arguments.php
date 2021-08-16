@@ -14,67 +14,37 @@ final class Arguments
     /**
      * @psalm-var list<string>
      */
-    private $directories;
+    private array $directories;
 
     /**
      * @psalm-var list<string>
      */
-    private $suffixes;
+    private array $suffixes;
 
     /**
      * @psalm-var list<string>
      */
-    private $exclude;
+    private array $exclude;
 
-    /**
-     * @var ?string
-     */
-    private $pmdCpdXmlLogfile;
+    private ?string $pmdCpdXmlLogfile;
 
-    /**
-     * @var int
-     */
-    private $linesThreshold;
+    private int $linesThreshold;
 
-    /**
-     * @var int
-     */
-    private $tokensThreshold;
+    private int $tokensThreshold;
 
-    /**
-     * @var bool
-     */
-    private $fuzzy;
+    private bool $fuzzy;
 
-    /**
-     * @var bool
-     */
-    private $verbose;
+    private bool $verbose;
 
-    /**
-     * @var bool
-     */
-    private $help;
+    private bool $help;
 
-    /**
-     * @var bool
-     */
-    private $version;
+    private bool $version;
 
-    /**
-     * @var ?string
-     */
-    private $algorithm;
+    private ?string $algorithm;
 
-    /**
-     * @var int
-     */
-    private $editDistance;
+    private int $editDistance;
 
-    /**
-     * @var int
-     */
-    private $headEquality;
+    private int $headEquality;
 
     public function __construct(array $directories, array $suffixes, array $exclude, ?string $pmdCpdXmlLogfile, int $linesThreshold, int $tokensThreshold, bool $fuzzy, bool $verbose, bool $help, bool $version, ?string $algorithm, int $editDistance, int $headEquality)
     {

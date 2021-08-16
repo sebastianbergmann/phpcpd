@@ -21,15 +21,9 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
 
 abstract class AbstractXmlLogger
 {
-    /**
-     * @var DOMDocument
-     */
-    protected $document;
+    protected DOMDocument $document;
 
-    /**
-     * @var string
-     */
-    private $filename;
+    private string $filename;
 
     public function __construct(string $filename)
     {
@@ -39,7 +33,7 @@ abstract class AbstractXmlLogger
         $this->filename = $filename;
     }
 
-    abstract public function processClones(CodeCloneMap $clones);
+    abstract public function processClones(CodeCloneMap $clones): void;
 
     protected function flush(): void
     {

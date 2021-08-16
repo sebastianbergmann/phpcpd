@@ -11,20 +11,11 @@ namespace SebastianBergmann\PHPCPD;
 
 final class CodeCloneFile
 {
-    /**
-     * @var string
-     */
-    private $id;
+    private string $id;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var int
-     */
-    private $startLine;
+    private int $startLine;
 
     public function __construct(string $name, int $startLine)
     {

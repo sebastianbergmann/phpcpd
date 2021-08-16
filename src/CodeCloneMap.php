@@ -20,32 +20,20 @@ final class CodeCloneMap implements Countable, IteratorAggregate
     /**
      * @var CodeClone[]
      */
-    private $clones = [];
+    private array $clones = [];
 
     /**
      * @var CodeClone[]
      */
-    private $clonesById = [];
+    private array $clonesById = [];
 
-    /**
-     * @var int
-     */
-    private $numberOfDuplicatedLines = 0;
+    private int $numberOfDuplicatedLines = 0;
 
-    /**
-     * @var int
-     */
-    private $numberOfLines = 0;
+    private int $numberOfLines = 0;
 
-    /**
-     * @var int
-     */
-    private $largestCloneSize = 0;
+    private int $largestCloneSize = 0;
 
-    /**
-     * @var array
-     */
-    private $filesWithClones = [];
+    private array $filesWithClones = [];
 
     public function add(CodeClone $clone): void
     {

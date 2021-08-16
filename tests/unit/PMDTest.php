@@ -32,20 +32,15 @@ use SebastianBergmann\PHPCPD\CodeCloneMap;
  */
 final class PMDTest extends TestCase
 {
-    /** @var string */
-    private $testFile1;
+    private string $testFile1;
 
-    /** @var @var string */
-    private $testFile2;
+    private string $testFile2;
 
-    /** @var string */
-    private $pmdLogFile;
+    private string|false $pmdLogFile;
 
-    /** @var string */
-    private $expectedPmdLogFile;
+    private string|false $expectedPmdLogFile;
 
-    /** @var \SebastianBergmann\PHPCPD\Log\PMD */
-    private $pmdLogger;
+    private PMD $pmdLogger;
 
     protected function setUp(): void
     {

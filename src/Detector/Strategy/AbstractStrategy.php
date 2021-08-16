@@ -25,7 +25,7 @@ abstract class AbstractStrategy
     /**
      * @psalm-var array<int,true>
      */
-    protected $tokensIgnoreList = [
+    protected array $tokensIgnoreList = [
         T_INLINE_HTML        => true,
         T_COMMENT            => true,
         T_DOC_COMMENT        => true,
@@ -37,7 +37,7 @@ abstract class AbstractStrategy
         T_NS_SEPARATOR       => true,
     ];
 
-    protected $config;
+    protected StrategyConfiguration $config;
 
     public function __construct(StrategyConfiguration $config)
     {

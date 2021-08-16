@@ -17,43 +17,15 @@ use SebastianBergmann\PHPCPD\Arguments;
  */
 final class StrategyConfiguration
 {
-    /**
-     * Minimum lines to consider.
-     *
-     * @var int
-     */
-    private $minLines = 5;
+    private int $minLines = 5;
 
-    /**
-     * Minimum tokens to consider in a clone.
-     *
-     * @var int
-     */
-    private $minTokens = 70;
+    private int $minTokens = 70;
 
-    /**
-     * Edit distance to consider when comparing two clones
-     * Only available for the suffix-tree algorithm.
-     *
-     * @var int
-     */
-    private $editDistance = 5;
+    private int $editDistance = 5;
 
-    /**
-     * Tokens that must be equal to consider a clone
-     * Only available for the suffix-tree algorithm.
-     *
-     * @var int
-     */
-    private $headEquality = 10;
+    private int $headEquality = 10;
 
-    /**
-     * Fuzz variable names
-     * suffixtree always makes variables and functions fuzzy.
-     *
-     * @var bool
-     */
-    private $fuzzy = false;
+    private bool $fuzzy;
 
     public function __construct(Arguments $arguments)
     {

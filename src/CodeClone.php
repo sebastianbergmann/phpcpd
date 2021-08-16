@@ -18,30 +18,18 @@ use function md5;
 
 final class CodeClone
 {
-    /**
-     * @var int
-     */
-    private $numberOfLines;
+    private int $numberOfLines;
+
+    private int $numberOfTokens;
 
     /**
-     * @var int
+     * @psalm-var array<string,CodeCloneFile>
      */
-    private $numberOfTokens;
+    private array $files = [];
 
-    /**
-     * @var CodeCloneFile[]
-     */
-    private $files = [];
+    private string $id;
 
-    /**
-     * @var string
-     */
-    private $id;
-
-    /**
-     * @var string
-     */
-    private $lines = '';
+    private string $lines = '';
 
     public function __construct(CodeCloneFile $fileA, CodeCloneFile $fileB, int $numberOfLines, int $numberOfTokens)
     {
@@ -63,14 +51,14 @@ final class CodeClone
     }
 
     /**
-     * @return CodeCloneFile[]
+     * @psalm-return array<string,CodeCloneFile>
      */
     public function files(): array
     {
         return $this->files;
     }
 
-    public function lines($indent = ''): string
+    public function lines(string $indent = ''): string
     {
         if (empty($this->lines)) {
             $file = current($this->files);
@@ -78,7 +66,7 @@ final class CodeClone
             $this->lines = implode(
                 '',
                 array_map(
-                    static function ($line) use ($indent) {
+                    static function (string $line) use ($indent) {
                         return $indent . $line;
                     },
                     array_slice(

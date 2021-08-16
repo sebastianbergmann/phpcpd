@@ -42,7 +42,7 @@ final class DefaultStrategy extends AbstractStrategy
     /**
      * @psalm-var array<string,array{0: string, 1: int}>
      */
-    protected $hashes = [];
+    private array $hashes = [];
 
     public function processFile(string $file, CodeCloneMap $result): void
     {

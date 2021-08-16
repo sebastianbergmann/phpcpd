@@ -28,14 +28,11 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Token;
 final class SuffixTreeStrategy extends AbstractStrategy
 {
     /**
-     * @var AbstractToken[]
+     * @psalm-var list<AbstractToken>
      */
-    private $word = [];
+    private array $word = [];
 
-    /**
-     * @var ?CodeCloneMap
-     */
-    private $result;
+    private ?CodeCloneMap $result = null;
 
     public function processFile(string $file, CodeCloneMap $result): void
     {
