@@ -8,6 +8,10 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 * [#199](https://github.com/sebastianbergmann/phpcpd/pull/199): Suffix Tree-based algorithm for code clone detection
 
+### Removed
+
+* Removed support for PHP versions older than PHP 8.0
+
 ## [6.0.3] - 2020-12-07
 
 ### Changed
