@@ -30,5 +30,5 @@ abstract class AbstractToken
 
     abstract public function hashCode(): int;
 
-    abstract public function equals(self $obj): bool;
+    abstract public function equals(self $other): bool;
 }

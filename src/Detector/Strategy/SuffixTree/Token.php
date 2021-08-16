@@ -35,8 +35,8 @@ class Token extends AbstractToken
         return crc32($this->content);
     }
 
-    public function equals(AbstractToken $token): bool
+    public function equals(AbstractToken $other): bool
     {
-        return $token->hashCode() === $this->hashCode();
+        return $other->hashCode() === $this->hashCode();
     }
 }
