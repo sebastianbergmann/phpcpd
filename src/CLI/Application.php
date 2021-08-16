@@ -96,17 +96,11 @@ final class Application
 
     private function pickStrategy(?string $algorithm, StrategyConfiguration $config): AbstractStrategy
     {
-        switch ($algorithm) {
-            case null:
-            case 'rabin-karp':
-                return new DefaultStrategy($config);
-
-            case 'suffixtree':
-                return new SuffixTreeStrategy($config);
-
-            default:
-                throw new Exception('Unsupported algorithm: ' . $algorithm);
-        }
+        return match ($algorithm) {
+            null, 'rabin-karp' => new DefaultStrategy($config),
+            'suffixtree' => new SuffixTreeStrategy($config),
+            default      => throw new Exception('Unsupported algorithm: ' . $algorithm),
+        };
     }
 
     private function help(): void
