@@ -2,6 +2,12 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [7.0.0] - 2021-MM-DD
+
+### Added
+
+* [#199](https://github.com/sebastianbergmann/phpcpd/pull/199): Suffix Tree-based algorithm for code clone detection
+
 ## [6.0.3] - 2020-12-07
 
 ### Changed
@@ -85,6 +91,7 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 5.6
 
+[7.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.3...master
 [6.0.3]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.2...6.0.3
 [6.0.2]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.1...6.0.2
 [6.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.0...6.0.1
