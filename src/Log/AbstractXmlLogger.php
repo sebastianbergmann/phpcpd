@@ -11,13 +11,11 @@ namespace SebastianBergmann\PHPCPD\Log;
 
 use const ENT_COMPAT;
 use function file_put_contents;
-use function function_exists;
 use function htmlspecialchars;
 use function mb_convert_encoding;
 use function ord;
 use function preg_replace;
 use function strlen;
-use function utf8_encode;
 use DOMDocument;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
 
@@ -51,11 +49,7 @@ abstract class AbstractXmlLogger
     protected function convertToUtf8(string $string): string
     {
         if (!$this->isUtf8($string)) {
-            if (function_exists('mb_convert_encoding')) {
-                $string = mb_convert_encoding($string, 'UTF-8');
-            } else {
-                $string = utf8_encode($string);
-            }
+            $string = mb_convert_encoding($string, 'UTF-8');
         }
 
         return $string;

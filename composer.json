@@ -28,7 +28,8 @@
         "sebastian/cli-parser": "^2.0",
         "sebastian/version": "^4.0",
         "phpunit/php-file-iterator": "^4.0",
-        "phpunit/php-timer": "^6.0"
+        "phpunit/php-timer": "^6.0",
+        "ext-mbstring": "*"
     },
     "autoload": {
         "classmap": [
