@@ -9,7 +9,7 @@
  */
 namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
 
-use Exception;
+use SebastianBergmann\PHPCPD\OutOfBoundsException;
 
 /**
  * A list for storing pairs in a specific order.
@@ -221,7 +221,7 @@ class PairList
     private function checkWithinBounds(int $i): void
     {
         if ($i < 0 || $i >= $this->size) {
-            throw new Exception('Out of bounds: ' . $i);
+            throw new OutOfBoundsException('Out of bounds: ' . $i);
         }
     }
 }

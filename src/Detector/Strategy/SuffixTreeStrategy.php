@@ -13,7 +13,6 @@ use function array_keys;
 use function file_get_contents;
 use function is_array;
 use function token_get_all;
-use Exception;
 use SebastianBergmann\PHPCPD\CodeClone;
 use SebastianBergmann\PHPCPD\CodeCloneFile;
 use SebastianBergmann\PHPCPD\CodeCloneMap;
@@ -21,6 +20,7 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\AbstractToken;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\ApproximateCloneDetectingSuffixTree;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Sentinel;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Token;
+use SebastianBergmann\PHPCPD\MissingResultException;
 
 /**
  * The suffix tree strategy was implemented in PHP for PHPCPD by Olle Härstedt.
@@ -66,10 +66,13 @@ final class SuffixTreeStrategy extends AbstractStrategy
         $this->result = $result;
     }
 
+    /**
+     * @throws MissingResultException
+     */
     public function postProcess(): void
     {
         if (empty($this->result)) {
-            throw new Exception('Missing result');
+            throw new MissingResultException('Missing result');
         }
 
         // Sentinel = End of word
