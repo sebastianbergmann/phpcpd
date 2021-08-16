@@ -73,13 +73,12 @@ final class SuffixTreeStrategy extends AbstractStrategy
         }
 
         // Sentinel = End of word
-        $this->word[] = new Sentinel();
+        $this->word[] = new Sentinel;
 
-        $tree       = new ApproximateCloneDetectingSuffixTree($this->word);
-        $cloneInfos = $tree->findClones(
-            $this->config->getMinTokens(),
-            $this->config->getEditDistance(),
-            $this->config->getHeadEquality()
+        $cloneInfos = (new ApproximateCloneDetectingSuffixTree($this->word))->findClones(
+            $this->config->minTokens(),
+            $this->config->editDistance(),
+            $this->config->headEquality()
         );
 
         foreach ($cloneInfos as $cloneInfo) {

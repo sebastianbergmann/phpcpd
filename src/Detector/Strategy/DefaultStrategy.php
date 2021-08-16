@@ -72,7 +72,7 @@ final class DefaultStrategy extends AbstractStrategy
 
                     $currentTokenRealPositions[$tokenNr++] = $token[2];
 
-                    if ($this->config->getFuzzy() && $token[0] === T_VARIABLE) {
+                    if ($this->config->fuzzy() && $token[0] === T_VARIABLE) {
                         $token[1] = 'variable';
                     }
 
@@ -90,7 +90,7 @@ final class DefaultStrategy extends AbstractStrategy
         $found         = false;
         $tokenNr       = 0;
 
-        while ($tokenNr <= $count - $this->config->getMinTokens()) {
+        while ($tokenNr <= $count - $this->config->minTokens()) {
             $line     = $currentTokenPositions[$tokenNr];
             $realLine = $currentTokenRealPositions[$tokenNr];
 
@@ -99,7 +99,7 @@ final class DefaultStrategy extends AbstractStrategy
                     substr(
                         $currentSignature,
                         $tokenNr * 5,
-                        $this->config->getMinTokens() * 5
+                        $this->config->minTokens() * 5
                     ),
                     true
                 ),
@@ -120,13 +120,13 @@ final class DefaultStrategy extends AbstractStrategy
                 if ($found) {
                     $fileA        = $this->hashes[$firstHash][0];
                     $firstLineA   = $this->hashes[$firstHash][1];
-                    $lastToken    = ($tokenNr - 1) + $this->config->getMinTokens() - 1;
+                    $lastToken    = ($tokenNr - 1) + $this->config->minTokens() - 1;
                     $lastLine     = $currentTokenPositions[$lastToken];
                     $lastRealLine = $currentTokenRealPositions[$lastToken];
                     $numLines     = $lastLine + 1 - $firstLine;
                     $realNumLines = $lastRealLine + 1 - $firstRealLine;
 
-                    if ($numLines >= $this->config->getMinLines() &&
+                    if ($numLines >= $this->config->minLines() &&
                         ($fileA !== $file ||
                          $firstLineA !== $firstRealLine)) {
                         $result->add(
@@ -152,13 +152,13 @@ final class DefaultStrategy extends AbstractStrategy
         if ($found) {
             $fileA        = $this->hashes[$firstHash][0];
             $firstLineA   = $this->hashes[$firstHash][1];
-            $lastToken    = ($tokenNr - 1) + $this->config->getMinTokens() - 1;
+            $lastToken    = ($tokenNr - 1) + $this->config->minTokens() - 1;
             $lastLine     = $currentTokenPositions[$lastToken];
             $lastRealLine = $currentTokenRealPositions[$lastToken];
             $numLines     = $lastLine + 1 - $firstLine;
             $realNumLines = $lastRealLine + 1 - $firstRealLine;
 
-            if ($numLines >= $this->config->getMinLines() &&
+            if ($numLines >= $this->config->minLines() &&
                 ($fileA !== $file || $firstLineA !== $firstRealLine)) {
                 $result->add(
                     new CodeClone(

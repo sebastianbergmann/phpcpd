@@ -11,19 +11,15 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy;
 
 use SebastianBergmann\PHPCPD\Arguments;
 
-/**
- * Small DTO to carry configuration for a strategy.
- * Different algorithms have different configs available.
- */
 final class StrategyConfiguration
 {
-    private int $minLines = 5;
+    private int $minLines;
 
-    private int $minTokens = 70;
+    private int $minTokens;
 
-    private int $editDistance = 5;
+    private int $editDistance;
 
-    private int $headEquality = 10;
+    private int $headEquality;
 
     private bool $fuzzy;
 
@@ -36,27 +32,27 @@ final class StrategyConfiguration
         $this->headEquality = $arguments->headEquality();
     }
 
-    public function getMinLines(): int
+    public function minLines(): int
     {
         return $this->minLines;
     }
 
-    public function getMinTokens(): int
+    public function minTokens(): int
     {
         return $this->minTokens;
     }
 
-    public function getFuzzy(): bool
+    public function fuzzy(): bool
     {
         return $this->fuzzy;
     }
 
-    public function getHeadEquality(): int
+    public function headEquality(): int
     {
         return $this->headEquality;
     }
 
-    public function getEditDistance(): int
+    public function editDistance(): int
     {
         return $this->editDistance;
     }
