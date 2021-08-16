@@ -12,7 +12,6 @@ namespace SebastianBergmann\PHPCPD;
 use const PHP_EOL;
 use function count;
 use function printf;
-use Exception;
 use SebastianBergmann\FileIterator\Facade;
 use SebastianBergmann\PHPCPD\Detector\Detector;
 use SebastianBergmann\PHPCPD\Detector\Strategy\AbstractStrategy;
@@ -68,7 +67,13 @@ final class Application
 
         $config = new StrategyConfiguration($arguments);
 
-        $strategy = $this->pickStrategy($arguments->algorithm(), $config);
+        try {
+            $strategy = $this->pickStrategy($arguments->algorithm(), $config);
+        } catch (InvalidStrategyException $e) {
+            print $e->getMessage() . PHP_EOL;
+
+            return 1;
+        }
 
         $timer = new Timer;
         $timer->start();
@@ -94,12 +99,15 @@ final class Application
         );
     }
 
+    /**
+     * @throws InvalidStrategyException
+     */
     private function pickStrategy(?string $algorithm, StrategyConfiguration $config): AbstractStrategy
     {
         return match ($algorithm) {
             null, 'rabin-karp' => new DefaultStrategy($config),
             'suffixtree' => new SuffixTreeStrategy($config),
-            default      => throw new Exception('Unsupported algorithm: ' . $algorithm),
+            default      => throw new InvalidStrategyException('Unsupported algorithm: ' . $algorithm),
         };
     }
 
