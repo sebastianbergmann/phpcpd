@@ -229,7 +229,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      *
      * @return bool whether some clone was reported
      */
-    private function matchWord(int $wordStart, int $wordPosition, int $node, int $nodeWordLength, int $maxErrors)
+    private function matchWord(int $wordStart, int $wordPosition, int $node, int $nodeWordLength, int $maxErrors): bool
     {
         // We are aware that this method is longer than desirable for code
         // reading. However, we currently do not see a refactoring that has a
@@ -370,7 +370,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
         int $node,
         int $maxErrors,
         int $currentNodeWordLength
-    ) {
+    ): int {
         $this->edBuffer[0][0] = 0;
         $currentLength        = 1;
 
@@ -506,7 +506,7 @@ class ApproximateCloneDetectingSuffixTree extends SuffixTree
      *
      * @return int the value inserted into the buffer
      */
-    private function fillEDBuffer(int $i, int $j, int $iOffset, int $jOffset)
+    private function fillEDBuffer(int $i, int $j, int $iOffset, int $jOffset): int
     {
         $iChar = $this->word[$iOffset + $i - 1];
         $jChar = $this->word[$jOffset + $j - 1];
