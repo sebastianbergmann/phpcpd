@@ -23,7 +23,15 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Sentinel;
 use SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree\Token;
 
 /**
- * For the design of the algorithm, all credits go to the authors of "Do Code Clones Matter?".
+ * The suffix tree strategy was implemented in PHP for PHPCPD by Olle Härstedt.
+ *
+ * This PHP implementation is based on the Java implementation archived that is
+ * available at https://www.cqse.eu/en/news/blog/conqat-end-of-life/ under the
+ * Apache License 2.0.
+ *
+ * The aforementioned Java implementation is based on the algorithm described in
+ * https://dl.acm.org/doi/10.1109/ICSE.2009.5070547. This paper is available at
+ * https://www.cqse.eu/fileadmin/content/news/publications/2009-do-code-clones-matter.pdf.
  */
 final class SuffixTreeStrategy extends AbstractStrategy
 {
