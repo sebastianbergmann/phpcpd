@@ -50,16 +50,14 @@ final class SuffixTreeStrategy extends AbstractStrategy
         foreach (array_keys($tokens) as $key) {
             $token = $tokens[$key];
 
-            if (is_array($token)) {
-                if (!isset($this->tokensIgnoreList[$token[0]])) {
-                    $this->word[] = new Token(
-                        $token[0],
-                        token_name($token[0]),
-                        $token[2],
-                        $file,
-                        $token[1]
-                    );
-                }
+            if (is_array($token) && !isset($this->tokensIgnoreList[$token[0]])) {
+                $this->word[] = new Token(
+                    $token[0],
+                    token_name($token[0]),
+                    $token[2],
+                    $file,
+                    $token[1]
+                );
             }
         }
 
