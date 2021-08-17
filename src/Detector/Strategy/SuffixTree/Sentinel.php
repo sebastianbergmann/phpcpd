@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
 
+use function random_int;
+
 /**
  * A sentinel character which can be used to produce explicit leaves for all
  * suffixes. The sentinel just has to be appended to the list before handing
@@ -22,7 +24,7 @@ class Sentinel extends AbstractToken
 
     public function __construct()
     {
-        $this->hash      = rand(0, PHP_INT_MAX);
+        $this->hash      = random_int(0, PHP_INT_MAX);
         $this->tokenCode = -1;
         $this->line      = -1;
         $this->file      = '<no file>';
