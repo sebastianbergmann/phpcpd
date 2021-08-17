@@ -59,7 +59,7 @@ class CloneInfo
      * Returns whether this clone info dominates the given one, i.e. whether
      * both {@link #length} and {@link #occurrences} s not smaller.
      *
-     * @param later the amount the given clone starts later than the "this" clone
+     * @param int $later the amount the given clone starts later than the "this" clone
      */
     public function dominates(self $ci, int $later): bool
     {
