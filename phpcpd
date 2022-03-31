@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-if (version_compare('8.0.0', PHP_VERSION, '>')) {
+if (version_compare('8.1.0', PHP_VERSION, '>')) {
     fwrite(
         STDERR,
         sprintf(
-            'This version of PHPCPD requires PHP 8.0 (or later).' . PHP_EOL .
+            'This version of PHPCPD requires PHP 8.1 (or later).' . PHP_EOL .
             'You are using PHP %s%s.' . PHP_EOL,
             PHP_VERSION,
             defined('PHP_BINARY') ? ' (' . PHP_BINARY . ')' : ''

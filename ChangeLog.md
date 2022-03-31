@@ -2,7 +2,7 @@
 
 All notable changes in PHPCPD are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [7.0.0] - 2021-MM-DD
+## [7.0.0] - 2022-MM-DD
 
 ### Added
 
@@ -10,7 +10,7 @@ All notable changes in PHPCPD are documented in this file using the [Keep a CHAN
 
 ### Removed
 
-* Removed support for PHP versions older than PHP 8.0
+* Removed support for PHP versions older than PHP 8.1
 
 ## [6.0.3] - 2020-12-07
 
