@@ -62,7 +62,7 @@ final class Application
         if (empty($files)) {
             print 'No files found to scan' . PHP_EOL;
 
-            return 1;
+            return 0;
         }
 
         $config = new StrategyConfiguration($arguments);
