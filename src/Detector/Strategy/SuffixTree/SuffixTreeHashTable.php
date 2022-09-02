@@ -22,6 +22,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
  * @author $Author: juergens $
  *
  * @version $Revision: 34670 $
+ *
  * @ConQAT.Rating GREEN Hash: 6A7A830078AF0CA9C2D84C148F336DF4
  */
 class SuffixTreeHashTable

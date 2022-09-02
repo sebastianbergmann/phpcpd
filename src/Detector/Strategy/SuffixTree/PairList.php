@@ -17,6 +17,7 @@ use SebastianBergmann\PHPCPD\OutOfBoundsException;
  * @author $Author: hummelb $
  *
  * @version $Rev: 51770 $
+ *
  * @ConQAT.Rating GREEN Hash: 7459D6D0F59028B37DD23DD091BDCEEA
  *
  * @template T

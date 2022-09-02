@@ -16,6 +16,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
  * @author $Author: hummelb $
  *
  * @version $Revision: 43151 $
+ *
  * @ConQAT.Rating GREEN Hash: BB94CD690760BC239F04D32D5BCAC33E
  */
 class ApproximateCloneDetectingSuffixTree extends SuffixTree

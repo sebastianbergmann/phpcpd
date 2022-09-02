@@ -36,6 +36,7 @@ namespace SebastianBergmann\PHPCPD\Detector\Strategy\SuffixTree;
  * @author $Author: kinnen $
  *
  * @version $Revision: 41751 $
+ *
  * @ConQAT.Rating GREEN Hash: 4B2EF0606B3085A6831764ED042FF20D
  */
 class SuffixTree
