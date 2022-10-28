@@ -80,7 +80,7 @@ final class CodeCloneMap implements Countable, IteratorAggregate
         return $percentage;
     }
 
-    public function percentageRounded(): string
+    public function percentageAsString(): string
     {
         return sprintf('%01.2F%%', $this->percentage());
     }
