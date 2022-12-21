@@ -35,6 +35,7 @@ abstract class AbstractStrategy
         T_WHITESPACE         => true,
         T_USE                => true,
         T_NS_SEPARATOR       => true,
+        T_ATTRIBUTE          => true,
     ];
 
     protected StrategyConfiguration $config;
