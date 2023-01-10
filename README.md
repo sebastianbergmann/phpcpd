@@ -1,3 +1,5 @@
+**This project is no longer maintained and its repository is only kept for archival purposes.**
+
 # PHP Copy/Paste Detector (PHPCPD)
 
 `phpcpd` is a Copy/Paste Detector (CPD) for PHP code.
